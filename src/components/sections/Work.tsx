@@ -1,67 +1,97 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-interface ProjectCardProps {
+interface ProjectProps {
   title: string;
-  category: string;
+  subtitle: string;
   description: string;
-  tech: string[];
-  link?: string;
+  tags: string[];
+  link: string;
   index: number;
 }
 
-const ProjectCard = ({ title, category, description, tech, link, index }: ProjectCardProps) => {
+const Project = ({ title, subtitle, description, tags, link, index }: ProjectProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <motion.div
+    <motion.a
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.15, ease: "easeOut" }}
-      className="group cursor-pointer"
+      transition={{
+        duration: 0.8,
+        delay: index * 0.1,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      className="group block"
     >
-      <a href={link} target="_blank" rel="noopener noreferrer">
-        <div className="aspect-[4/3] bg-secondary rounded-lg overflow-hidden relative mb-6">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/20 group-hover:from-accent/10 group-hover:to-accent/30 transition-all duration-500" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-serif text-4xl md:text-6xl text-foreground/10 group-hover:text-foreground/20 transition-colors duration-500">
+      <div className="py-12 md:py-16 border-t border-border group-hover:border-foreground/20 transition-colors duration-500">
+        <div className="grid md:grid-cols-12 gap-6 md:gap-8">
+          {/* Number */}
+          <div className="md:col-span-1">
+            <span className="text-sm text-muted-foreground font-medium">
               0{index + 1}
             </span>
           </div>
-          {/* Hover overlay */}
-          <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-all duration-500 flex items-center justify-center">
-            <span className="text-sm uppercase tracking-widest text-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              View Project
-            </span>
+
+          {/* Title & Subtitle */}
+          <div className="md:col-span-5">
+            <h3 className="text-2xl md:text-3xl font-semibold tracking-tight group-hover:opacity-60 transition-opacity duration-300">
+              {title}
+            </h3>
+            <p className="text-muted-foreground mt-1">{subtitle}</p>
           </div>
-        </div>
-        <div className="space-y-3">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="font-serif text-xl md:text-2xl font-medium mb-1 group-hover:text-accent transition-colors duration-300">
-                {title}
-              </h3>
-              <p className="text-sm text-muted-foreground font-sans">{category}</p>
-            </div>
+
+          {/* Description */}
+          <div className="md:col-span-4">
+            <p className="text-muted-foreground leading-relaxed">
+              {description}
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground font-sans leading-relaxed">
-            {description}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {tech.map((item) => (
-              <span
-                key={item}
-                className="px-2 py-1 text-xs bg-secondary rounded font-sans text-muted-foreground"
+
+          {/* Arrow */}
+          <div className="md:col-span-2 flex items-start justify-end">
+            <motion.div
+              initial={{ x: 0, opacity: 0.5 }}
+              whileHover={{ x: 4, opacity: 1 }}
+              className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+            >
+              <span className="hidden md:inline">View</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4"
               >
-                {item}
-              </span>
-            ))}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                />
+              </svg>
+            </motion.div>
           </div>
         </div>
-      </a>
-    </motion.div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mt-6 md:ml-[8.33%]">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 text-xs font-medium bg-secondary rounded-full text-muted-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.a>
   );
 };
 
@@ -72,95 +102,89 @@ const Work = () => {
   const projects = [
     {
       title: "AI/ML Retinal Imaging",
-      category: "NIH-Funded Research",
-      description: "Working on Deep Learning models to improve early detection of retinal diseases using APTOS and IDRiD datasets.",
-      tech: ["Python", "PyTorch", "Deep Learning", "Medical Imaging"],
+      subtitle: "NIH-Funded Research",
+      description:
+        "Deep Learning models for early detection of retinal diseases using APTOS and IDRiD datasets at Kennesaw State University.",
+      tags: ["Python", "PyTorch", "Medical Imaging", "Deep Learning"],
       link: "https://github.com/eymen160",
     },
     {
       title: "Digital Recipe Book",
-      category: "Full-Stack Application",
-      description: "Built backend logic for a recipe application using Python and MySQL, enabling persistent database storage with secure SQL operations.",
-      tech: ["Python", "MySQL", "Flask", "Git"],
+      subtitle: "Full-Stack Application",
+      description:
+        "Backend logic for a recipe application using Python and MySQL with persistent database storage and secure SQL operations.",
+      tags: ["Python", "MySQL", "Flask", "REST API"],
       link: "https://github.com/eymen160",
     },
     {
       title: "Platform Game",
-      category: "Game Development",
-      description: "Designed a 2D platformer game in Python using Pygame with collision detection, scoring system, and game loop logic.",
-      tech: ["Python", "Pygame", "Game Dev"],
+      subtitle: "Game Development",
+      description:
+        "2D platformer built with Pygame featuring collision detection, scoring system, and optimized game loop logic.",
+      tags: ["Python", "Pygame", "Game Dev"],
       link: "https://github.com/eymen160/Platform-game",
     },
     {
       title: "BitBoard Checkers",
-      category: "Systems Programming",
-      description: "Implemented a checkers game engine using bitboard representation for efficient game state management in C.",
-      tech: ["C", "Algorithms", "Data Structures"],
+      subtitle: "Systems Programming",
+      description:
+        "Checkers game engine using bitboard representation for efficient game state management and move generation.",
+      tags: ["C", "Algorithms", "Data Structures"],
       link: "https://github.com/eymen160/CS3503-Project1-BitBoard-Checkers",
     },
   ];
 
   return (
-    <section id="work" className="py-32 md:py-48 bg-card relative">
-      <div className="container mx-auto px-6 md:px-12">
+    <section id="work" className="py-32 md:py-48">
+      <div className="max-w-[1200px] mx-auto px-6">
         {/* Section Header */}
-        <div ref={headerRef} className="max-w-3xl mb-20">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-sm font-sans uppercase tracking-[0.3em] text-muted-foreground mb-6"
-          >
-            Projects & Research
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="section-heading"
-          >
-            Building solutions that matter
-          </motion.h2>
-        </div>
+        <motion.div
+          ref={headerRef}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mb-16 md:mb-24"
+        >
+          <p className="label text-muted-foreground mb-4">Selected Work</p>
+          <h2 className="display-md max-w-2xl">
+            Projects that showcase my skills and interests.
+          </h2>
+        </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16">
+        {/* Projects List */}
+        <div>
           {projects.map((project, index) => (
-            <ProjectCard
-              key={project.title}
-              {...project}
-              index={index}
-            />
+            <Project key={project.title} {...project} index={index} />
           ))}
         </div>
 
-        {/* View All Link */}
+        {/* GitHub Link */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-center mt-20"
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="pt-12 border-t border-border"
         >
           <a
             href="https://github.com/eymen160"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 text-lg font-sans font-medium link-underline group"
+            className="inline-flex items-center gap-2 text-sm font-medium hover:opacity-60 transition-opacity duration-300"
           >
-            View All on GitHub
+            View all on GitHub
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+              className="w-4 h-4"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
               />
             </svg>
           </a>

@@ -5,92 +5,103 @@ const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const socialLinks = [
-    { name: "LinkedIn", href: "https://linkedin.com/in/eymenkeyvan" },
-    { name: "GitHub", href: "https://github.com/eymen160" },
-  ];
-
   return (
-    <section id="contact" className="py-32 md:py-48 relative" ref={ref}>
-      {/* Background accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-card" />
-
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Label */}
+    <section id="contact" className="py-32 md:py-48" ref={ref}>
+      <div className="max-w-[1200px] mx-auto px-6">
+        <div className="max-w-3xl">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-sm font-sans uppercase tracking-[0.3em] text-muted-foreground mb-8"
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            className="label text-muted-foreground mb-4"
           >
-            Get in Touch
+            Contact
           </motion.p>
 
-          {/* Main heading */}
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="section-heading mb-8"
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="display-lg mb-8"
           >
-            Let's build something{" "}
-            <span className="italic text-accent">amazing</span> together
+            Let's work together.
           </motion.h2>
 
-          {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="body-large text-muted-foreground max-w-2xl mx-auto mb-12"
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            className="body-xl text-muted-foreground mb-12"
           >
-            Whether you're interested in collaborating on a project, discussing 
-            AI/ML research, or have an opportunity in mind—I'd love to connect.
+            Open to internships, research collaborations, and interesting projects.
+            Feel free to reach out.
           </motion.p>
 
-          {/* Email CTA */}
+          {/* Email */}
           <motion.a
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             href="mailto:eymenfaruk479@gmail.com"
-            className="inline-block font-serif text-2xl md:text-4xl lg:text-5xl font-medium hover:text-accent transition-colors duration-300 link-underline"
+            className="inline-block text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight hover:opacity-60 transition-opacity duration-300 link-hover"
           >
             eymenfaruk479@gmail.com
           </motion.a>
 
-          {/* Phone */}
-          <motion.p
+          {/* Links */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-6 text-muted-foreground font-sans"
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className="flex flex-wrap gap-8 mt-12 pt-12 border-t border-border"
           >
-            678-670-4474 • Roswell, GA
-          </motion.p>
-
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex items-center justify-center gap-8 md:gap-12 mt-12"
-          >
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                className="text-sm font-sans uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
+            <a
+              href="https://linkedin.com/in/eymenkeyvan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium hover:opacity-60 transition-opacity duration-300"
+            >
+              LinkedIn
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-3.5 h-3.5"
               >
-                {link.name}
-              </motion.a>
-            ))}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/eymen160"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium hover:opacity-60 transition-opacity duration-300"
+            >
+              GitHub
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-3.5 h-3.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                />
+              </svg>
+            </a>
+            <span className="text-sm text-muted-foreground">
+              678-670-4474 • Roswell, GA
+            </span>
           </motion.div>
         </div>
       </div>
