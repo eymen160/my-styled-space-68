@@ -13,7 +13,7 @@ const Header = () => {
   }, []);
 
   const navItems = [
-    { label: "Work", href: "#work" },
+    { label: "Projects", href: "#work" },
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ];
@@ -32,7 +32,7 @@ const Header = () => {
           href="#"
           className="font-serif text-xl md:text-2xl font-medium tracking-tight hover:text-accent transition-colors duration-300"
         >
-          Portfolio
+          Eymen Keyvan
         </a>
 
         <nav className="hidden md:flex items-center gap-10">

@@ -13,18 +13,33 @@ const Footer = () => {
             viewport={{ once: true }}
             className="text-sm text-muted-foreground font-sans"
           >
-            © {currentYear} Portfolio. All rights reserved.
+            © {currentYear} Eymen Faruk Keyvan. All rights reserved.
           </motion.p>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-sm text-muted-foreground font-sans"
+            className="flex items-center gap-6"
           >
-            Designed & Built with ♡
-          </motion.p>
+            <a
+              href="https://linkedin.com/in/eymenkeyvan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-sans"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/eymen160"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-sans"
+            >
+              GitHub
+            </a>
+          </motion.div>
         </div>
       </div>
     </footer>
