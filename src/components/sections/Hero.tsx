@@ -27,7 +27,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-sm md:text-base font-sans uppercase tracking-[0.3em] text-muted-foreground mb-8"
           >
-            Creative Designer & Developer
+            CS Student • AI/ML Researcher • Developer
           </motion.p>
 
           {/* Main heading */}
@@ -38,7 +38,7 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="hero-text"
             >
-              Crafting digital
+              Hi, I'm Eymen
             </motion.h1>
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
@@ -46,15 +46,7 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="hero-text"
             >
-              experiences with
-            </motion.h1>
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="hero-text italic"
-            >
-              <span className="text-accent">purpose</span> & soul
+              <span className="italic text-accent">Faruk</span> Keyvan
             </motion.h1>
           </div>
 
@@ -65,8 +57,8 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 1 }}
             className="body-large max-w-xl text-muted-foreground"
           >
-            I'm a designer and developer focused on creating meaningful, 
-            beautiful products that connect with people.
+            Sophomore Computer Science student at Kennesaw State University, 
+            passionate about AI, data analytics, and building impactful software.
           </motion.p>
 
           {/* Scroll indicator */}

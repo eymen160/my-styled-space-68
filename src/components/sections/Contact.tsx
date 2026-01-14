@@ -6,10 +6,8 @@ const Contact = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const socialLinks = [
-    { name: "LinkedIn", href: "#" },
-    { name: "Dribbble", href: "#" },
-    { name: "Instagram", href: "#" },
-    { name: "Twitter", href: "#" },
+    { name: "LinkedIn", href: "https://linkedin.com/in/eymenkeyvan" },
+    { name: "GitHub", href: "https://github.com/eymen160" },
   ];
 
   return (
@@ -36,8 +34,8 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="section-heading mb-8"
           >
-            Let's create something{" "}
-            <span className="italic text-accent">beautiful</span> together
+            Let's build something{" "}
+            <span className="italic text-accent">amazing</span> together
           </motion.h2>
 
           {/* Description */}
@@ -47,8 +45,8 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="body-large text-muted-foreground max-w-2xl mx-auto mb-12"
           >
-            Whether you have a project in mind or just want to chat about design 
-            and creativity, I'd love to hear from you.
+            Whether you're interested in collaborating on a project, discussing 
+            AI/ML research, or have an opportunity in mind—I'd love to connect.
           </motion.p>
 
           {/* Email CTA */}
@@ -56,26 +54,38 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            href="mailto:hello@example.com"
+            href="mailto:eymenfaruk479@gmail.com"
             className="inline-block font-serif text-2xl md:text-4xl lg:text-5xl font-medium hover:text-accent transition-colors duration-300 link-underline"
           >
-            hello@example.com
+            eymenfaruk479@gmail.com
           </motion.a>
+
+          {/* Phone */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-6 text-muted-foreground font-sans"
+          >
+            678-670-4474 • Roswell, GA
+          </motion.p>
 
           {/* Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex items-center justify-center gap-8 md:gap-12 mt-16"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="flex items-center justify-center gap-8 md:gap-12 mt-12"
           >
             {socialLinks.map((link, index) => (
               <motion.a
                 key={link.name}
                 href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                 className="text-sm font-sans uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
               >
                 {link.name}
