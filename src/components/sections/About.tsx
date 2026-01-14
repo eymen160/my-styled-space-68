@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const About = () => {
@@ -7,142 +6,127 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const skills = [
-    "Python",
-    "Java",
-    "SQL",
-    "PyTorch",
-    "Data Analytics",
-    "Machine Learning",
-    "AWS",
-    "Git",
-    "Flask",
-    "PowerBI",
-    "Tableau",
+    { category: "Languages", items: ["Python", "Java", "C", "SQL", "R"] },
+    { category: "AI/ML", items: ["PyTorch", "NumPy", "Pandas", "Deep Learning"] },
+    { category: "Tools", items: ["Git", "AWS", "Flask", "PowerBI", "Tableau"] },
+  ];
+
+  const stats = [
+    { value: "3.56", label: "GPA" },
+    { value: "Dec '27", label: "Graduation" },
+    { value: "NIH", label: "Research" },
   ];
 
   return (
-    <section id="about" className="py-32 md:py-48 relative" ref={ref}>
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
-          {/* Left column - Visual */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative"
-          >
-            <div className="aspect-[4/5] bg-secondary rounded-lg overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <span className="font-serif text-6xl md:text-8xl text-foreground/20 block">
-                    EK
-                  </span>
-                  <span className="text-sm uppercase tracking-widest text-muted-foreground mt-4 block">
-                    Kennesaw State University
-                  </span>
-                </div>
-              </div>
-            </div>
-            {/* Floating accent element */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="absolute -bottom-6 -right-6 w-28 h-28 md:w-36 md:h-36 bg-accent rounded-full flex items-center justify-center"
-            >
-              <span className="text-accent-foreground text-xs md:text-sm font-sans uppercase tracking-wider text-center leading-tight">
-                3.56<br />GPA
-              </span>
-            </motion.div>
-          </motion.div>
-
-          {/* Right column - Content */}
-          <div className="space-y-8">
+    <section id="about" className="py-32 md:py-48 bg-card" ref={ref}>
+      <div className="max-w-[1200px] mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left - Main content */}
+          <div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-sm font-sans uppercase tracking-[0.3em] text-muted-foreground"
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+              className="label text-muted-foreground mb-4"
             >
-              About Me
+              About
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="section-heading"
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              className="display-md mb-8"
             >
-              Computer Science student with a passion for AI
+              Computer Science student focused on AI and building impactful software.
             </motion.h2>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="space-y-6 body-large text-muted-foreground"
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              className="space-y-6 text-muted-foreground body-lg"
             >
               <p>
                 I'm currently pursuing my Bachelor's in Computer Science at 
-                Kennesaw State University (graduating Dec 2027), where I'm a 
-                Presidential Academic Hardship Scholarship recipient.
+                Kennesaw State University, where I'm a Presidential Academic 
+                Hardship Scholarship recipient.
               </p>
               <p>
                 As an Undergraduate Research Assistant, I work on an NIH-funded 
                 project applying Deep Learning to medical imaging, focusing on 
                 early detection of retinal diseases.
               </p>
-              <p>
-                I'm passionate about building projects that combine programming 
-                with real-world problem-solving—from game development to 
-                full-stack applications.
-              </p>
             </motion.div>
 
-            {/* Skills */}
+            {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="pt-8"
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              className="flex gap-12 mt-12 pt-12 border-t border-border"
             >
-              <p className="text-sm font-sans uppercase tracking-[0.2em] text-muted-foreground mb-6">
-                Technologies & Skills
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {skills.map((skill, index) => (
-                  <motion.span
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.5, delay: 0.6 + index * 0.05 }}
-                    className="px-4 py-2 bg-secondary text-sm font-sans rounded-full"
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Education highlight */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="pt-4 border-t border-border"
-            >
-              <p className="text-sm font-sans uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                Current Role
-              </p>
-              <p className="font-serif text-lg">
-                Undergraduate Research Assistant
-              </p>
-              <p className="text-sm text-muted-foreground">
-                AI/ML in Retinal Imaging • NIH-Funded Project • Sep 2025 - Present
-              </p>
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <p className="text-3xl md:text-4xl font-semibold tracking-tight">
+                    {stat.value}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
             </motion.div>
           </div>
+
+          {/* Right - Skills */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="space-y-8"
+          >
+            {skills.map((skillGroup, groupIndex) => (
+              <div key={skillGroup.category}>
+                <p className="text-sm font-medium text-muted-foreground mb-4">
+                  {skillGroup.category}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {skillGroup.items.map((skill, index) => (
+                    <motion.span
+                      key={skill}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.4 + groupIndex * 0.1 + index * 0.05,
+                        ease: [0.25, 0.1, 0.25, 1],
+                      }}
+                      className="px-4 py-2 bg-background rounded-full text-sm font-medium"
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Current Role */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+              className="mt-12 p-6 bg-background rounded-2xl"
+            >
+              <p className="text-sm text-muted-foreground mb-2">Current Role</p>
+              <p className="text-lg font-semibold">
+                Undergraduate Research Assistant
+              </p>
+              <p className="text-muted-foreground text-sm mt-1">
+                AI/ML in Retinal Imaging • NIH-Funded • Sep 2025 - Present
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
