@@ -6,66 +6,89 @@ const Contact = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const links = [
-    { label: "LinkedIn", href: "https://linkedin.com/in/eymenkeyvan" },
-    { label: "GitHub", href: "https://github.com/eymen160" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/eymenkeyvan", icon: "linkedin" },
+    { label: "GitHub", href: "https://github.com/eymen160", icon: "github" },
   ];
 
-  return (
-    <section id="contact" className="py-32 md:py-48" ref={ref}>
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="max-w-4xl">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            className="label text-muted-foreground mb-6"
-          >
-            Get In Touch
-          </motion.p>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
 
-          <motion.h2
-            initial={{ opacity: 0, y: 60 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="display-lg mb-8"
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+  };
+
+  return (
+    <section id="contact" className="py-32 md:py-48 relative overflow-hidden" ref={ref}>
+      {/* Background gradient decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 0.6 } : {}}
+          transition={{ duration: 1.5 }}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] rounded-full bg-gradient-to-t from-accent/10 via-blue-500/5 to-transparent blur-3xl"
+        />
+      </div>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="max-w-[1200px] mx-auto px-6 relative z-10"
+      >
+        <div className="max-w-4xl">
+          <motion.span
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6"
           >
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-accent to-blue-500" />
+            Get In Touch
+          </motion.span>
+
+          <motion.h2 variants={itemVariants} className="display-lg mb-8">
             Let's create something
             <br />
-            <span className="text-muted-foreground">meaningful together.</span>
+            <span className="bg-gradient-to-r from-accent via-blue-500 to-accent bg-clip-text text-transparent">
+              meaningful together.
+            </span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            variants={itemVariants}
             className="body-xl text-muted-foreground mb-16 max-w-2xl"
           >
-            I'm actively seeking <strong className="text-foreground">internship opportunities</strong> in 
+            I'm actively seeking <strong className="text-accent">internship opportunities</strong> in 
             AI/ML, data analytics, and software development. Open to research collaborations and 
             interesting projects that push boundaries.
           </motion.p>
 
-          {/* Email - Large and prominent */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-16"
-          >
-            <a
+          {/* Email - Large and prominent with gradient hover */}
+          <motion.div variants={itemVariants} className="mb-16">
+            <motion.a
               href="mailto:eymenfaruk479@gmail.com"
-              className="inline-block text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight hover:opacity-60 transition-opacity duration-500 link-hover"
+              whileHover={{ scale: 1.02 }}
+              className="group inline-block relative"
             >
-              eymenfaruk479@gmail.com
-            </a>
+              <span className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight group-hover:text-accent transition-colors duration-500">
+                eymenfaruk479@gmail.com
+              </span>
+              <motion.span
+                initial={{ width: 0 }}
+                whileHover={{ width: "100%" }}
+                className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-accent via-blue-500 to-accent rounded-full"
+              />
+            </motion.a>
           </motion.div>
 
           {/* Links & Info Grid */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-            className="grid md:grid-cols-3 gap-8 pt-12 border-t border-border"
+            variants={itemVariants}
+            className="grid md:grid-cols-3 gap-8 pt-12 border-t border-border/50"
           >
             {/* Social Links */}
             <div>
@@ -74,29 +97,31 @@ const Contact = () => {
               </p>
               <div className="flex flex-col gap-3">
                 {links.map((link) => (
-                  <a
+                  <motion.a
                     key={link.label}
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-medium hover:opacity-60 transition-opacity duration-300 group"
+                    whileHover={{ x: 8 }}
+                    className="inline-flex items-center gap-3 text-sm font-medium hover:text-accent transition-colors duration-300 group"
                   >
-                    {link.label}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      className="w-8 h-8 rounded-full border border-border/50 group-hover:border-accent/50 group-hover:bg-accent/10 flex items-center justify-center transition-all duration-300"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
-                      />
-                    </svg>
-                  </a>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-3.5 h-3.5"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+                      </svg>
+                    </motion.div>
+                    {link.label}
+                  </motion.a>
                 ))}
               </div>
             </div>
@@ -115,30 +140,53 @@ const Contact = () => {
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
                 Phone
               </p>
-              <a 
+              <motion.a 
                 href="tel:+16786704474" 
-                className="text-sm hover:opacity-60 transition-opacity duration-300"
+                whileHover={{ x: 4 }}
+                className="text-sm hover:text-accent transition-colors duration-300"
               >
                 (678) 670-4474
-              </a>
+              </motion.a>
             </div>
           </motion.div>
 
-          {/* Availability Badge */}
+          {/* Availability Badge with enhanced animation */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="mt-16 inline-flex items-center gap-3 px-6 py-3 bg-card rounded-full border border-border"
+            variants={itemVariants}
+            className="mt-16"
           >
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-            </span>
-            <span className="text-sm font-medium">Available for Summer 2026 Internships</span>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-card to-card/50 backdrop-blur-sm rounded-full border border-border/50 hover:border-accent/30 transition-all duration-500 shadow-lg shadow-accent/5"
+            >
+              <span className="relative flex h-3 w-3">
+                <motion.span 
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.75, 0, 0.75] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute inline-flex h-full w-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500"
+                />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-r from-emerald-400 to-emerald-500" />
+              </span>
+              <span className="text-sm font-medium">Available for Summer 2026 Internships</span>
+            </motion.div>
+          </motion.div>
+
+          {/* Download Resume CTA */}
+          <motion.div variants={itemVariants} className="mt-8">
+            <motion.a
+              href="mailto:eymenfaruk479@gmail.com?subject=Resume%20Request"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-accent/50 text-accent font-medium hover:bg-accent hover:text-white transition-all duration-300"
+            >
+              Request Resume
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </motion.a>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
