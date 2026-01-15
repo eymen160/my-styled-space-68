@@ -23,19 +23,19 @@ const Header = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass" : ""
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+        scrolled ? "glass py-3" : "py-5"
       }`}
     >
-      <div className="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
+      <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
         <a
           href="#"
-          className="text-sm font-medium tracking-tight hover:opacity-60 transition-opacity duration-300"
+          className="text-sm font-semibold tracking-tight hover:opacity-60 transition-opacity duration-300"
         >
           Eymen Keyvan
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-10">
           {navItems.map((item) => (
             <a
               key={item.label}
@@ -49,9 +49,23 @@ const Header = () => {
 
         <a
           href="mailto:eymenfaruk479@gmail.com"
-          className="text-sm font-medium hover:opacity-60 transition-opacity duration-300"
+          className="text-sm font-medium hover:opacity-60 transition-opacity duration-300 flex items-center gap-2"
         >
-          Let's talk
+          <span className="hidden sm:inline">Let's connect</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+            />
+          </svg>
         </a>
       </div>
     </motion.header>
