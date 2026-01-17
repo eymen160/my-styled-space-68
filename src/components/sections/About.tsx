@@ -59,7 +59,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="py-24 md:py-40 bg-card/30 relative overflow-hidden" ref={ref}>
+    <section id="about" className="py-20 md:py-28 bg-card/30 relative overflow-hidden" ref={ref}>
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-accent/8 via-transparent to-transparent blur-3xl" />

@@ -38,7 +38,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden">
+    <section className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-16">
       {/* Animated mesh gradient background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -68,7 +68,7 @@ const Hero = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-[1400px] mx-auto px-6 w-full pt-24 pb-32 relative z-10"
+        className="max-w-[1400px] mx-auto px-6 w-full relative z-10"
       >
         {/* Status badge */}
         <motion.div variants={itemVariants}>
@@ -123,7 +123,7 @@ const Hero = () => {
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-16">
+        <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-10">
           <motion.button
             onClick={() => scrollToSection('work')}
             whileHover={{ scale: 1.03, y: -2 }}
@@ -196,21 +196,26 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="max-w-[1400px] mx-auto px-6 pt-12 flex justify-start"
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
+        <motion.button
+          onClick={() => {
+            const element = document.getElementById('work');
+            if (element) element.scrollIntoView({ behavior: 'smooth' });
+          }}
+          animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2 text-muted-foreground"
+          className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors text-sm font-medium"
         >
-          <div className="w-5 h-8 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-1.5">
+          <span>Scroll to explore</span>
+          <div className="w-5 h-8 rounded-full border-2 border-current/40 flex items-start justify-center p-1.5">
             <motion.div
               animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="w-1 h-1.5 rounded-full bg-accent"
             />
           </div>
-        </motion.div>
+        </motion.button>
       </motion.div>
     </section>
   );

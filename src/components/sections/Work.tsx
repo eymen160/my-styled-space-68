@@ -158,7 +158,7 @@ const Work = () => {
   ];
 
   return (
-    <section id="work" className="py-24 md:py-40 relative">
+    <section id="work" className="py-20 md:py-28 relative">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full bg-gradient-to-bl from-accent/10 via-transparent to-transparent blur-3xl" />
