@@ -42,7 +42,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-40 relative overflow-hidden" ref={ref}>
+    <section id="contact" className="py-20 md:py-28 relative overflow-hidden" ref={ref}>
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
