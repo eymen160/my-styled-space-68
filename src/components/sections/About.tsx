@@ -60,10 +60,18 @@ const About = () => {
 
   return (
     <section id="about" className="py-20 md:py-28 bg-card/30 relative overflow-hidden" ref={ref}>
-      {/* Background decorations */}
+      {/* Enhanced background decorations */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-accent/8 via-transparent to-transparent blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-500/8 via-transparent to-transparent blur-3xl" />
+        <motion.div 
+          animate={{ scale: [1, 1.1, 1], opacity: [0.08, 0.15, 0.08] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-accent/10 via-transparent to-transparent blur-3xl" 
+        />
+        <motion.div 
+          animate={{ scale: [1, 1.15, 1], opacity: [0.08, 0.12, 0.08] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-500/10 via-transparent to-transparent blur-3xl" 
+        />
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 relative z-10">
