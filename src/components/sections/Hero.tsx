@@ -226,8 +226,8 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-accent to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </motion.button>
 
-          <motion.a
-            href="mailto:eymenfaruk479@gmail.com"
+          <motion.button
+            onClick={() => window.location.href = 'mailto:eymenfaruk479@gmail.com'}
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-lg hover:border-accent hover:text-accent transition-all duration-300"
@@ -243,7 +243,7 @@ const Hero = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
             </svg>
-          </motion.a>
+          </motion.button>
 
           <motion.a
             href="https://github.com/eymen160"

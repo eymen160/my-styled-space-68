@@ -145,13 +145,13 @@ const Contact = () => {
               AI/ML, data analytics, and software development. Let's discuss how I can contribute to your team.
             </motion.p>
 
-            {/* Email CTA - WORKING */}
+            {/* Email CTA */}
             <motion.div variants={itemVariants} className="mb-8">
-              <motion.a
-                href="mailto:eymenfaruk479@gmail.com"
+              <motion.button
+                onClick={() => window.location.href = 'mailto:eymenfaruk479@gmail.com'}
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative inline-flex items-center gap-4 px-8 py-5 rounded-2xl bg-foreground text-background font-bold text-lg shadow-2xl shadow-foreground/20 hover:shadow-foreground/30 transition-all duration-300 overflow-hidden"
+                className="group relative inline-flex items-center gap-4 px-8 py-5 rounded-2xl bg-foreground text-background font-bold text-lg shadow-2xl shadow-foreground/20 hover:shadow-foreground/30 transition-all duration-300 overflow-hidden cursor-pointer"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 relative z-10">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
@@ -170,7 +170,7 @@ const Contact = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                 </motion.svg>
                 <div className="absolute inset-0 bg-gradient-to-r from-accent to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </motion.a>
+              </motion.button>
             </motion.div>
 
             {/* Social links - WORKING */}
@@ -231,12 +231,12 @@ const Contact = () => {
                 <p className="text-sm text-muted-foreground">United States</p>
               </motion.div>
 
-              {/* Phone - WORKING */}
-              <motion.a
-                href="tel:+16786704474"
+              {/* Phone */}
+              <motion.button
+                onClick={() => window.location.href = 'tel:+16786704474'}
                 variants={itemVariants}
                 whileHover={{ scale: 1.03, y: -3 }}
-                className="p-6 rounded-2xl bg-card/60 border border-border/60 backdrop-blur-sm hover:border-accent/40 hover:bg-accent/5 transition-all duration-300 block"
+                className="p-6 rounded-2xl bg-card/60 border border-border/60 backdrop-blur-sm hover:border-accent/40 hover:bg-accent/5 transition-all duration-300 block text-left w-full cursor-pointer"
               >
                 <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2 font-semibold">Phone</p>
                 <p className="text-lg font-bold">(678) 670-4474</p>
@@ -250,7 +250,7 @@ const Contact = () => {
                   </svg>
                   Tap to call
                 </motion.p>
-              </motion.a>
+              </motion.button>
             </div>
 
             {/* Resume buttons - View and Download */}
