@@ -253,34 +253,46 @@ const Contact = () => {
               </motion.a>
             </div>
 
-            {/* Resume button - WORKING - Opens email with resume request */}
-            <motion.a
-              href="mailto:eymenfaruk479@gmail.com?subject=Resume%20Request%20-%20Eymen%20Keyvan&body=Hi%20Eymen,%0A%0AI'm%20interested%20in%20receiving%20a%20copy%20of%20your%20resume.%20I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20learn%20more%20about%20your%20experience.%0A%0ABest%20regards"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="group flex items-center justify-center gap-3 w-full p-5 rounded-2xl border-2 border-dashed border-accent/40 text-accent font-bold hover:bg-accent/10 hover:border-accent transition-all duration-300 relative overflow-hidden"
-            >
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-accent/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"
-              />
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 relative z-10">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-              </svg>
-              <span className="relative z-10">Request Resume</span>
-              <motion.svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                strokeWidth={2} 
-                stroke="currentColor" 
-                className="w-4 h-4 relative z-10"
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+            {/* Resume buttons - View and Download */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* View Resume */}
+              <motion.a
+                href="/resume/EYMEN_KEYVAN_RESUME.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="group flex items-center justify-center gap-3 p-5 rounded-2xl border-2 border-accent/40 bg-accent/5 text-accent font-bold hover:bg-accent/20 hover:border-accent transition-all duration-300 relative overflow-hidden"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </motion.svg>
-            </motion.a>
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-accent/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 relative z-10">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                <span className="relative z-10">View Resume</span>
+              </motion.a>
+
+              {/* Download Resume */}
+              <motion.a
+                href="/resume/EYMEN_KEYVAN_RESUME.pdf"
+                download="Eymen_Keyvan_Resume.pdf"
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="group flex items-center justify-center gap-3 p-5 rounded-2xl border-2 border-dashed border-accent/40 text-accent font-bold hover:bg-accent/10 hover:border-accent transition-all duration-300 relative overflow-hidden"
+              >
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-accent/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 relative z-10">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                <span className="relative z-10">Download PDF</span>
+              </motion.a>
+            </div>
 
             {/* Quick hire message */}
             <motion.p 
