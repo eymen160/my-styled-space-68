@@ -1,6 +1,20 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100,
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -37,67 +51,114 @@ const Hero = () => {
     }
   };
 
-  // Floating particles
-  const particles = Array.from({ length: 20 }, (_, i) => ({
+  // Floating particles with different colors
+  const particles = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: Math.random() * 4 + 2,
+    size: Math.random() * 6 + 2,
     duration: Math.random() * 10 + 15,
+    delay: Math.random() * 5,
+    color: i % 3 === 0 ? "accent" : i % 3 === 1 ? "blue-500" : "emerald-500",
+  }));
+
+  // DNA helix-like floating lines
+  const helixLines = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    delay: i * 0.3,
+    duration: 8 + Math.random() * 4,
+  }));
+
+  // Glowing orbs
+  const orbs = Array.from({ length: 6 }, (_, i) => ({
+    id: i,
+    size: 100 + Math.random() * 200,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    duration: 15 + Math.random() * 10,
     delay: Math.random() * 5,
   }));
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-16 min-h-[90vh] flex flex-col justify-center">
-      {/* Animated mesh gradient background */}
+    <section className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-16 min-h-[100vh] flex flex-col justify-center">
+      {/* Dynamic aurora background that follows mouse */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Moving gradient orbs */}
+        {/* Mouse-following gradient */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: [0.4, 0.6, 0.4],
-            scale: [0.8, 1.1, 0.8],
-            x: [0, 50, 0],
-            y: [0, -30, 0],
+          className="absolute w-[800px] h-[800px] rounded-full blur-[150px] opacity-30"
+          style={{
+            background: "radial-gradient(circle, hsl(var(--accent)) 0%, hsl(217 91% 60%) 50%, transparent 70%)",
+            left: `${mousePosition.x - 20}%`,
+            top: `${mousePosition.y - 20}%`,
           }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-20 -right-20 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-accent/30 via-violet-500/20 to-transparent blur-[100px]"
+          transition={{ type: "spring", damping: 30, stiffness: 100 }}
+        />
+
+        {/* Animated aurora waves */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.2, 1],
+            rotate: [0, 10, 0],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-1/2 -right-1/4 w-[1200px] h-[1200px] bg-gradient-conic from-accent/40 via-blue-500/30 via-emerald-500/20 to-accent/40 blur-[100px] rounded-full"
         />
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ 
-            opacity: [0.3, 0.5, 0.3],
-            scale: [0.9, 1.2, 0.9],
-            x: [0, -40, 0],
-            y: [0, 40, 0],
+            opacity: [0.2, 0.5, 0.2],
+            scale: [1.1, 0.9, 1.1],
+            rotate: [0, -15, 0],
           }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-blue-500/25 via-cyan-500/15 to-transparent blur-[100px]"
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          className="absolute -bottom-1/2 -left-1/4 w-[1000px] h-[1000px] bg-gradient-conic from-blue-500/30 via-violet-500/30 via-pink-500/20 to-blue-500/30 blur-[120px] rounded-full"
         />
-        <motion.div
-          animate={{ 
-            opacity: [0.2, 0.4, 0.2],
-            rotate: [0, 180, 360],
-          }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-gradient-conic from-accent/10 via-emerald-500/10 via-blue-500/10 to-accent/10 blur-[120px]"
-        />
+
+        {/* Glowing orbs */}
+        {orbs.map((orb) => (
+          <motion.div
+            key={orb.id}
+            className="absolute rounded-full"
+            style={{
+              width: orb.size,
+              height: orb.size,
+              left: `${orb.x}%`,
+              top: `${orb.y}%`,
+              background: `radial-gradient(circle, hsl(var(--accent) / 0.3) 0%, transparent 70%)`,
+            }}
+            animate={{
+              x: [-50, 50, -50],
+              y: [-30, 30, -30],
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: orb.duration,
+              repeat: Infinity,
+              delay: orb.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
         
-        {/* Floating particles */}
+        {/* Floating particles with glow */}
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full bg-accent/40"
+            className={`absolute rounded-full bg-${particle.color}/60 shadow-lg`}
             style={{
               left: `${particle.x}%`,
               top: `${particle.y}%`,
               width: particle.size,
               height: particle.size,
+              boxShadow: `0 0 ${particle.size * 2}px hsl(var(--accent) / 0.5)`,
             }}
             animate={{
-              y: [-20, 20, -20],
-              x: [-10, 10, -10],
-              opacity: [0.2, 0.6, 0.2],
+              y: [-30, 30, -30],
+              x: [-20, 20, -20],
+              opacity: [0.3, 0.8, 0.3],
+              scale: [1, 1.5, 1],
             }}
             transition={{
               duration: particle.duration,
@@ -107,22 +168,59 @@ const Hero = () => {
             }}
           />
         ))}
-      </div>
 
-      {/* Animated grid pattern */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={{ duration: 2 }}
-        className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none"
-      />
-      
-      {/* Scan line effect */}
-      <motion.div
-        animate={{ y: ["-100%", "200%"] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-accent/30 to-transparent pointer-events-none"
-      />
+        {/* DNA helix lines */}
+        {helixLines.map((line) => (
+          <motion.div
+            key={line.id}
+            className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent"
+            style={{ top: `${10 + line.id * 8}%` }}
+            animate={{
+              scaleX: [0.5, 1.2, 0.5],
+              opacity: [0.1, 0.4, 0.1],
+              x: [-100, 100, -100],
+            }}
+            transition={{
+              duration: line.duration,
+              repeat: Infinity,
+              delay: line.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        {/* Animated mesh grid */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 5, repeat: Infinity }}
+          className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--accent)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--accent)/0.1)_1px,transparent_1px)] bg-[size:80px_80px]"
+        />
+        
+        {/* Multiple scan lines */}
+        <motion.div
+          animate={{ y: ["-100%", "200%"] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-accent/50 to-transparent blur-sm"
+        />
+        <motion.div
+          animate={{ y: ["200%", "-100%"] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 2 }}
+          className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"
+        />
+
+        {/* Corner decorative elements */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-20 -left-20 w-[400px] h-[400px] border border-accent/10 rounded-full"
+        />
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-40 -right-40 w-[600px] h-[600px] border border-blue-500/10 rounded-full"
+        />
+      </div>
 
       <motion.div
         variants={containerVariants}
@@ -130,10 +228,10 @@ const Hero = () => {
         animate="visible"
         className="max-w-[1400px] mx-auto px-6 w-full relative z-10"
       >
-        {/* Status badge */}
+        {/* Status badge with enhanced glow */}
         <motion.div variants={itemVariants}>
           <motion.div 
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 30px hsl(var(--accent) / 0.3)" }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-accent/30 bg-accent/5 backdrop-blur-xl text-sm mb-10 cursor-default"
           >
             <span className="relative flex h-2.5 w-2.5">
@@ -144,72 +242,107 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Name - Ultra large with animated gradient */}
+        {/* Name with enhanced gradient animation */}
         <motion.h1 variants={itemVariants} className="mb-6">
-          <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.03em] leading-[0.9]">
+          <motion.span 
+            className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.03em] leading-[0.9]"
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
             <motion.span
-              initial={{ backgroundPosition: "0% 50%" }}
-              animate={{ backgroundPosition: "100% 50%" }}
-              transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-              className="bg-gradient-to-r from-foreground via-accent to-foreground bg-[length:200%_auto] bg-clip-text text-transparent"
+              animate={{ 
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                filter: ["brightness(1)", "brightness(1.2)", "brightness(1)"],
+              }}
+              transition={{ duration: 5, repeat: Infinity }}
+              style={{ backgroundSize: "300% 100%" }}
+              className="bg-gradient-to-r from-foreground via-accent via-blue-500 to-foreground bg-clip-text text-transparent"
             >
               Eymen
             </motion.span>
-          </span>
+          </motion.span>
           <motion.span 
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 1, delay: 0.2 }}
             className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.03em] leading-[0.9] text-muted-foreground/70"
           >
-            Faruk Keyvan
+            <motion.span
+              animate={{ 
+                textShadow: ["0 0 0px transparent", "0 0 20px hsl(var(--accent) / 0.3)", "0 0 0px transparent"]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              Faruk Keyvan
+            </motion.span>
           </motion.span>
         </motion.h1>
 
-        {/* Role tags with stagger animation */}
+        {/* Role tags with stagger animation and glow */}
         <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-8">
           {["AI/ML Research", "Software Development", "Data Analytics"].map((tag, i) => (
             <motion.span
               key={tag}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-              whileHover={{ scale: 1.05, borderColor: "hsl(var(--accent))" }}
-              className="px-4 py-2 rounded-full bg-card border border-border text-sm font-medium text-foreground/80 cursor-default transition-colors"
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 + i * 0.15, type: "spring", stiffness: 200 }}
+              whileHover={{ 
+                scale: 1.1, 
+                borderColor: "hsl(var(--accent))",
+                boxShadow: "0 0 20px hsl(var(--accent) / 0.3)",
+              }}
+              className="px-5 py-2.5 rounded-full bg-card/80 backdrop-blur-sm border border-border text-sm font-medium text-foreground/80 cursor-default transition-all duration-300"
             >
               {tag}
             </motion.span>
           ))}
         </motion.div>
 
-        {/* Tagline */}
+        {/* Tagline with glowing keywords */}
         <motion.p
           variants={itemVariants}
           className="text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-12"
         >
           CS student & Research Assistant at{" "}
-          <span className="text-foreground font-semibold">Kennesaw State University</span>, 
+          <motion.span 
+            className="text-foreground font-semibold inline-block"
+            whileHover={{ scale: 1.05 }}
+          >
+            Kennesaw State University
+          </motion.span>, 
           building{" "}
           <motion.span 
-            className="text-accent font-semibold inline-block"
+            className="text-accent font-semibold inline-block relative"
             animate={{ 
-              textShadow: ["0 0 0px hsl(var(--accent))", "0 0 10px hsl(var(--accent))", "0 0 0px hsl(var(--accent))"]
+              textShadow: ["0 0 5px hsl(var(--accent))", "0 0 20px hsl(var(--accent))", "0 0 5px hsl(var(--accent))"]
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             AI solutions for healthcare
+            <motion.span
+              className="absolute -inset-1 bg-accent/10 rounded-lg blur-md -z-10"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
           </motion.span>{" "}
           through NIH-funded research in medical imaging.
         </motion.p>
 
-        {/* CTA Buttons - All functional */}
+        {/* CTA Buttons with enhanced effects */}
         <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-10">
           <motion.button
             onClick={() => scrollToSection('work')}
-            whileHover={{ scale: 1.03, y: -2 }}
+            whileHover={{ scale: 1.05, y: -3, boxShadow: "0 20px 40px hsl(var(--accent) / 0.3)" }}
             whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-background font-semibold text-lg shadow-2xl shadow-foreground/20 hover:shadow-foreground/30 transition-all duration-300 overflow-hidden"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-background font-semibold text-lg shadow-2xl shadow-foreground/20 transition-all duration-300 overflow-hidden"
           >
+            <motion.span
+              className="absolute inset-0 bg-gradient-to-r from-accent via-blue-500 to-emerald-500"
+              initial={{ x: "-100%" }}
+              whileHover={{ x: "0%" }}
+              transition={{ duration: 0.3 }}
+            />
             <span className="relative z-10">View My Work</span>
             <motion.svg
               xmlns="http://www.w3.org/2000/svg"
@@ -223,23 +356,29 @@ const Hero = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
             </motion.svg>
-            <div className="absolute inset-0 bg-gradient-to-r from-accent to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </motion.button>
 
           <motion.button
             onClick={() => window.location.href = 'mailto:eymenfaruk479@gmail.com'}
-            whileHover={{ scale: 1.03, y: -2 }}
+            whileHover={{ scale: 1.05, y: -3, borderColor: "hsl(var(--accent))" }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-lg hover:border-accent hover:text-accent transition-all duration-300"
+            className="relative inline-flex items-center gap-3 px-8 py-4 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-lg hover:text-accent transition-all duration-300 overflow-hidden group"
           >
-            Get In Touch
+            <motion.span
+              className="absolute inset-0 bg-accent/10"
+              initial={{ scale: 0, opacity: 0 }}
+              whileHover={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              style={{ borderRadius: "9999px" }}
+            />
+            <span className="relative z-10">Get In Touch</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5"
+              className="w-5 h-5 relative z-10"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
             </svg>
@@ -249,7 +388,7 @@ const Hero = () => {
             href="https://github.com/eymen160"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.03, y: -2 }}
+            whileHover={{ scale: 1.1, y: -3, rotate: 5 }}
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-3 px-6 py-4 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-lg hover:border-accent hover:text-accent transition-all duration-300"
           >
@@ -259,7 +398,7 @@ const Hero = () => {
           </motion.a>
         </motion.div>
 
-        {/* Stats row with counter animation */}
+        {/* Stats row with glass morphism */}
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl"
@@ -267,19 +406,31 @@ const Hero = () => {
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="group relative p-4 md:p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 hover:border-accent/40 transition-all duration-500 cursor-default overflow-hidden"
+              initial={{ opacity: 0, y: 30, rotateX: -30 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 + index * 0.15, type: "spring" }}
+              whileHover={{ 
+                scale: 1.08, 
+                y: -8,
+                boxShadow: "0 20px 40px hsl(var(--accent) / 0.2)",
+              }}
+              className="group relative p-4 md:p-6 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/60 hover:border-accent/50 transition-all duration-500 cursor-default overflow-hidden"
             >
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-br from-accent/20 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                initial={false}
+                className="absolute inset-0 bg-gradient-to-br from-accent/20 via-blue-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               />
-              <p className="text-2xl md:text-4xl font-bold tracking-tight text-foreground relative z-10">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+              />
+              <motion.p 
+                className="text-2xl md:text-4xl font-bold tracking-tight text-foreground relative z-10"
+                animate={{ 
+                  textShadow: ["0 0 0px transparent", "0 0 10px hsl(var(--accent) / 0.3)", "0 0 0px transparent"]
+                }}
+                transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+              >
                 {stat.value}
-              </p>
+              </motion.p>
               <p className="text-sm font-semibold text-foreground/80 mt-1 relative z-10">{stat.label}</p>
               <p className="text-xs text-muted-foreground relative z-10 hidden md:block">{stat.sublabel}</p>
             </motion.div>
@@ -287,7 +438,7 @@ const Hero = () => {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator with enhanced animation */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -296,18 +447,21 @@ const Hero = () => {
       >
         <motion.button
           onClick={() => scrollToSection('work')}
-          animate={{ y: [0, 6, 0] }}
+          animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors text-sm font-medium"
+          className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors text-sm font-medium group"
         >
           <span>Scroll to explore</span>
-          <div className="w-5 h-8 rounded-full border-2 border-current/40 flex items-start justify-center p-1.5">
+          <motion.div 
+            className="w-6 h-10 rounded-full border-2 border-current/40 flex items-start justify-center p-2 group-hover:border-accent transition-colors"
+            whileHover={{ scale: 1.1 }}
+          >
             <motion.div
-              animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
+              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1 h-1.5 rounded-full bg-accent"
+              className="w-1.5 h-2 rounded-full bg-accent"
             />
-          </div>
+          </motion.div>
         </motion.button>
       </motion.div>
     </section>
