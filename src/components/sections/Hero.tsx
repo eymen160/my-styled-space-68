@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import TypewriterText from "../TypewriterText";
 
 const Hero = () => {
   const containerVariants = {
@@ -37,6 +38,8 @@ const Hero = () => {
     }
   };
 
+  const roles = ["AI/ML Research", "Software Development", "Data Analytics"];
+
   return (
     <section className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-16 min-h-[100vh] flex flex-col justify-center">
       {/* Clean gradient background */}
@@ -52,6 +55,16 @@ const Hero = () => {
           animate={{ opacity: 0.3 }}
           transition={{ duration: 1.5, delay: 0.3 }}
           className="absolute -bottom-1/2 -left-1/4 w-[700px] h-[700px] bg-gradient-to-tr from-blue-500/15 via-violet-500/10 to-transparent blur-[100px] rounded-full"
+        />
+        
+        {/* Subtle grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(to right, hsl(var(--foreground)) 1px, transparent 1px),
+                             linear-gradient(to bottom, hsl(var(--foreground)) 1px, transparent 1px)`,
+            backgroundSize: "80px 80px",
+          }}
         />
       </div>
 
@@ -72,30 +85,28 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Name */}
-        <motion.h1 variants={itemVariants} className="mb-6">
-          <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.03em] leading-[0.9] bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-            Eymen
-          </span>
-          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.03em] leading-[0.9] text-muted-foreground/70">
-            Faruk Keyvan
-          </span>
-        </motion.h1>
+        {/* Name with gradient line */}
+        <motion.div variants={itemVariants} className="mb-6 relative">
+          <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-accent via-blue-500 to-transparent rounded-full hidden md:block" />
+          <h1>
+            <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.03em] leading-[0.9] bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+              Eymen
+            </span>
+            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.03em] leading-[0.9] text-muted-foreground/70">
+              Faruk Keyvan
+            </span>
+          </h1>
+        </motion.div>
 
-        {/* Role tags */}
-        <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-8">
-          {["AI/ML Research", "Software Development", "Data Analytics"].map((tag, i) => (
-            <motion.span
-              key={tag}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-              className="px-5 py-2.5 rounded-full bg-card/80 backdrop-blur-sm border border-border text-sm font-medium text-foreground/80 cursor-default transition-all duration-300 hover:border-accent/50"
-            >
-              {tag}
-            </motion.span>
-          ))}
+        {/* Animated role */}
+        <motion.div variants={itemVariants} className="mb-8 h-14 flex items-center">
+          <span className="text-2xl md:text-3xl text-muted-foreground font-medium">
+            Focused on{" "}
+            <TypewriterText 
+              words={roles} 
+              className="text-accent font-semibold"
+            />
+          </span>
         </motion.div>
 
         {/* Tagline */}
@@ -111,7 +122,7 @@ const Hero = () => {
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-10">
+        <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-12">
           <motion.button
             onClick={() => scrollToSection('work')}
             whileHover={{ scale: 1.02, y: -2 }}
@@ -164,7 +175,7 @@ const Hero = () => {
           </motion.a>
         </motion.div>
 
-        {/* Stats row */}
+        {/* Stats row with animated borders */}
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl"
@@ -176,8 +187,12 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
               whileHover={{ scale: 1.03, y: -4 }}
-              className="group p-4 md:p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 hover:border-accent/40 transition-all duration-300 cursor-default"
+              className="group relative p-4 md:p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 hover:border-accent/40 transition-all duration-300 cursor-default overflow-hidden"
             >
+              {/* Animated gradient border on hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent via-blue-500 to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm" />
+              <div className="absolute inset-[1px] rounded-2xl bg-card -z-10" />
+              
               <p className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
                 {stat.value}
               </p>
@@ -189,6 +204,23 @@ const Hero = () => {
               </p>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
+        >
+          <span className="text-xs text-muted-foreground uppercase tracking-widest">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-2"
+          >
+            <motion.div className="w-1 h-2 bg-accent rounded-full" />
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>
