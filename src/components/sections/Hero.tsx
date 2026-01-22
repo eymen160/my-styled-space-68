@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import TypewriterText from "../TypewriterText";
+import SplitText from "../SplitText";
+import MagneticButton from "../MagneticButton";
 
 const Hero = () => {
   const containerVariants = {
@@ -20,7 +22,7 @@ const Hero = () => {
       y: 0,
       transition: {
         duration: 0.7,
-        ease: "easeOut" as const,
+        ease: [0.25, 0.1, 0.25, 1] as const,
       },
     },
   };
@@ -89,11 +91,11 @@ const Hero = () => {
         <motion.div variants={itemVariants} className="mb-6 relative">
           <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-accent via-blue-500 to-transparent rounded-full hidden md:block" />
           <h1>
-            <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.03em] leading-[0.9] bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-              Eymen
+            <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.03em] leading-[0.9]">
+              <SplitText text="Eymen" className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent" delay={0.2} />
             </span>
             <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.03em] leading-[0.9] text-muted-foreground/70">
-              Faruk Keyvan
+              <SplitText text="Faruk Keyvan" delay={0.4} staggerDelay={0.04} />
             </span>
           </h1>
         </motion.div>
@@ -121,13 +123,11 @@ const Hero = () => {
           through NIH-funded research in medical imaging.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons with Magnetic Effect */}
         <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-12">
-          <motion.button
+          <MagneticButton
             onClick={() => scrollToSection('work')}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-background font-semibold text-lg shadow-lg transition-all duration-300"
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-background font-semibold text-lg shadow-lg transition-all duration-300 hover:shadow-xl"
           >
             <span>View My Work</span>
             <svg
@@ -140,12 +140,10 @@ const Hero = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
             </svg>
-          </motion.button>
+          </MagneticButton>
 
-          <motion.button
+          <MagneticButton
             onClick={() => window.location.href = 'mailto:eymenfaruk479@gmail.com'}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-lg hover:border-accent hover:text-accent transition-all duration-300"
           >
             <span>Get In Touch</span>
@@ -159,20 +157,18 @@ const Hero = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
             </svg>
-          </motion.button>
+          </MagneticButton>
 
-          <motion.a
+          <MagneticButton
             href="https://github.com/eymen160"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-3 px-6 py-4 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-lg hover:border-accent hover:text-accent transition-all duration-300"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
             </svg>
-          </motion.a>
+          </MagneticButton>
         </motion.div>
 
         {/* Stats row with animated borders */}
