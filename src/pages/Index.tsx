@@ -6,12 +6,10 @@ import Work from "@/components/sections/Work";
 import Philosophy from "@/components/sections/Philosophy";
 import Contact from "@/components/sections/Contact";
 import ScrollProgress from "@/components/ScrollProgress";
-import CursorFollower from "@/components/CursorFollower";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background cursor-none md:cursor-none">
-      <CursorFollower />
+    <div className="min-h-screen bg-background">
       <ScrollProgress />
       <Header />
       <main>
