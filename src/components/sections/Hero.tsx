@@ -75,21 +75,21 @@ export default function Hero() {
         </motion.div>
 
         {/* Giant serif headline */}
-        <div className="mb-12">
-          <div className="overflow-hidden">
+        <div className="mb-10">
+          <div className="overflow-hidden pb-3">
             <motion.h1
               custom={0} variants={line} initial="hidden" animate="show"
-              className="leading-[0.88] tracking-[-0.03em] select-none"
+              className="leading-[1.0] tracking-[-0.03em] select-none"
               style={{ fontSize: "clamp(3.8rem, 13vw, 11.5rem)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#0D0D0D" }}
             >
               Eymen
             </motion.h1>
           </div>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden pb-5">
             <motion.h1
               custom={1} variants={line} initial="hidden" animate="show"
-              className="leading-[0.88] tracking-[-0.03em] select-none italic"
-              style={{ fontSize: "clamp(3.8rem, 13vw, 11.5rem)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#0D0D0D", WebkitTextStroke: "1px #0D0D0D", WebkitTextFillColor: "transparent" }}
+              className="leading-[1.0] tracking-[-0.03em] select-none italic"
+              style={{ fontSize: "clamp(3.8rem, 13vw, 11.5rem)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#A09484" }}
             >
               Keyvan.
             </motion.h1>
