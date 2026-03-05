@@ -6,8 +6,8 @@ export default function Header() {
   const [active, setActive] = useState("");
   const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (v) => {
-    setScrolled(v > 40);
+  useMotionValueEvent(scrollY, "change", v => {
+    setScrolled(v > 50);
     const ids = ["work", "about", "contact"];
     for (const id of ids) {
       const el = document.getElementById(id);
@@ -20,74 +20,51 @@ export default function Header() {
   });
 
   const go = (id: string) => {
-    if (id === "#") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    if (id === "top") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const navItems = [
-    { l: "Work", h: "work" },
-    { l: "About", h: "about" },
-    { l: "Contact", h: "contact" },
-  ];
+  const navItems = [{ l: "Work", h: "work" }, { l: "About", h: "about" }, { l: "Contact", h: "contact" }];
 
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
         background: scrolled ? "rgba(250,249,246,0.92)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid #E5E2DC" : "1px solid transparent",
-        padding: scrolled ? "12px 0" : "20px 0",
-      }}
-    >
-      <div className="max-w-[1360px] mx-auto px-6 md:px-14 flex items-center justify-between">
-        <motion.button
-          onClick={() => go("#")}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-          className="text-[1.1rem] font-bold tracking-[-0.02em] transition-opacity hover:opacity-60"
-          style={{ fontFamily: "'Playfair Display', serif", color: "#0D0D0D" }}
-        >
+        backdropFilter: scrolled ? "blur(24px)" : "none",
+        borderBottom: scrolled ? "1px solid #E8E4DE" : "1px solid transparent",
+        padding: scrolled ? "12px 0" : "22px 0",
+        transition: "all 0.4s ease",
+      }}>
+      <div className="max-w-[1320px] mx-auto px-6 md:px-14 flex items-center justify-between">
+        <motion.button onClick={() => go("top")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+          style={{ fontFamily: "'Fraunces', serif", fontWeight: 900, fontSize: "1.15rem", color: "#0D0D0D", background: "none", border: "none", cursor: "none", letterSpacing: "-0.02em" }}>
           EK
         </motion.button>
 
-        {/* Nav */}
-        <nav className="hidden md:flex items-center gap-0.5 p-1.5 rounded-full border"
-          style={{ background: "rgba(250,249,246,0.8)", borderColor: "#E5E2DC", backdropFilter: "blur(12px)" }}>
-          {navItems.map((item) => (
-            <motion.button
-              key={item.l}
-              onClick={() => go(item.h)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              className="relative px-5 py-2 text-[0.83rem] font-medium rounded-full transition-all duration-300"
-              style={{ color: active === item.h ? "#0D0D0D" : "#7A7570" }}
-            >
+        <nav style={{ display: "flex", alignItems: "center", gap: "2px", padding: "6px", borderRadius: "100px", background: "rgba(242,239,233,0.9)", border: "1px solid #E0DDD7", backdropFilter: "blur(12px)" }}>
+          {navItems.map(item => (
+            <motion.button key={item.l} onClick={() => go(item.h)}
+              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+              style={{ position: "relative", padding: "8px 18px", borderRadius: "100px", fontFamily: "'Geist', sans-serif", fontWeight: 600, fontSize: "13px", background: "none", border: "none", cursor: "none", transition: "color 0.2s", color: active === item.h ? "#FAF9F6" : "#7A7570" }}>
               {active === item.h && (
-                <motion.span
-                  layoutId="navPill"
-                  className="absolute inset-0 rounded-full"
-                  style={{ background: "#0D0D0D" }}
-                  transition={{ type: "spring", stiffness: 400, damping: 34 }}
-                />
+                <motion.span layoutId="pill"
+                  style={{ position: "absolute", inset: 0, background: "#0D0D0D", borderRadius: "100px", zIndex: -1 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 36 }} />
               )}
-              <span className="relative z-10" style={{ color: active === item.h ? "#FAF9F6" : "#7A7570" }}>{item.l}</span>
+              {item.l}
             </motion.button>
           ))}
         </nav>
 
-        <motion.a
-          href="mailto:eymenfaruk479@gmail.com"
-          whileHover={{ scale: 1.04, y: -1 }}
-          whileTap={{ scale: 0.96 }}
-          className="px-5 py-2.5 rounded-full text-[0.83rem] font-semibold transition-all duration-200 inline-flex items-center gap-2"
-          style={{ background: "#0D0D0D", color: "#FAF9F6", fontFamily: "'Outfit', sans-serif" }}
-        >
+        <motion.a href="mailto:eymenfaruk479@gmail.com"
+          whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.96 }}
+          style={{ padding: "10px 20px", borderRadius: "100px", background: "#0D0D0D", color: "#FAF9F6", fontFamily: "'Geist', sans-serif", fontWeight: 600, fontSize: "13px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>
           Hire Me
-          <svg className="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
           </svg>
         </motion.a>

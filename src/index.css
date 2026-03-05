@@ -1,51 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Geist:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --cream: #FAF9F6;
-    --ink: #0D0D0D;
-    --ink-2: #1A1A1A;
-    --muted: #6B6B6B;
-    --muted-2: #999;
-    --border: #E5E2DC;
-    --border-2: #D0CCC4;
-    --accent: #1A1A1A;
-    --blue: #2563EB;
-    --highlight: #F0EDE6;
-  }
+  * { box-sizing: border-box; cursor: none; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html {
-    scroll-behavior: smooth;
-    background: var(--cream);
-  }
+  html { scroll-behavior: smooth; background: #FAF9F6; }
 
   body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'Outfit', sans-serif;
+    background: #FAF9F6;
+    color: #0D0D0D;
+    font-family: 'Geist', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
-  h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
-    color: var(--ink);
-  }
+  h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
 
-  ::selection {
-    background: #0D0D0D18;
-    color: var(--ink);
-  }
+  ::selection { background: rgba(13,13,13,0.12); }
 
   ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: var(--cream); }
-  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
+  ::-webkit-scrollbar-track { background: #FAF9F6; }
+  ::-webkit-scrollbar-thumb { background: #C8C2B8; border-radius: 2px; }
 }
