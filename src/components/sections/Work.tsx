@@ -6,192 +6,151 @@ const projects = [
     id: "01",
     title: "U-Net Optic Disc Segmentation",
     category: "NIH Research · Medical AI",
-    description: "Designed a U-Net with ResNet34 encoder and combined BCE + Dice loss, trained on REFUGE2 (400 retinal images). Comprehensive augmentation pipeline achieving 99.5% image pass rate. Outperforms every comparable published approach.",
-    metrics: [
-      { label: "Dice Score", value: "99.69%", highlight: true },
-      { label: "vs SOTA", value: "+2.7%", highlight: true },
-      { label: "Pass Rate", value: "99.5%" },
-    ],
-    tags: ["PyTorch", "U-Net", "ResNet34", "Albumentations", "Transfer Learning"],
-    link: "https://github.com/eymen160",
-    accent: "#8b5cf6",
+    description: "ResNet34-encoder U-Net trained on REFUGE2 with combined BCE + Dice loss. Mixed-precision GPU training, comprehensive augmentation pipeline. Every comparable published approach beaten.",
+    metrics: [{ l: "Dice Score", v: "99.69%", hi: true }, { l: "vs SOTA", v: "+2.7%", hi: true }, { l: "Pass Rate", v: "99.5%" }],
+    tags: ["PyTorch", "U-Net", "ResNet34", "Albumentations"],
     wide: true,
+    accent: "#2563EB",
   },
   {
     id: "02",
     title: "AI Stock Trading System",
     category: "FinTech · ML Pipeline",
-    description: "End-to-end signal pipeline: FinBERT parses financial news sentiment, LSTM forecasts price movement, Random Forest classifies trade signals — all surfaced through a real-time Streamlit dashboard.",
-    metrics: [
-      { label: "NLP Engine", value: "FinBERT" },
-      { label: "Models", value: "3 stacked" },
-      { label: "Interface", value: "Streamlit" },
-    ],
-    tags: ["Python", "FinBERT", "LSTM", "Scikit-learn", "Streamlit"],
-    link: "https://github.com/eymen160",
-    accent: "#3b82f6",
+    description: "FinBERT sentiment analysis stacked with LSTM price forecasting and Random Forest classification — surfaced through a live Streamlit dashboard.",
+    metrics: [{ l: "NLP", v: "FinBERT" }, { l: "Models", v: "3 stacked" }, { l: "Interface", v: "Streamlit" }],
+    tags: ["Python", "FinBERT", "LSTM", "Scikit-learn"],
     wide: false,
+    accent: "#16A34A",
   },
   {
     id: "03",
     title: "Retinal Lesion Segmentation",
     category: "NIH Research · Deep Learning",
-    description: "Semantic segmentation of diabetic retinopathy lesions using custom loss functions across 6,000+ images from APTOS and IDRiD. Currently benchmarking DeepLabV3+ and FPN architectures against baseline.",
-    metrics: [
-      { label: "Images", value: "6,000+" },
-      { label: "Datasets", value: "2" },
-      { label: "Architectures", value: "3+" },
-    ],
-    tags: ["PyTorch", "CNNs", "DeepLabV3+", "FPN", "Data Augmentation"],
-    link: "https://github.com/eymen160",
-    accent: "#10b981",
+    description: "Diabetic retinopathy detection across 6,000+ images from APTOS and IDRiD. Benchmarking DeepLabV3+ and FPN architectures with custom loss functions.",
+    metrics: [{ l: "Images", v: "6,000+" }, { l: "Datasets", v: "2" }, { l: "Architectures", v: "3+" }],
+    tags: ["PyTorch", "DeepLabV3+", "FPN", "CNNs"],
     wide: false,
+    accent: "#9333EA",
   },
   {
     id: "04",
     title: "Digital Recipe Book",
-    category: "Full-Stack · Backend Engineering",
-    description: "Production-quality Flask backend with persistent MySQL storage — RESTful API, structured routing, and error handling. Replaced in-memory prototype with a proper relational schema, adopted by the frontend team.",
-    metrics: [
-      { label: "Framework", value: "Flask" },
-      { label: "Database", value: "MySQL" },
-      { label: "API Pattern", value: "REST" },
-    ],
-    tags: ["Python", "Flask", "MySQL", "REST API", "Git"],
-    link: "https://github.com/eymen160",
-    accent: "#f59e0b",
+    category: "Full-Stack · Backend",
+    description: "Production Flask backend with MySQL persistence. RESTful routing, structured error handling, and a relational schema that replaced an in-memory prototype for the full team.",
+    metrics: [{ l: "Framework", v: "Flask" }, { l: "Database", v: "MySQL" }, { l: "Pattern", v: "REST" }],
+    tags: ["Python", "Flask", "MySQL", "REST API"],
     wide: false,
+    accent: "#B45309",
   },
 ];
 
-const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => {
+function Card({ p, i }: { p: typeof projects[0]; i: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const iv = useInView(ref, { once: true, margin: "-60px" });
 
   return (
     <motion.a
       ref={ref}
-      href={project.link}
+      href="https://github.com/eymen160"
       target="_blank"
       rel="noopener noreferrer"
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -5, transition: { duration: 0.25 } }}
-      className={`group relative flex flex-col justify-between p-7 md:p-8 rounded-2xl border border-white/[0.09] bg-[#0f0f0f] hover:bg-[#111] hover:border-white/[0.15] transition-colors duration-300 overflow-hidden cursor-pointer ${project.wide ? "md:col-span-2" : ""}`}
+      initial={{ opacity: 0, y: 44 }}
+      animate={iv ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.72, delay: i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -6, transition: { duration: 0.22 } }}
+      className={`group relative flex flex-col justify-between p-7 md:p-8 rounded-2xl border cursor-pointer overflow-hidden ${p.wide ? "md:col-span-2" : ""}`}
+      style={{ background: "#FFFFFF", borderColor: "#E5E2DC" }}
     >
-      {/* Top accent line on hover */}
+      {/* Bottom accent bar on hover */}
       <motion.div
-        className="absolute top-0 left-0 right-0 h-[2px] origin-left"
-        style={{ background: `linear-gradient(90deg, ${project.accent}, transparent)` }}
+        className="absolute bottom-0 left-0 right-0 h-[3px] origin-left"
+        style={{ background: p.accent }}
         initial={{ scaleX: 0 }}
         whileHover={{ scaleX: 1 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
       />
 
-      {/* Glow blob */}
-      <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-3xl"
-        style={{ background: project.accent + "20" }} />
-
       <div className="relative z-10">
-        {/* Header */}
         <div className="flex items-start justify-between mb-5">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-[0.14em] block mb-2" style={{ color: project.accent }}>
-              {project.category}
-            </span>
-            <h3 className="text-xl md:text-2xl font-black text-white leading-tight group-hover:opacity-90 transition-opacity">
-              {project.title}
+            <span className="text-[10px] font-bold uppercase tracking-[0.16em] block mb-2.5" style={{ color: p.accent }}>{p.category}</span>
+            <h3 className="text-[1.15rem] md:text-[1.3rem] font-bold leading-snug" style={{ fontFamily: "'Playfair Display', serif", color: "#0D0D0D" }}>
+              {p.title}
             </h3>
           </div>
-          <div className="flex items-center gap-3 shrink-0 ml-4">
-            <span className="text-5xl font-black opacity-[0.06] group-hover:opacity-[0.12] transition-opacity" style={{ color: project.accent }}>
-              {project.id}
-            </span>
-            <div className="w-9 h-9 rounded-full border border-white/[0.1] flex items-center justify-center group-hover:border-white/25 group-hover:bg-white/[0.05] transition-all duration-300">
-              <svg className="w-3.5 h-3.5 text-white/40 group-hover:text-white/70 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="flex items-center gap-3 ml-4 shrink-0">
+            <span className="text-[2.8rem] font-black opacity-[0.05] group-hover:opacity-[0.09] transition-opacity" style={{ color: "#0D0D0D", fontFamily: "'Playfair Display',serif" }}>{p.id}</span>
+            <div className="w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 group-hover:border-opacity-100"
+              style={{ borderColor: "#E0DDD6" }}
+            >
+              <svg className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="#9B9589" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
             </div>
           </div>
         </div>
 
-        {/* Description */}
-        <p className="text-[0.9rem] md:text-[0.95rem] text-white/65 leading-[1.75] mb-6 font-light">
-          {project.description}
-        </p>
+        <p className="text-[0.88rem] leading-[1.8] mb-6 font-light" style={{ color: "#5A5A5A" }}>{p.description}</p>
 
-        {/* Metrics */}
-        <div className="flex flex-wrap gap-5 pb-6 mb-6 border-b border-white/[0.07]">
-          {project.metrics.map((m) => (
-            <div key={m.label}>
-              <p className={`text-lg md:text-xl font-black leading-none ${m.highlight ? "" : "text-white"}`}
-                style={m.highlight ? { color: project.accent } : {}}>
-                {m.value}
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.1em] text-white/35 font-semibold mt-1">{m.label}</p>
+        <div className="flex flex-wrap gap-6 pb-6 mb-5" style={{ borderBottom: "1px solid #EDE9E2" }}>
+          {p.metrics.map((m) => (
+            <div key={m.l}>
+              <p className="text-[1.15rem] md:text-[1.3rem] font-bold leading-none" style={{ fontFamily: "'Playfair Display', serif", color: m.hi ? p.accent : "#0D0D0D" }}>{m.v}</p>
+              <p className="text-[9px] uppercase tracking-[0.12em] font-semibold mt-1" style={{ color: "#B0AA9E" }}>{m.l}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Tags */}
       <div className="relative z-10 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span key={tag} className="px-3 py-1.5 rounded-full text-[11px] font-medium border border-white/[0.08] text-white/50 bg-white/[0.03] group-hover:border-white/[0.12] group-hover:text-white/60 transition-colors duration-300">
-            {tag}
+        {p.tags.map((t) => (
+          <span key={t} className="px-3 py-1.5 rounded-full text-[11px] font-medium border transition-colors duration-300"
+            style={{ borderColor: "#E5E2DC", color: "#7A7570", background: "#F8F6F1" }}>
+            {t}
           </span>
         ))}
       </div>
     </motion.a>
   );
-};
+}
 
-const Work = () => {
-  const headerRef = useRef(null);
-  const isHeaderInView = useInView(headerRef, { once: true, margin: "-80px" });
+export default function Work() {
+  const ref = useRef(null);
+  const iv = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="work" className="relative py-24 md:py-32 bg-[#080808] overflow-hidden">
-      {/* Section divider glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)" }} />
+    <section id="work" className="relative py-24 md:py-32" style={{ background: "#F5F3EE" }}>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-px" style={{ background: "linear-gradient(90deg, transparent, #D0CCC4, transparent)" }} />
 
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-14 relative z-10">
         <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          ref={ref}
+          initial={{ opacity: 0, y: 28 }}
+          animate={iv ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.72 }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14"
         >
           <div>
-            <span className="text-[11px] uppercase tracking-[0.15em] font-bold text-white/35 mb-4 block">Selected Work</span>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-[-0.03em] leading-[0.88]">
-              Projects &<br />
-              <span style={{ WebkitTextStroke: "1.5px rgba(255,255,255,0.2)", color: "transparent" }}>Research</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] block mb-4" style={{ color: "#9B9589" }}>Selected Work</span>
+            <h2 className="leading-[0.9] tracking-[-0.025em]" style={{ fontSize: "clamp(2.8rem,7vw,5.5rem)", fontFamily: "'Playfair Display', serif", color: "#0D0D0D" }}>
+              Projects &amp;<br />
+              <em style={{ color: "#6B6B6B" }}>Research</em>
             </h2>
           </div>
           <motion.a
-            href="https://github.com/eymen160"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-white/[0.12] text-white/60 text-[0.85rem] font-medium hover:border-white/25 hover:text-white/85 transition-all duration-300"
+            href="https://github.com/eymen160" target="_blank" rel="noopener noreferrer"
+            whileHover={{ scale: 1.03, y: -2 }}
+            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border text-[0.82rem] font-medium transition-all duration-300"
+            style={{ borderColor: "#D0CCC4", color: "#6B6B6B" }}
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-            </svg>
-            View All on GitHub ↗
+            View GitHub ↗
           </motion.a>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-4 md:gap-5">
-          {projects.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
+        <div className="grid md:grid-cols-2 gap-4">
+          {projects.map((p, i) => <Card key={p.id} p={p} i={i} />)}
         </div>
       </div>
     </section>
   );
-};
-
-export default Work;
+}

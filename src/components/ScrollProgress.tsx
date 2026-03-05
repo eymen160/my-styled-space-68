@@ -1,15 +1,12 @@
 import { motion, useScroll, useSpring } from "framer-motion";
 
-const ScrollProgress = () => {
+export default function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-
   return (
     <motion.div
       className="fixed top-0 left-0 right-0 h-[2px] origin-left z-[60]"
-      style={{ scaleX, background: "linear-gradient(90deg, #8b5cf6, #3b82f6, #8b5cf6)" }}
+      style={{ scaleX, background: "linear-gradient(90deg, #2563EB, #9333EA)" }}
     />
   );
-};
-
-export default ScrollProgress;
+}

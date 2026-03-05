@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3%;
-    --foreground: 0 0% 97%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 97%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 97%;
-    --primary: 0 0% 97%;
-    --primary-foreground: 0 0% 3%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 97%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 262 83% 62%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
-    --ring: 262 83% 62%;
-    --radius: 0.75rem;
+    --cream: #FAF9F6;
+    --ink: #0D0D0D;
+    --ink-2: #1A1A1A;
+    --muted: #6B6B6B;
+    --muted-2: #999;
+    --border: #E5E2DC;
+    --border-2: #D0CCC4;
+    --accent: #1A1A1A;
+    --blue: #2563EB;
+    --highlight: #F0EDE6;
   }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--cream);
+  }
 
   body {
-    background: #080808;
-    color: #efefef;
-    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--ink);
+  }
 
-  ::selection { background: rgba(139, 92, 246, 0.35); color: #fff; }
+  ::selection {
+    background: #0D0D0D18;
+    color: var(--ink);
+  }
 
   ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: #080808; }
-  ::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.45); border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.75); }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
 }
