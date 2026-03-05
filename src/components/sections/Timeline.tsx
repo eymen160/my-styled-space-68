@@ -1,182 +1,137 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const milestones = [
   {
     year: "2026",
-    quarter: "Feb",
-    title: "U-Net Optic Disc Segmentation — SOTA Result",
-    description:
-      "Achieved 99.69% Dice coefficient on REFUGE2 dataset (400 retinal images), outperforming state-of-the-art benchmarks (~97%) by 2.7%. Used ResNet34 encoder with combined BCE + Dice loss and mixed-precision GPU training.",
-    highlight: "99.69% Dice · +2.7% vs SOTA",
-    color: "#7c3aed",
+    period: "Feb 2026",
+    title: "U-Net SOTA on REFUGE2",
+    description: "Achieved 99.69% Dice coefficient — outperforming all comparable published approaches by 2.7%. ResNet34 encoder, combined BCE + Dice loss, mixed-precision GPU training.",
+    badge: "99.69% Dice",
+    color: "#8b5cf6",
   },
   {
     year: "2025",
-    quarter: "Fall",
+    period: "Fall 2025",
     title: "Capitol Hill AI Demo Day",
-    description:
-      "Presented AI/ML research to lawmakers and industry leaders in Washington D.C. Collected contacts at Twilio, SAIC, Cognizant, and Peraton. Received internal referral from Twilio's government relations director.",
-    highlight: "Washington D.C.",
-    color: "#2563eb",
+    description: "Presented AI/ML research to lawmakers and industry leaders in Washington D.C. Connected with engineers at Twilio, SAIC, Cognizant, and Peraton. Received internal referral from Twilio's director.",
+    badge: "Washington D.C.",
+    color: "#3b82f6",
   },
   {
     year: "2025",
-    quarter: "Sep",
-    title: "NIH Research — Retinal Lesion Segmentation",
-    description:
-      "Joined NIH-funded lab at KSU. Designed U-Net models for semantic segmentation of retinal lesions in diabetic retinopathy detection across 6,000+ images from APTOS and IDRiD datasets. Currently benchmarking DeepLabV3+ and FPN.",
-    highlight: "NIH Funded",
-    color: "#059669",
+    period: "Sep 2025",
+    title: "Joined NIH-Funded Research Lab",
+    description: "Began work on retinal lesion segmentation for diabetic retinopathy detection. Built training pipelines across 6,000+ images from APTOS and IDRiD datasets. Currently benchmarking DeepLabV3+ and FPN.",
+    badge: "NIH Funded",
+    color: "#10b981",
   },
   {
     year: "2025",
-    quarter: "Spring",
+    period: "Spring 2025",
     title: "AI Stock Trading System",
-    description:
-      "Built end-to-end pipeline combining FinBERT sentiment analysis, LSTM price prediction, and Random Forest signals — served through a live Streamlit dashboard. Long-standing personal interest in algorithmic trading since mid-teens.",
-    highlight: "FinTech / AI",
-    color: "#d97706",
+    description: "Built end-to-end ML pipeline combining FinBERT sentiment, LSTM price forecasting, and Random Forest classification — unified in a live Streamlit dashboard for real-time signals.",
+    badge: "FinTech / AI",
+    color: "#f59e0b",
   },
   {
     year: "2024",
-    quarter: "Fall",
+    period: "Fall 2024",
     title: "Vice President, GDNC at KSU",
-    description:
-      "Coordinated Youth Convention 2025 with 70+ attendees, featuring speakers from Meta, Avanade, and Emory University. Led technical workshops, networking fair, and community events including Ramadan Iftar Dinner.",
-    highlight: "70+ Attendees",
-    color: "#db2777",
+    description: "Led Youth Convention 2025 with 70+ attendees and speakers from Meta, Avanade, and Emory. Coordinated workshops, networking events, and community programming across campus.",
+    badge: "70+ Attendees",
+    color: "#ec4899",
   },
   {
     year: "2024",
-    quarter: "Spring",
-    title: "Started at Kennesaw State University",
-    description:
-      "Began Computer Science degree (GPA 3.56) with Presidential Academic Hardship Scholarship. Self-taught Python then PyTorch to qualify for NIH research lab — zero prior deep learning experience at start.",
-    highlight: "Presidential Scholar",
-    color: "#0891b2",
+    period: "Spring 2024",
+    title: "Enrolled at Kennesaw State",
+    description: "Started CS degree with Presidential Academic Hardship Scholarship (GPA 3.56). Self-taught Python and PyTorch from zero to join an NIH research lab within the first year.",
+    badge: "Presidential Scholar",
+    color: "#06b6d4",
   },
 ];
 
 const Timeline = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="relative py-24 md:py-32 bg-[#0a0a0a] overflow-hidden" ref={ref}>
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#7c3aed] opacity-[0.04] blur-[120px]" />
-      </div>
+    <section className="relative py-24 md:py-32 bg-[#080808] overflow-hidden" ref={ref}>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)" }} />
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-20"
+          className="mb-16"
         >
-          <span
-            className="text-xs uppercase tracking-widest text-white/30 font-bold mb-4 block"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
-          >
-            Journey
-          </span>
-          <h2
-            className="text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.03em] leading-[0.9]"
-            style={{ fontFamily: "'Syne', sans-serif" }}
-          >
-            <span className="text-white">Milestones &</span>
-            <br />
-            <span
-              style={{
-                WebkitTextStroke: "1.5px rgba(255,255,255,0.25)",
-                color: "transparent",
-              }}
-            >
-              Achievements
-            </span>
+          <span className="text-[11px] uppercase tracking-[0.15em] font-bold text-white/35 mb-4 block">Journey</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-[-0.03em] leading-[0.88]">
+            Milestones &<br />
+            <span style={{ WebkitTextStroke: "1.5px rgba(255,255,255,0.2)", color: "transparent" }}>Achievements</span>
           </h2>
         </motion.div>
 
         {/* Timeline */}
         <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-0 md:left-[200px] top-0 bottom-0 w-px bg-white/[0.06] hidden md:block" />
+          {/* Animated vertical line */}
+          <div className="absolute left-[7.5rem] top-0 bottom-0 w-px bg-white/[0.05] hidden md:block" />
+          <motion.div
+            className="absolute left-[7.5rem] top-0 w-px hidden md:block origin-top"
+            style={{ height: lineHeight, background: "linear-gradient(180deg, #8b5cf6, #3b82f6, #10b981)" }}
+          />
 
-          <div className="space-y-0">
+          <div className="space-y-3">
             {milestones.map((m, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="relative flex flex-col md:flex-row gap-6 md:gap-0 pb-10 group"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="group relative flex flex-col md:flex-row gap-6 md:gap-0"
               >
-                {/* Date column */}
-                <div className="md:w-[200px] md:pr-10 md:text-right shrink-0 pt-1">
-                  <p
-                    className="text-xs text-white/30 uppercase tracking-widest font-bold"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {m.quarter}
-                  </p>
-                  <p
-                    className="text-xl font-black text-white/20 mt-0.5"
-                    style={{ fontFamily: "'Syne', sans-serif" }}
-                  >
-                    {m.year}
-                  </p>
+                {/* Date */}
+                <div className="md:w-[120px] shrink-0 md:pt-6">
+                  <p className="text-[11px] uppercase tracking-[0.12em] font-bold text-white/35">{m.period.split(" ")[0]}</p>
+                  <p className="text-2xl font-black text-white/15 mt-0.5 group-hover:text-white/25 transition-colors">{m.year}</p>
                 </div>
 
                 {/* Node */}
-                <div className="hidden md:flex items-start justify-center w-0 relative">
+                <div className="hidden md:flex items-start pt-7 w-[60px] justify-center relative">
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={isInView ? { scale: 1 } : {}}
-                    transition={{ duration: 0.4, delay: i * 0.08 + 0.2 }}
-                    className="absolute -left-[5px] top-[6px] w-[10px] h-[10px] rounded-full border-2 border-white/20 bg-[#0a0a0a] group-hover:border-opacity-100 transition-all"
-                    style={{ borderColor: m.color + "80" }}
+                    transition={{ duration: 0.4, delay: i * 0.1 + 0.3, type: "spring", stiffness: 300 }}
+                    className="w-3 h-3 rounded-full border-2 border-white/15 bg-[#080808] group-hover:scale-125 transition-transform duration-300"
+                    style={{ borderColor: m.color + "60" }}
                   >
-                    <div
-                      className="absolute inset-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    <motion.div
+                      className="absolute inset-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       style={{ background: m.color }}
                     />
                   </motion.div>
                 </div>
 
-                {/* Content */}
-                <div className="md:flex-1 md:pl-10">
-                  <div
-                    className="p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-300 cursor-default"
-                    style={{ borderLeftColor: m.color + "40", borderLeftWidth: "2px" }}
+                {/* Card */}
+                <div className="flex-1 pb-3">
+                  <motion.div
+                    whileHover={{ x: 4, transition: { duration: 0.2 } }}
+                    className="p-5 md:p-6 rounded-2xl border border-white/[0.07] bg-[#0f0f0f] hover:border-white/[0.13] hover:bg-[#111] transition-all duration-300 cursor-default"
+                    style={{ borderLeftColor: m.color + "35", borderLeftWidth: "2px" }}
                   >
-                    <div className="flex items-start justify-between gap-4 mb-2">
-                      <h3
-                        className="text-lg font-black text-white leading-tight"
-                        style={{ fontFamily: "'Syne', sans-serif" }}
-                      >
-                        {m.title}
-                      </h3>
-                      <span
-                        className="shrink-0 text-xs font-bold px-3 py-1 rounded-full"
-                        style={{
-                          background: m.color + "18",
-                          color: m.color,
-                          fontFamily: "'DM Sans', sans-serif",
-                        }}
-                      >
-                        {m.highlight}
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <h3 className="text-[1rem] md:text-[1.05rem] font-bold text-white leading-snug">{m.title}</h3>
+                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0" style={{ background: m.color + "18", color: m.color }}>
+                        {m.badge}
                       </span>
                     </div>
-                    <p
-                      className="text-sm text-white/45 leading-relaxed"
-                      style={{ fontFamily: "'DM Sans', sans-serif" }}
-                    >
-                      {m.description}
-                    </p>
-                  </div>
+                    <p className="text-[0.875rem] text-white/60 leading-[1.75] mt-2 font-light">{m.description}</p>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}

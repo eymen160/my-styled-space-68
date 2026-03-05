@@ -6,222 +6,148 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const skills = [
-    { category: "Languages", items: ["Python", "SQL", "Java", "HTML/CSS", "R"], color: "#7c3aed" },
-    { category: "AI / ML", items: ["PyTorch", "TensorFlow", "NumPy", "Pandas", "Scikit-learn", "U-Net", "ResNet", "Albumentations"], color: "#2563eb" },
-    { category: "Tools & Platforms", items: ["Git/GitHub", "AWS", "Google Colab", "Flask", "MySQL", "Agile"], color: "#059669" },
+    { category: "Languages", items: ["Python", "SQL", "Java", "HTML/CSS", "R"], color: "#8b5cf6" },
+    { category: "AI / ML Frameworks", items: ["PyTorch", "TensorFlow", "NumPy", "Pandas", "Scikit-learn", "Albumentations"], color: "#3b82f6" },
+    { category: "Deep Learning", items: ["U-Net", "ResNet", "CNNs", "Transfer Learning", "Image Segmentation", "Data Augmentation"], color: "#10b981" },
+    { category: "Tools & Platforms", items: ["Git/GitHub", "AWS", "Google Colab", "Flask", "MySQL", "Agile"], color: "#f59e0b" },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.07 } },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const } },
-  };
+  const experiences = [
+    { title: "Undergraduate Research Assistant", org: "Kennesaw State University — NIH-Funded", period: "Sep 2025 – Present", color: "#8b5cf6", badge: "NIH" },
+    { title: "Vice President", org: "Global Dev & Networking Club (GDNC)", period: "2024 – Present", color: "#f59e0b", badge: "Leadership" },
+    { title: "Capitol Hill AI Demo Day", org: "Washington D.C.", period: "2025", color: "#3b82f6", badge: "Featured" },
+  ];
 
   return (
-    <section id="about" className="relative py-24 md:py-32 bg-[#0d0d0d] overflow-hidden" ref={ref}>
-      {/* Ambient */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 -translate-y-1/2 -right-32 w-[500px] h-[500px] rounded-full bg-[#7c3aed] opacity-[0.04] blur-[120px]" />
-      </div>
+    <section id="about" className="relative py-24 md:py-32 bg-[#0a0a0a] overflow-hidden" ref={ref}>
+      {/* Section divider */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)" }} />
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute right-[-10%] top-[20%] w-[500px] h-[500px] rounded-full" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)" }} />
+
+      <div className="max-w-[1360px] mx-auto px-6 md:px-12 relative z-10">
+        {/* Header */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="mb-18"
         >
-          {/* Header */}
-          <motion.div variants={itemVariants} className="mb-20">
-            <span
-              className="text-xs uppercase tracking-widest text-white/30 font-bold mb-4 block"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-            >
-              About Me
-            </span>
-            <h2
-              className="text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.03em] leading-[0.9]"
-              style={{ fontFamily: "'Syne', sans-serif" }}
-            >
-              <span className="text-white">Building at the</span>
-              <br />
-              <span
-                style={{
-                  WebkitTextStroke: "1.5px rgba(255,255,255,0.25)",
-                  color: "transparent",
-                }}
-              >
-                intersection
-              </span>
-              <br />
-              <span className="text-white">of AI & healthcare</span>
-            </h2>
-          </motion.div>
+          <span className="text-[11px] uppercase tracking-[0.15em] font-bold text-white/35 mb-4 block">About Me</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-[-0.03em] leading-[0.88] max-w-3xl">
+            Built for the{" "}
+            <span style={{ WebkitTextStroke: "1.5px rgba(255,255,255,0.2)", color: "transparent" }}>intersection</span>
+            {" "}of AI & medicine
+          </h2>
+        </motion.div>
 
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Left — Bio */}
-            <motion.div variants={itemVariants} className="lg:col-span-5 space-y-8">
-              <div
-                className="text-white/55 text-lg leading-[1.8] space-y-4"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                <p>
-                  I'm a Computer Science junior at{" "}
-                  <span className="text-white font-semibold">Kennesaw State University</span> (GPA 3.56) on a Presidential Academic Hardship Scholarship, graduating December 2027.
-                </p>
-                <p>
-                  As an{" "}
-                  <span className="text-white font-semibold">NIH-funded Research Assistant</span>, I develop U-Net architectures for retinal disease detection — achieving state-of-the-art results that beat published benchmarks on the IDRiD dataset.
-                </p>
-                <p>
-                  Beyond research, I explore FinTech through algorithmic trading systems, and run a small UV printing business. On an F-1 visa, actively seeking Summer 2026 internships in AI/ML and software engineering.
-                </p>
-              </div>
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 mt-16">
+          {/* Left — Bio + Experience */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="lg:col-span-5 space-y-8"
+          >
+            <div className="space-y-4">
+              <p className="text-[1.05rem] text-white/80 leading-[1.8] font-light">
+                I'm a CS junior at <span className="font-semibold text-white">Kennesaw State University</span> (GPA 3.56, Presidential Scholar), graduating December 2027. My work sits at the crossroads of deep learning and clinical medicine.
+              </p>
+              <p className="text-[1.05rem] text-white/80 leading-[1.8] font-light">
+                As an NIH-funded research assistant, I build <span className="font-semibold text-white">U-Net architectures</span> that outperform published SOTA on retinal disease detection. Beyond research, I explore FinTech through algorithmic trading systems and run a small UV printing business.
+              </p>
+            </div>
 
-              {/* Experience timeline */}
-              <div className="space-y-4 pt-4">
-                {[
-                  {
-                    title: "Undergraduate Research Assistant",
-                    org: "Kennesaw State University",
-                    period: "Sep 2025 – Present",
-                    tag: "NIH Funded",
-                    color: "#7c3aed",
-                  },
-                  {
-                    title: "Vice President",
-                    org: "Global Dev & Networking Club (GDNC)",
-                    period: "2024 – Present",
-                    tag: "Leadership",
-                    color: "#d97706",
-                  },
-                  {
-                    title: "Capitol Hill AI Demo Day",
-                    org: "Washington D.C.",
-                    period: "2025",
-                    tag: "Event",
-                    color: "#2563eb",
-                  },
-                ].map((exp, i) => (
-                  <motion.div
-                    key={exp.title}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.4 + i * 0.08 }}
-                    className="flex gap-4 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
-                  >
-                    <div
-                      className="w-1 rounded-full shrink-0 mt-1"
-                      style={{ background: exp.color, minHeight: "40px" }}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2">
-                        <p
-                          className="text-sm font-bold text-white leading-tight"
-                          style={{ fontFamily: "'Syne', sans-serif" }}
-                        >
-                          {exp.title}
-                        </p>
-                        <span
-                          className="text-xs px-2 py-0.5 rounded-full shrink-0 font-bold"
-                          style={{
-                            background: exp.color + "20",
-                            color: exp.color,
-                            fontFamily: "'DM Sans', sans-serif",
-                          }}
-                        >
-                          {exp.tag}
-                        </span>
-                      </div>
-                      <p
-                        className="text-xs text-white/40 mt-1"
-                        style={{ fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        {exp.org} · {exp.period}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Right — Skills */}
-            <motion.div variants={itemVariants} className="lg:col-span-7 space-y-5">
-              {skills.map((group, gi) => (
+            {/* Experience */}
+            <div className="space-y-3 pt-2">
+              <p className="text-[11px] uppercase tracking-[0.15em] font-bold text-white/30 mb-4">Experience & Roles</p>
+              {experiences.map((exp, i) => (
                 <motion.div
-                  key={group.category}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + gi * 0.1 }}
-                  className="p-6 rounded-2xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] transition-colors"
+                  key={exp.title}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                  className="group flex gap-4 p-4 rounded-xl border border-white/[0.07] bg-[#0f0f0f] hover:border-white/[0.13] hover:bg-[#111] transition-all duration-300"
                 >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ background: group.color }}
-                    />
-                    <span
-                      className="text-xs uppercase tracking-widest font-bold"
-                      style={{ color: group.color, fontFamily: "'DM Sans', sans-serif" }}
-                    >
-                      {group.category}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {group.items.map((skill, si) => (
-                      <motion.span
-                        key={skill}
-                        initial={{ opacity: 0, scale: 0.85 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.3, delay: 0.4 + gi * 0.1 + si * 0.03 }}
-                        whileHover={{ scale: 1.08, y: -2 }}
-                        className="px-4 py-2 rounded-full text-sm font-medium text-white/60 border border-white/[0.08] bg-white/[0.03] hover:text-white hover:border-white/20 transition-all cursor-default"
-                        style={{ fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        {skill}
-                      </motion.span>
-                    ))}
+                  <div className="w-0.5 rounded-full shrink-0 my-0.5" style={{ background: exp.color, minHeight: "44px" }} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-[0.9rem] font-bold text-white leading-tight">{exp.title}</p>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0" style={{ background: exp.color + "1a", color: exp.color }}>
+                        {exp.badge}
+                      </span>
+                    </div>
+                    <p className="text-[0.8rem] text-white/45 mt-1 font-light">{exp.org}</p>
+                    <p className="text-[0.75rem] text-white/30 mt-0.5">{exp.period}</p>
                   </div>
                 </motion.div>
               ))}
+            </div>
+          </motion.div>
 
-              {/* Currently learning row */}
+          {/* Right — Skills */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="lg:col-span-7 space-y-4"
+          >
+            {skills.map((group, gi) => (
               <motion.div
+                key={group.category}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="p-6 rounded-2xl border border-white/[0.07] bg-white/[0.02]"
+                transition={{ duration: 0.5, delay: 0.3 + gi * 0.08 }}
+                className="p-5 rounded-2xl border border-white/[0.07] bg-[#0f0f0f] hover:border-white/[0.12] hover:bg-[#111] transition-all duration-300"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                  </span>
-                  <span
-                    className="text-xs uppercase tracking-widest font-bold text-emerald-400"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    Currently Pursuing
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-2 h-2 rounded-full" style={{ background: group.color }} />
+                  <span className="text-[11px] uppercase tracking-[0.14em] font-bold" style={{ color: group.color }}>
+                    {group.category}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {["AWS Cloud Practitioner", "LeetCode Patterns", "Graph ML", "React / TypeScript"].map((item) => (
-                    <span
-                      key={item}
-                      className="px-4 py-2 rounded-full text-sm font-medium text-emerald-400/70 border border-emerald-500/20 bg-emerald-500/5"
-                      style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  {group.items.map((skill, si) => (
+                    <motion.span
+                      key={skill}
+                      initial={{ opacity: 0, scale: 0.88 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ duration: 0.3, delay: 0.3 + gi * 0.08 + si * 0.03 }}
+                      whileHover={{ scale: 1.06, y: -2, transition: { duration: 0.15 } }}
+                      className="px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium text-white/70 border border-white/[0.08] bg-white/[0.03] hover:text-white/90 hover:border-white/20 hover:bg-white/[0.06] transition-colors duration-200 cursor-default"
                     >
-                      {item}
-                    </span>
+                      {skill}
+                    </motion.span>
                   ))}
                 </div>
               </motion.div>
+            ))}
+
+            {/* Currently learning */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.65 }}
+              className="p-5 rounded-2xl border border-emerald-500/20 bg-emerald-900/[0.06]"
+            >
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                <span className="text-[11px] uppercase tracking-[0.14em] font-bold text-emerald-400">Currently Pursuing</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {["AWS Cloud Practitioner", "LeetCode Patterns", "Graph ML", "DeepLabV3+ Benchmarking"].map((item) => (
+                  <span key={item} className="px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium text-emerald-300/75 border border-emerald-500/20 bg-emerald-500/[0.06]">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </motion.div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
