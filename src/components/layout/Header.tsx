@@ -7,36 +7,27 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-      
+      setScrolled(window.scrollY > 40);
       const sections = ["work", "about", "contact"];
       for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
+        const el = document.getElementById(section);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom >= 120) {
             setActiveSection(section);
-            break;
+            return;
           }
         }
       }
-      if (window.scrollY < 200) {
-        setActiveSection("");
-      }
+      if (window.scrollY < 200) setActiveSection("");
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    if (id === "#") {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollTo = (id: string) => {
+    if (id === "#") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   const navItems = [
@@ -49,42 +40,44 @@ const Header = () => {
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled 
-          ? "py-3 backdrop-blur-xl bg-background/80 border-b border-border/50 shadow-lg shadow-background/5" 
-          : "py-5"
+        scrolled
+          ? "py-3 bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-white/[0.06]"
+          : "py-5 bg-transparent"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between">
         {/* Logo */}
         <motion.button
-          onClick={() => scrollToSection("#")}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="text-base font-bold tracking-tight hover:text-accent transition-colors duration-300"
+          onClick={() => scrollTo("#")}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
+          className="text-base font-black text-white tracking-tight hover:text-white/70 transition-colors"
+          style={{ fontFamily: "'Syne', sans-serif" }}
         >
           EK
         </motion.button>
 
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-1 p-1.5 rounded-full bg-card/50 backdrop-blur-sm border border-border/50">
+        {/* Nav */}
+        <nav className="hidden md:flex items-center gap-1 p-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] backdrop-blur-sm">
           {navItems.map((item) => (
             <motion.button
               key={item.label}
-              onClick={() => scrollToSection(item.href)}
+              onClick={() => scrollTo(item.href)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`relative px-5 py-2 text-sm font-medium transition-all duration-300 rounded-full ${
+              className={`relative px-5 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
                 activeSection === item.href
-                  ? "text-white"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-[#0a0a0a]"
+                  : "text-white/50 hover:text-white/80"
               }`}
+              style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
               {activeSection === item.href && (
                 <motion.span
                   layoutId="activeNav"
-                  className="absolute inset-0 bg-foreground rounded-full"
+                  className="absolute inset-0 bg-white rounded-full"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -93,25 +86,18 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* CTA Button */}
+        {/* CTA */}
         <motion.a
           href="mailto:eymenfaruk479@gmail.com"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="relative group px-5 py-2.5 rounded-full bg-foreground text-background text-sm font-semibold shadow-lg transition-shadow hover:shadow-xl overflow-hidden inline-flex items-center gap-2"
+          whileHover={{ scale: 1.03, backgroundColor: "rgba(255,255,255,0.9)" }}
+          whileTap={{ scale: 0.97 }}
+          className="px-5 py-2.5 rounded-full bg-white text-[#0a0a0a] text-sm font-bold transition-colors inline-flex items-center gap-2"
+          style={{ fontFamily: "'Syne', sans-serif" }}
         >
-          <span className="relative z-10 hidden sm:inline">Hire Me</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2.5}
-            stroke="currentColor"
-            className="w-4 h-4 relative z-10"
-          >
+          <span className="hidden sm:inline">Hire Me</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
           </svg>
-          <div className="absolute inset-0 bg-gradient-to-r from-accent to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </motion.a>
       </div>
     </motion.header>
