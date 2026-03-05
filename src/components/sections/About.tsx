@@ -6,9 +6,9 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const skills = [
-    { category: "Languages", items: ["Python", "Java", "C", "SQL", "R", "HTML/CSS"], color: "#7c3aed" },
-    { category: "AI / ML", items: ["PyTorch", "U-Net", "FinBERT", "LSTM", "NumPy", "Pandas"], color: "#2563eb" },
-    { category: "Tools", items: ["Git", "AWS", "Flask", "MySQL", "PowerBI", "Tableau", "Bash"], color: "#059669" },
+    { category: "Languages", items: ["Python", "SQL", "Java", "HTML/CSS", "R"], color: "#7c3aed" },
+    { category: "AI / ML", items: ["PyTorch", "TensorFlow", "NumPy", "Pandas", "Scikit-learn", "U-Net", "ResNet", "Albumentations"], color: "#2563eb" },
+    { category: "Tools & Platforms", items: ["Git/GitHub", "AWS", "Google Colab", "Flask", "MySQL", "Agile"], color: "#059669" },
   ];
 
   const containerVariants = {

@@ -105,7 +105,7 @@ const Hero = () => {
             {[
               { val: "99.69%", lbl: "Dice Score" },
               { val: "3.56", lbl: "GPA" },
-              { val: "NIH", lbl: "Funded" },
+              { val: "+2.7%", lbl: "vs SOTA" },
             ].map((s, i) => (
               <motion.div
                 key={s.lbl}

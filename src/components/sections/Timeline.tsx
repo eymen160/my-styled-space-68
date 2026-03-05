@@ -3,12 +3,12 @@ import { useRef } from "react";
 
 const milestones = [
   {
-    year: "2025",
-    quarter: "Fall",
-    title: "NIH Research — Fovea Detection Breakthrough",
+    year: "2026",
+    quarter: "Feb",
+    title: "U-Net Optic Disc Segmentation — SOTA Result",
     description:
-      "Extended retinal imaging research to fovea localization on the IDRiD dataset. U-Net model achieved 99.69% Dice coefficient — beating published benchmarks by 8+ points.",
-    highlight: "99.69% Dice Score",
+      "Achieved 99.69% Dice coefficient on REFUGE2 dataset (400 retinal images), outperforming state-of-the-art benchmarks (~97%) by 2.7%. Used ResNet34 encoder with combined BCE + Dice loss and mixed-precision GPU training.",
+    highlight: "99.69% Dice · +2.7% vs SOTA",
     color: "#7c3aed",
   },
   {
@@ -16,35 +16,35 @@ const milestones = [
     quarter: "Fall",
     title: "Capitol Hill AI Demo Day",
     description:
-      "Presented AI research to lawmakers and industry leaders in Washington D.C. Collected contacts at Twilio, SAIC, Cognizant, and Peraton. Received internal referral at Twilio.",
+      "Presented AI/ML research to lawmakers and industry leaders in Washington D.C. Collected contacts at Twilio, SAIC, Cognizant, and Peraton. Received internal referral from Twilio's government relations director.",
     highlight: "Washington D.C.",
     color: "#2563eb",
   },
   {
     year: "2025",
-    quarter: "Summer",
-    title: "AI Stock Trading System",
+    quarter: "Sep",
+    title: "NIH Research — Retinal Lesion Segmentation",
     description:
-      "Built end-to-end FinBERT + LSTM + Random Forest trading signal pipeline with live Streamlit dashboard. Self-taught from long-standing interest in algorithmic trading.",
-    highlight: "FinTech / AI",
-    color: "#d97706",
+      "Joined NIH-funded lab at KSU. Designed U-Net models for semantic segmentation of retinal lesions in diabetic retinopathy detection across 6,000+ images from APTOS and IDRiD datasets. Currently benchmarking DeepLabV3+ and FPN.",
+    highlight: "NIH Funded",
+    color: "#059669",
   },
   {
     year: "2025",
     quarter: "Spring",
-    title: "NIH Research — Optic Disc Segmentation",
+    title: "AI Stock Trading System",
     description:
-      "First deep learning project from scratch. Built U-Net on REFUGE dataset, achieving 99.69% Dice score. Published results to GitHub, presented findings to PhD mentor.",
-    highlight: "First Research Win",
-    color: "#059669",
+      "Built end-to-end pipeline combining FinBERT sentiment analysis, LSTM price prediction, and Random Forest signals — served through a live Streamlit dashboard. Long-standing personal interest in algorithmic trading since mid-teens.",
+    highlight: "FinTech / AI",
+    color: "#d97706",
   },
   {
     year: "2024",
     quarter: "Fall",
-    title: "VP, Global Development & Networking Club",
+    title: "Vice President, GDNC at KSU",
     description:
-      "Organized KSU Youth Convention 2025 with speakers from Meta, Avanade, and Emory. Led community events including large-scale Ramadan Iftar Dinner at KSU.",
-    highlight: "500+ Attendees",
+      "Coordinated Youth Convention 2025 with 70+ attendees, featuring speakers from Meta, Avanade, and Emory University. Led technical workshops, networking fair, and community events including Ramadan Iftar Dinner.",
+    highlight: "70+ Attendees",
     color: "#db2777",
   },
   {
@@ -52,7 +52,7 @@ const milestones = [
     quarter: "Spring",
     title: "Started at Kennesaw State University",
     description:
-      "Began CS degree with Presidential Academic Hardship Scholarship. Learned Python, then PyTorch independently to join NIH-funded research lab within first year.",
+      "Began Computer Science degree (GPA 3.56) with Presidential Academic Hardship Scholarship. Self-taught Python then PyTorch to qualify for NIH research lab — zero prior deep learning experience at start.",
     highlight: "Presidential Scholar",
     color: "#0891b2",
   },

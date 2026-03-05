@@ -173,7 +173,7 @@ const Contact = () => {
                   className="text-xl font-black text-white"
                   style={{ fontFamily: "'Syne', sans-serif" }}
                 >
-                  Smyrna, GA
+                  Roswell, GA
                 </p>
                 <p
                   className="text-xs text-white/30 mt-1"
