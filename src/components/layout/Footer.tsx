@@ -1,23 +1,16 @@
-import { motion } from "framer-motion";
 export default function Footer() {
   return (
-    <footer style={{ background: "#FAF9F6", borderTop: "1px solid #E8E4DE", padding: "40px 0" }}>
-      <div className="max-w-[1320px] mx-auto px-6 md:px-14 flex flex-col md:flex-row items-center justify-between gap-4">
-        <motion.button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} whileHover={{ scale: 1.06 }}
-          style={{ fontFamily: "'Fraunces', serif", fontWeight: 900, fontSize: "1rem", color: "#0D0D0D", background: "none", border: "none", cursor: "none" }}>
-          EK
-        </motion.button>
-        <p style={{ fontFamily: "'Geist', sans-serif", fontWeight: 400, fontSize: "12px", color: "#C0BAB0" }}>
-          Eymen Faruk Keyvan · CS at Kennesaw State · {new Date().getFullYear()}
-        </p>
-        <div style={{ display: "flex", gap: "24px" }}>
-          {[{ l: "GitHub", h: "https://github.com/eymen160" }, { l: "LinkedIn", h: "https://linkedin.com/in/eymenkeyvan" }, { l: "Resume", h: "https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf" }].map(x => (
-            <motion.a key={x.l} href={x.h} target="_blank" rel="noopener noreferrer" whileHover={{ y: -2 }}
-              style={{ fontFamily: "'Geist', sans-serif", fontWeight: 500, fontSize: "12px", color: "#B0AA9E", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#0D0D0D"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#B0AA9E"}>
-              {x.l}
-            </motion.a>
+    <footer style={{ background: "#0D0B0A", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "28px 40px" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1rem", color: "rgba(245,240,232,0.3)", letterSpacing: "0.1em" }}>EK</span>
+        <div style={{ display: "flex", gap: "28px" }}>
+          {[["GitHub", "https://github.com/eymen160"], ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"], ["Email", "mailto:eymenfaruk479@gmail.com"]].map(([l, h]) => (
+            <a key={l} href={h} target={h.startsWith("http") ? "_blank" : undefined} rel={h.startsWith("http") ? "noopener noreferrer" : undefined}
+              style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "12px", color: "rgba(245,240,232,0.25)", textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "rgba(245,240,232,0.6)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "rgba(245,240,232,0.25)")}>
+              {l}
+            </a>
           ))}
         </div>
       </div>

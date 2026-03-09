@@ -6,12 +6,10 @@ import Work from "@/components/sections/Work";
 import Timeline from "@/components/sections/Timeline";
 import Contact from "@/components/sections/Contact";
 import ScrollProgress from "@/components/ScrollProgress";
-import CustomCursor from "@/components/CustomCursor";
 
 const Index = () => {
   return (
-    <div className="min-h-screen" style={{ background: "#FAF9F6" }}>
-      <CustomCursor />
+    <div style={{ background: "#0D0B0A" }}>
       <ScrollProgress />
       <Header />
       <main>

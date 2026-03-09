@@ -1,28 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Geist:wght@300;400;500;600;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  * { box-sizing: border-box; cursor: none; }
-
-  html { scroll-behavior: smooth; background: #FAF9F6; }
-
-  body {
-    background: #FAF9F6;
-    color: #0D0D0D;
-    font-family: 'Geist', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
-
-  h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
-
-  ::selection { background: rgba(13,13,13,0.12); }
-
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: #FAF9F6; }
-  ::-webkit-scrollbar-thumb { background: #C8C2B8; border-radius: 2px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: #0D0B0A;
+  color: #F5F0E8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+::selection { background: rgba(200,169,106,0.3); color: #F5F0E8; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0D0B0A; }
+::-webkit-scrollbar-thumb { background: rgba(245,240,232,0.15); border-radius: 2px; }
