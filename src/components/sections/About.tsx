@@ -27,7 +27,7 @@ export default function About() {
             About Me
           </p>
           <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 900, fontSize: "clamp(2.5rem, 6.5vw, 5rem)", lineHeight: 0.9, letterSpacing: "-0.025em", color: "#0D0D0D" }}>
-            Built for the intersection<br />of <em style={{ color: "#A09484" }}>AI and medicine</em>
+            AI-native researcher.<br /><em style={{ color: "#A09484" }}>Computer Scientist.</em>
           </h2>
         </motion.div>
 
@@ -36,10 +36,13 @@ export default function About() {
           <motion.div initial={{ opacity: 0, x: -28 }} animate={iv ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.72, delay: 0.12 }} className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <p style={{ fontFamily: "'Geist', sans-serif", fontWeight: 400, fontSize: "1.05rem", lineHeight: 1.82, color: "#3A3A3A" }}>
-                I am a CS junior at <strong style={{ fontWeight: 700, color: "#0D0D0D" }}>Kennesaw State University</strong> with a 3.56 GPA and Presidential Academic Hardship Scholarship, graduating December 2027. My research sits at the crossroads of deep learning and clinical medicine.
+                CS junior at <strong style={{ fontWeight: 700, color: "#0D0D0D" }}>Kennesaw State University</strong> — GPA 3.56, Presidential Academic Hardship Scholar, graduating December 2027. I approach computer science the way researchers approach science: with rigor, curiosity, and a drive to push past the current baseline.
               </p>
               <p style={{ fontFamily: "'Geist', sans-serif", fontWeight: 400, fontSize: "1.05rem", lineHeight: 1.82, color: "#3A3A3A" }}>
-                As part of an NIH-funded lab, I build U-Net architectures for retinal disease detection that outperform every comparable published benchmark by 2.7 percentage points. Outside research, I explore algorithmic trading through a stacked ML pipeline and run a small UV printing business.
+                As part of an NIH-funded lab, I build deep learning models for retinal disease detection that outperform every comparable published benchmark. Alongside research, I explore algorithmic trading through a stacked ML pipeline and actively build my problem-solving foundation through structured algorithms study.
+              </p>
+              <p style={{ fontFamily: "'Geist', sans-serif", fontWeight: 400, fontSize: "1.05rem", lineHeight: 1.82, color: "#3A3A3A" }}>
+                I think AI-natively — tools like <strong style={{ fontWeight: 700, color: "#0D0D0D" }}>Claude</strong> and modern LLMs are part of how I research, build, and iterate. I'm not just learning to use AI; I'm building a career at its frontier.
               </p>
             </div>
 
@@ -111,7 +114,7 @@ export default function About() {
                 <span style={{ fontFamily: "'Geist', sans-serif", fontWeight: 700, fontSize: "10px", letterSpacing: "0.16em", textTransform: "uppercase", color: "#16A34A" }}>Currently Pursuing</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {["AWS Cloud Practitioner", "LeetCode Patterns", "Graph ML", "DeepLabV3+ Benchmarking"].map(item => (
+                {["AWS Cloud Practitioner", "NeetCode · DSA Patterns", "Claude API Development", "Graph ML", "DeepLabV3+ Benchmarking"].map(item => (
                   <span key={item} style={{ fontFamily: "'Geist', sans-serif", fontWeight: 500, fontSize: "12px", color: "#166534", background: "#DCFCE7", border: "1px solid #86EFAC", borderRadius: "100px", padding: "7px 14px" }}>
                     {item}
                   </span>

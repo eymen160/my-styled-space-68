@@ -121,16 +121,16 @@ export default function Hero() {
               style={{ fontFamily: "'Geist', sans-serif", fontWeight: 400, fontSize: "1.1rem", lineHeight: 1.78, color: "#3A3A3A" }}>
               CS junior at{" "}
               <strong style={{ fontWeight: 700, color: "#0D0D0D" }}>Kennesaw State University</strong>{" "}
-              conducting NIH-funded deep learning research in medical imaging. My models beat every comparable published benchmark.
+              conducting NIH-funded deep learning research in medical imaging. Building AI systems that outperform published benchmarks — and exploring what's next in the field.
             </motion.p>
           </div>
 
           {/* Animated stats */}
           <motion.div variants={fadeUp} className="flex gap-10 shrink-0">
             {[
-              { to: 99.69, suffix: "%", label: "Dice Score", sub: "REFUGE2" },
+              { to: 2, suffix: " NIH", label: "Research Projects", sub: "Medical AI" },
               { to: 3.56, suffix: "", label: "GPA", sub: "KSU" },
-              { to: 2.7, suffix: "%", label: "vs SOTA", sub: "Outperformance" },
+              { to: 2.7, suffix: "%", label: "vs Benchmark", sub: "Outperformance" },
             ].map((s) => (
               <div key={s.label} className="text-right">
                 <p style={{ fontFamily: "'Fraunces', serif", fontWeight: 700, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", lineHeight: 1, color: "#0D0D0D", letterSpacing: "-0.02em" }}>
