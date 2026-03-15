@@ -41,7 +41,7 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 24 }} animate={iv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}
           style={{ marginBottom: "clamp(32px,5vw,52px)", display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "20px", flexWrap: "wrap" }}>
           <div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "10px", color: "#C8963E", letterSpacing: "0.26em", textTransform: "uppercase", marginBottom: "12px" }}>About</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "13px", color: "#C8963E", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "12px" }}>About</p>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 0.9, letterSpacing: "-0.025em", color: "#FAF7F2" }}>Who I Am</h2>
           </div>
           {/* Mini stat row */}
@@ -49,7 +49,7 @@ export default function About() {
             {[{ v: "3.56", l: "GPA" }, { v: "+2.7%", l: "SOTA" }, { v: "NIH", l: "Funded" }].map(s => (
               <div key={s.l} style={{ textAlign: "center" }}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.4rem", color: "#C8963E", lineHeight: 1 }}>{s.v}</div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "9px", color: "rgba(250,247,242,0.38)", letterSpacing: "0.18em", textTransform: "uppercase", marginTop: "3px" }}>{s.l}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(250,247,242,0.58)", letterSpacing: "0.18em", textTransform: "uppercase", marginTop: "3px" }}>{s.l}</div>
               </div>
             ))}
           </div>
@@ -71,7 +71,7 @@ export default function About() {
                 <motion.p key={i}
                   initial={{ opacity: 0, y: 12 }} animate={iv ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.22 + i * 0.1 }}
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "clamp(0.88rem,1.4vw,0.98rem)", lineHeight: 1.9, color: "rgba(250,247,242,0.68)", marginBottom: "14px" }}>
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "clamp(1.02rem,1.65vw,1.1rem)", lineHeight: 1.9, color: "rgba(250,247,242,0.82)", marginBottom: "14px" }}>
                   {t}
                 </motion.p>
               ))}
@@ -80,7 +80,7 @@ export default function About() {
             {/* Highlights 2x2 */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={iv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.52 }}
               style={{ marginBottom: "24px" }}>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "9px", color: "rgba(250,247,242,0.32)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>Highlights</p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: "12px" }}>Highlights</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                 {highlights.map((h, i) => (
                   <motion.div key={i}
@@ -90,8 +90,8 @@ export default function About() {
                     style={{ display: "flex", alignItems: "flex-start", gap: "9px", padding: "10px 13px", background: "rgba(250,247,242,0.04)", border: "1px solid rgba(250,247,242,0.07)", borderRadius: "8px", transition: "all 0.2s" }}>
                     <span style={{ fontSize: "14px", lineHeight: 1.4 }}>{h.icon}</span>
                     <div>
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "11px", color: "rgba(250,247,242,0.75)", marginBottom: "1px" }}>{h.label}</div>
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "10px", color: "rgba(250,247,242,0.38)" }}>{h.detail}</div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(250,247,242,0.9)", marginBottom: "1px" }}>{h.label}</div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px", color: "rgba(250,247,242,0.58)" }}>{h.detail}</div>
                     </div>
                   </motion.div>
                 ))}
@@ -100,7 +100,7 @@ export default function About() {
 
             {/* Experience */}
             <div>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "9px", color: "rgba(250,247,242,0.32)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>Experience</p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: "12px" }}>Experience</p>
               {experience.map((e, i) => (
                 <motion.div key={e.role}
                   initial={{ opacity: 0, x: -14 }} animate={iv ? { opacity: 1, x: 0 } : {}}
@@ -108,43 +108,43 @@ export default function About() {
                   whileHover={{ borderLeftColor: "rgba(200,150,62,0.7)", backgroundColor: "rgba(250,247,242,0.04)" }}
                   style={{ padding: "14px 16px", background: "rgba(250,247,242,0.025)", border: "1px solid rgba(250,247,242,0.06)", borderLeft: "2px solid rgba(200,150,62,0.3)", borderRadius: "0 7px 7px 0", marginBottom: "9px", transition: "all 0.22s" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", flexWrap: "wrap", marginBottom: "3px" }}>
-                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1rem", color: "#FAF7F2" }}>{e.role}</p>
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "10px", color: "rgba(250,247,242,0.28)", whiteSpace: "nowrap" }}>{e.period}</span>
+                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.02rem", color: "#FAF7F2" }}>{e.role}</p>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px", color: "rgba(250,247,242,0.28)", whiteSpace: "nowrap" }}>{e.period}</span>
                   </div>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "11px", color: "rgba(250,247,242,0.42)", marginBottom: "4px" }}>{e.org}</p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "11px", color: "rgba(250,247,242,0.38)", lineHeight: 1.65 }}>{e.detail}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(250,247,242,0.42)", marginBottom: "4px" }}>{e.org}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(250,247,242,0.58)", lineHeight: 1.65 }}>{e.detail}</p>
                 </motion.div>
               ))}
               {/* Education inline */}
               <motion.div initial={{ opacity: 0, x: -14 }} animate={iv ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.72 }}
                 style={{ padding: "14px 16px", background: "rgba(250,247,242,0.025)", border: "1px solid rgba(250,247,242,0.06)", borderLeft: "2px solid rgba(200,150,62,0.3)", borderRadius: "0 7px 7px 0" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", flexWrap: "wrap", marginBottom: "3px" }}>
-                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1rem", color: "#FAF7F2" }}>B.S. Computer Science</p>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "10px", color: "rgba(250,247,242,0.28)" }}>2024 – Dec 2027</span>
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.02rem", color: "#FAF7F2" }}>B.S. Computer Science</p>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px", color: "rgba(250,247,242,0.28)" }}>2024 – Dec 2027</span>
                 </div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "11px", color: "rgba(250,247,242,0.42)", marginBottom: "2px" }}>Kennesaw State University</p>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "11px", color: "rgba(250,247,242,0.38)" }}>GPA 3.56 · Presidential Academic Hardship Scholar</p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(250,247,242,0.42)", marginBottom: "2px" }}>Kennesaw State University</p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(250,247,242,0.58)" }}>GPA 3.56 · Presidential Academic Hardship Scholar</p>
               </motion.div>
             </div>
           </motion.div>
 
           {/* Right col — skills */}
           <motion.div initial={{ opacity: 0, x: 24 }} animate={iv ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.72, delay: 0.18 }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "9px", color: "rgba(250,247,242,0.32)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "20px" }}>Technical Skills</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: "20px" }}>Technical Skills</p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "18px", marginBottom: "24px" }}>
               {skills.map((g, gi) => (
                 <motion.div key={g.cat}
                   initial={{ opacity: 0, y: 16 }} animate={iv ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.28 + gi * 0.07 }}>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "9px", color: "rgba(250,247,242,0.36)", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "9px" }}>{g.cat}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "rgba(250,247,242,0.6)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "9px" }}>{g.cat}</p>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                     {g.items.map((s, si) => (
                       <motion.span key={s}
                         initial={{ opacity: 0, scale: 0.82 }} animate={iv ? { opacity: 1, scale: 1 } : {}}
                         transition={{ duration: 0.3, delay: 0.33 + gi * 0.06 + si * 0.025 }}
                         whileHover={{ scale: 1.1, borderColor: "rgba(200,150,62,0.55)", color: "#FAF7F2", backgroundColor: "rgba(200,150,62,0.1)" }}
-                        style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "11px", color: "rgba(250,247,242,0.62)", background: "rgba(250,247,242,0.06)", border: "1px solid rgba(250,247,242,0.09)", borderRadius: "4px", padding: "4px 11px", transition: "all 0.16s", cursor: "default" }}>
+                        style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "14px", color: "rgba(250,247,242,0.78)", background: "rgba(250,247,242,0.06)", border: "1px solid rgba(250,247,242,0.09)", borderRadius: "4px", padding: "4px 11px", transition: "all 0.16s", cursor: "default" }}>
                         {s}
                       </motion.span>
                     ))}
@@ -162,7 +162,7 @@ export default function About() {
               <div style={{ display: "flex", alignItems: "center", gap: "9px", marginBottom: "14px" }}>
                 <motion.span animate={{ scale: [1, 1.5, 1], opacity: [0.9, 0.4, 0.9] }} transition={{ duration: 2.4, repeat: Infinity }}
                   style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#C8963E", display: "inline-block" }} />
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "9px", color: "#C8963E", letterSpacing: "0.22em", textTransform: "uppercase" }}>Currently Pursuing</p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "#C8963E", letterSpacing: "0.22em", textTransform: "uppercase" }}>Currently Pursuing</p>
               </div>
               {["AWS Cloud Practitioner", "NeetCode · DSA Patterns", "Claude API Development", "DeepLabV3+ Benchmarking"].map((item, i) => (
                 <motion.div key={item}
@@ -170,7 +170,7 @@ export default function About() {
                   transition={{ duration: 0.35, delay: 0.78 + i * 0.065 }}
                   style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
                   <div style={{ width: "3px", height: "3px", borderRadius: "50%", background: "rgba(200,150,62,0.65)", flexShrink: 0 }} />
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "12px", color: "rgba(250,247,242,0.6)" }}>{item}</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(250,247,242,0.6)" }}>{item}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -180,10 +180,10 @@ export default function About() {
               style={{ padding: "14px 18px", background: "rgba(250,247,242,0.03)", border: "1px solid rgba(250,247,242,0.07)", borderRadius: "8px", display: "flex", alignItems: "flex-start", gap: "12px" }}>
               <span style={{ fontSize: "16px" }}>💬</span>
               <div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "11px", color: "rgba(250,247,242,0.5)", lineHeight: 1.6, fontStyle: "italic" }}>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(250,247,242,0.6)", lineHeight: 1.6, fontStyle: "italic" }}>
                   "Build LeetCode skills, focus on AI/CS, and ship more projects."
                 </p>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "10px", color: "rgba(200,150,62,0.7)", marginTop: "5px", letterSpacing: "0.06em" }}>Prateik Mahendra — Data Engineer, Meta</p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "13px", color: "rgba(200,150,62,0.7)", marginTop: "5px", letterSpacing: "0.06em" }}>Prateik Mahendra — Data Engineer, Meta</p>
               </div>
             </motion.div>
           </motion.div>

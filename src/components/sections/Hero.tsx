@@ -102,7 +102,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "clamp(32px, 5vw, 56px)", flexWrap: "wrap" }}
           >
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "10px", color: "rgba(250,247,242,0.38)", letterSpacing: "0.24em", textTransform: "uppercase" }}>Portfolio · 2025</span>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.2em", textTransform: "uppercase" }}>Portfolio · 2025</span>
             <span style={{ width: "1px", height: "12px", background: "rgba(250,247,242,0.15)" }} />
 
             {/* Flipping role tag */}
@@ -114,7 +114,7 @@ export default function Hero() {
                 exit={{ y: "-110%" }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "10px", color: "#C8963E", letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(200,150,62,0.1)", padding: "4px 12px", borderRadius: "3px", border: "1px solid rgba(200,150,62,0.25)", display: "inline-block" }}>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "13px", color: "#C8963E", letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(200,150,62,0.1)", padding: "4px 12px", borderRadius: "3px", border: "1px solid rgba(200,150,62,0.25)", display: "inline-block" }}>
                   {ROLES[roleIdx]}
                 </span>
               </motion.div>
@@ -123,7 +123,7 @@ export default function Hero() {
             <span style={{ width: "1px", height: "12px", background: "rgba(250,247,242,0.15)" }} />
 
             {/* Live availability */}
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "10px", color: "#4ade80", letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(74,222,128,0.08)", padding: "4px 12px", borderRadius: "3px", border: "1px solid rgba(74,222,128,0.2)", display: "inline-flex", alignItems: "center", gap: "7px" }}>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "13px", color: "#4ade80", letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(74,222,128,0.08)", padding: "4px 12px", borderRadius: "3px", border: "1px solid rgba(74,222,128,0.2)", display: "inline-flex", alignItems: "center", gap: "7px" }}>
               <motion.span
                 animate={{ opacity: [1, 0.2, 1], scale: [1, 1.3, 1] }}
                 transition={{ duration: 1.8, repeat: Infinity }}
@@ -157,7 +157,7 @@ export default function Hero() {
               <motion.p
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.35 }}
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "clamp(0.9rem, 1.6vw, 1.1rem)", lineHeight: 1.82, color: "rgba(250,247,242,0.66)", maxWidth: "480px" }}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "clamp(1rem, 1.7vw, 1.15rem)", lineHeight: 1.82, color: "rgba(250,247,242,0.82)", maxWidth: "480px" }}
               >
                 CS junior at <span style={{ color: "#FAF7F2", fontWeight: 600 }}>Kennesaw State University</span>.<br />
                 NIH-funded deep learning researcher in medical AI.<br />
@@ -173,7 +173,7 @@ export default function Hero() {
                   whileHover={{ scale: 1.05, backgroundColor: "#C8963E", color: "#FAF7F2" }}
                   whileTap={{ scale: 0.96 }}
                   onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "11px", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "#1B2A4A", background: "#FAF7F2", border: "2px solid transparent", padding: "12px 28px", borderRadius: "4px", cursor: "pointer", transition: "all 0.25s" }}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "#1B2A4A", background: "#FAF7F2", border: "2px solid transparent", padding: "12px 28px", borderRadius: "4px", cursor: "pointer", transition: "all 0.25s" }}
                 >
                   View Work
                 </motion.button>
@@ -182,7 +182,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.96 }}
                   href="https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf"
                   target="_blank" rel="noopener noreferrer"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "11px", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(250,247,242,0.62)", textDecoration: "none", border: "2px solid rgba(250,247,242,0.18)", padding: "12px 28px", borderRadius: "4px", display: "inline-block" }}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(250,247,242,0.78)", textDecoration: "none", border: "2px solid rgba(250,247,242,0.18)", padding: "12px 28px", borderRadius: "4px", display: "inline-block" }}
                 >
                   Resume ↗
                 </motion.a>
@@ -203,8 +203,8 @@ export default function Hero() {
                   style={{ padding: "11px 16px", background: "rgba(250,247,242,0.07)", backdropFilter: "blur(16px)", borderRadius: "8px", border: "1px solid rgba(250,247,242,0.09)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "14px", transition: "all 0.22s" }}
                 >
                   <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "9px", color: "rgba(250,247,242,0.38)", letterSpacing: "0.16em", textTransform: "uppercase" as const, marginBottom: "2px" }}>{s.label}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "9px", color: "rgba(250,247,242,0.25)" }}>{s.note}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.14em", textTransform: "uppercase" as const, marginBottom: "2px" }}>{s.label}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(250,247,242,0.45)" }}>{s.note}</div>
                   </div>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.55rem", color: "#FAF7F2", lineHeight: 1, flexShrink: 0 }}>
                     <LiveCounter to={s.n} decimals={s.dec} suffix={s.sfx} />
@@ -222,7 +222,7 @@ export default function Hero() {
         transition={{ delay: 2.8, duration: 0.8 }}
         style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}
       >
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", color: "rgba(250,247,242,0.25)", letterSpacing: "0.3em", textTransform: "uppercase" }}>Scroll</span>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "14px", color: "rgba(250,247,242,0.25)", letterSpacing: "0.3em", textTransform: "uppercase" }}>Scroll</span>
         <motion.div
           animate={{ scaleY: [0, 1, 0], opacity: [0, 1, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

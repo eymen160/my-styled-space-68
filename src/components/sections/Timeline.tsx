@@ -25,10 +25,10 @@ export default function Timeline() {
         <motion.div initial={{ opacity: 0, y: 24 }} animate={iv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}
           style={{ marginBottom: "clamp(36px,6vw,60px)", display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "20px", flexWrap: "wrap" }}>
           <div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "10px", color: "#C8963E", letterSpacing: "0.26em", textTransform: "uppercase", marginBottom: "12px" }}>Journey</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "13px", color: "#C8963E", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "12px" }}>Journey</p>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 0.9, letterSpacing: "-0.025em", color: "#1B2A4A" }}>Milestones</h2>
           </div>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "12px", color: "rgba(27,42,74,0.4)", maxWidth: "280px", lineHeight: 1.7 }}>From writing my first Python script to outperforming published AI benchmarks — in under two years.</p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(27,42,74,0.4)", maxWidth: "280px", lineHeight: 1.7 }}>From writing my first Python script to outperforming published AI benchmarks — in under two years.</p>
         </motion.div>
 
         {/* Timeline layout */}
@@ -72,11 +72,11 @@ export default function Timeline() {
                         <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(1rem, 1.8vw, 1.2rem)", color: "#1B2A4A", lineHeight: 1.2 }}>{m.title}</h3>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-                        <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "9px", color: "#C8963E", background: "rgba(200,150,62,0.1)", padding: "3px 8px", borderRadius: "3px", border: "1px solid rgba(200,150,62,0.22)", letterSpacing: "0.1em", textTransform: "uppercase" }}>{m.tag}</span>
-                        <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "9px", color: "rgba(27,42,74,0.38)", letterSpacing: "0.1em", textTransform: "uppercase" }}>{m.period}</span>
+                        <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "#C8963E", background: "rgba(200,150,62,0.1)", padding: "3px 8px", borderRadius: "3px", border: "1px solid rgba(200,150,62,0.22)", letterSpacing: "0.1em", textTransform: "uppercase" }}>{m.tag}</span>
+                        <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "14px", color: "rgba(27,42,74,0.55)", letterSpacing: "0.1em", textTransform: "uppercase" }}>{m.period}</span>
                       </div>
                     </div>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "12px", lineHeight: 1.75, color: "rgba(27,42,74,0.55)" }}>{m.detail}</p>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", lineHeight: 1.75, color: "rgba(27,42,74,0.7)" }}>{m.detail}</p>
                   </motion.div>
                 </div>
               );

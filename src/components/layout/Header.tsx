@@ -37,7 +37,7 @@ export default function Header() {
           {NAV.map(([l, h]) => (
             <motion.button key={l} onClick={() => go(h)}
               whileHover={{ y: -1 }} whileTap={{ scale: 0.95 }}
-              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "12px", color: scrolled ? "rgba(250,247,242,0.58)" : "rgba(27,42,74,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", transition: "color 0.2s", padding: "4px 0", position: "relative" }}
+              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "14px", color: scrolled ? "rgba(250,247,242,0.58)" : "rgba(27,42,74,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", transition: "color 0.2s", padding: "4px 0", position: "relative" }}
               onMouseEnter={e => (e.currentTarget.style.color = scrolled ? "#FAF7F2" : "#1B2A4A")}
               onMouseLeave={e => (e.currentTarget.style.color = scrolled ? "rgba(250,247,242,0.58)" : "rgba(27,42,74,0.5)")}>
               {l}
@@ -48,7 +48,7 @@ export default function Header() {
         <motion.a
           href="mailto:eymenfaruk479@gmail.com"
           whileHover={{ scale: 1.06, backgroundColor: "#C8963E" }} whileTap={{ scale: 0.95 }}
-          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "11px", color: "#FAF7F2", textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", padding: "10px 22px", background: scrolled ? "rgba(200,150,62,0.85)" : "#1B2A4A", borderRadius: "4px", transition: "all 0.25s", display: "inline-block" }}>
+          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "#FAF7F2", textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", padding: "10px 22px", background: scrolled ? "rgba(200,150,62,0.85)" : "#1B2A4A", borderRadius: "4px", transition: "all 0.25s", display: "inline-block" }}>
           Hire Me
         </motion.a>
       </div>

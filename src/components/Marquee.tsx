@@ -11,7 +11,7 @@ export default function Marquee() {
       <motion.div animate={{ x: ["0%", "-50%"] }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} style={{ display: "flex", whiteSpace: "nowrap" }}>
         {doubled.map((item, i) => (
           <span key={i} style={{ display: "inline-flex", alignItems: "center" }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: item === "Open to Work" ? 700 : 500, fontSize: "11px", color: item === "Open to Work" ? "#C8963E" : "rgba(250,247,242,0.5)", letterSpacing: "0.16em", textTransform: "uppercase", padding: "0 28px" }}>{item}</span>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: item === "Open to Work" ? 700 : 500, fontSize: "14px", color: item === "Open to Work" ? "#C8963E" : "rgba(250,247,242,0.5)", letterSpacing: "0.16em", textTransform: "uppercase", padding: "0 28px" }}>{item}</span>
             <span style={{ color: "rgba(200,150,62,0.35)", fontSize: "5px" }}>◆</span>
           </span>
         ))}
