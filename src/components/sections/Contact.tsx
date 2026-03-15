@@ -105,13 +105,13 @@ export default function Contact() {
               </motion.a>
             </div>
 
-            {/* Availability note */}
+            {/* Response time note */}
             <motion.div
               initial={{ opacity: 0 }} animate={iv ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.55 }}
               style={{ padding: "14px 18px", background: "rgba(27,42,74,0.03)", border: "1px solid rgba(27,42,74,0.07)", borderRadius: "8px" }}>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "11px", color: "rgba(27,42,74,0.45)", lineHeight: 1.65 }}>
-                Currently interviewing at <span style={{ fontWeight: 600, color: "rgba(27,42,74,0.65)" }}>SGS, Tractian, Twilio</span> and others. Response time: usually within 24h.
+                Open to full-time roles, internships, and research collaborations. Response time: usually within 24h.
               </p>
             </motion.div>
           </div>
