@@ -8,7 +8,7 @@ export default function ScrollProgress() {
     <motion.div
       style={{
         position: "fixed", top: 0, left: 0, right: 0, height: "1.5px",
-        background: "linear-gradient(90deg, #8B7355, rgba(139,115,85,0.5))",
+        background: "linear-gradient(90deg, #C8963E, rgba(139,115,85,0.5))",
         transformOrigin: "0%",
         scaleX,
         zIndex: 100,

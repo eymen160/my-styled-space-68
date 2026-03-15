@@ -4,7 +4,6 @@ import { useState } from "react";
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
-
   useMotionValueEvent(scrollY, "change", v => setScrolled(v > 60));
 
   const go = (id: string) => {
@@ -19,31 +18,48 @@ export default function Header() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        background: scrolled ? "rgba(250,250,248,0.96)" : "transparent",
+        background: scrolled ? "rgba(27,42,74,0.97)" : "transparent",
         backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(26,24,20,0.08)" : "1px solid transparent",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
         padding: scrolled ? "14px 0" : "24px 0",
         transition: "all 0.45s cubic-bezier(0.16,1,0.3,1)",
       }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 40px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <button onClick={() => go("top")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.25rem", color: "#1A1814", letterSpacing: "0.12em", textTransform: "uppercase" }}>EK</span>
+          <span style={{
+            fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.25rem",
+            color: scrolled ? "#FAF7F2" : "#1B2A4A",
+            letterSpacing: "0.12em", textTransform: "uppercase",
+            transition: "color 0.45s"
+          }}>EK</span>
         </button>
 
         <nav style={{ display: "flex", alignItems: "center", gap: "36px" }}>
           {[["Work", "work"], ["About", "about"], ["Contact", "contact"]].map(([l, h]) => (
-            <button key={l} onClick={() => go(h)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px", color: "rgba(26,24,20,0.5)", letterSpacing: "0.08em", textTransform: "uppercase", transition: "color 0.2s", padding: "4px 0" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#1A1814")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(26,24,20,0.5)")}>
+            <button key={l} onClick={() => go(h)} style={{
+              background: "none", border: "none", cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px",
+              color: scrolled ? "rgba(250,247,242,0.6)" : "rgba(27,42,74,0.55)",
+              letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.2s", padding: "4px 0"
+            }}
+              onMouseEnter={e => (e.currentTarget.style.color = scrolled ? "#FAF7F2" : "#1B2A4A")}
+              onMouseLeave={e => (e.currentTarget.style.color = scrolled ? "rgba(250,247,242,0.6)" : "rgba(27,42,74,0.55)")}>
               {l}
             </button>
           ))}
         </nav>
 
         <a href="mailto:eymenfaruk479@gmail.com"
-          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "13px", color: "#1A1814", textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase", padding: "9px 22px", border: "1px solid rgba(26,24,20,0.25)", borderRadius: "2px", transition: "all 0.2s" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(26,24,20,0.6)"; (e.currentTarget as HTMLAnchorElement).style.background = "rgba(26,24,20,0.04)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(26,24,20,0.25)"; (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}>
+          style={{
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "12px",
+            color: scrolled ? "#FAF7F2" : "#FAF7F2",
+            textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase",
+            padding: "10px 24px",
+            background: scrolled ? "rgba(200,150,62,0.9)" : "#1B2A4A",
+            borderRadius: "3px", transition: "all 0.2s"
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.85"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}>
           Hire Me
         </a>
       </div>

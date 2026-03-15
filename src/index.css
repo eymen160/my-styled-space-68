@@ -1,12 +1,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  background: #FAFAF8;
-  color: #1A1814;
+  background: #FAF7F2;
+  color: #1B2A4A;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-::selection { background: rgba(139,115,85,0.2); color: #1A1814; }
+::selection { background: rgba(200,150,62,0.22); color: #1B2A4A; }
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #FAFAF8; }
-::-webkit-scrollbar-thumb { background: rgba(26,24,20,0.15); border-radius: 2px; }
+::-webkit-scrollbar-track { background: #FAF7F2; }
+::-webkit-scrollbar-thumb { background: rgba(27,42,74,0.2); border-radius: 2px; }
