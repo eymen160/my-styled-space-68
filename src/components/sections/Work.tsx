@@ -1,194 +1,134 @@
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+
+const BG = "#07090F";
+const SURFACE = "#0D1017";
+const ACCENT = "#00FF94";
+const BLUE = "#4D8EFF";
+const TEXT = "#CDD6F4";
+const MUTED = "rgba(205,214,244,0.45)";
+const BORDER = "rgba(205,214,244,0.07)";
 
 const projects = [
   {
-    num: "01",
-    title: "Fovea Detection — Retinal AI",
-    role: "NIH Research",
-    type: "Deep Learning",
-    description: "Extended U-Net architecture for fovea localization on the IDRiD dataset. Custom augmentation pipeline and weighted loss strategy that outperforms the published MCAU-Net benchmark — advancing early diabetic retinopathy screening.",
-    highlight: "84.97% accuracy, beats MCAU-Net",
-    stack: ["PyTorch", "U-Net", "ResNet34", "Albumentations"],
-    link: "https://github.com/eymen160/fovea-segmentation",
-    meta: "IDRiD · 2026",
-    accent: "#C8963E",
-    tag: "Research",
+    id: "01", title: "U-Net Optic Disc Segmentation", role: "NIH Research · Medical AI",
+    body: "Built a U-Net with a ResNet34 encoder and combined BCE + Dice loss, trained on the REFUGE2 dataset. A comprehensive augmentation pipeline helped the model achieve results no comparable published work has matched.",
+    metrics: [{ v: "99.69%", l: "Dice Score", hi: true }, { v: "+2.7%", l: "Over SOTA", hi: true }, { v: "99.5%", l: "Precision", hi: false }],
+    stack: ["PyTorch", "U-Net", "ResNet34", "Albumentations", "Google Colab"],
+    accent: ACCENT, tag: "RESEARCH", wide: true,
   },
   {
-    num: "02",
-    title: "Optic Disc Segmentation",
-    role: "NIH Research",
-    type: "Medical Imaging",
-    description: "U-Net with ResNet34 encoder trained on REFUGE2. Rigorous augmentation and combined BCE-Dice loss pushed performance past every comparable published baseline by 2.7 percentage points.",
-    highlight: "+2.7% over SOTA · 99.5% precision",
-    stack: ["PyTorch", "U-Net", "ResNet34", "REFUGE2"],
-    link: "https://github.com/eymen160",
-    meta: "REFUGE2 · 2026",
-    accent: "#6B9AE8",
-    tag: "Research",
+    id: "02", title: "AI Stock Trading System", role: "FinTech · Machine Learning",
+    body: "Three models in concert: FinBERT reads financial news, an LSTM forecasts price movement, and a Random Forest generates trade signals — all unified in a live Streamlit dashboard.",
+    metrics: [{ v: "FinBERT", l: "NLP Engine", hi: false }, { v: "3", l: "Stacked Models", hi: true }, { v: "Live", l: "Dashboard", hi: false }],
+    stack: ["Python", "FinBERT", "LSTM", "Scikit-learn", "Streamlit"],
+    accent: BLUE, tag: "ENGINEERING", wide: false,
   },
   {
-    num: "03",
-    title: "AI Stock Sentiment Trader",
-    role: "FinTech",
-    type: "Machine Learning",
-    description: "FinBERT reads financial news, an LSTM forecasts price movement, and a Random Forest generates trade signals — all served through a real-time Streamlit dashboard backed by PostgreSQL and AWS.",
-    highlight: "3-model ensemble · live dashboard",
-    stack: ["Python", "FinBERT", "LSTM", "Scikit-learn", "AWS"],
-    link: "https://github.com/eymen160",
-    meta: "FinTech · 2025",
-    accent: "#4ade80",
-    tag: "Engineering",
+    id: "03", title: "Retinal Lesion Segmentation", role: "NIH Research · Deep Learning",
+    body: "Semantic segmentation across 6,000 retinal images from APTOS and IDRiD. Custom loss functions for imbalanced lesion classes. Benchmarking DeepLabV3+ and FPN architectures.",
+    metrics: [{ v: "6,000+", l: "Images", hi: false }, { v: "2", l: "Datasets", hi: false }, { v: "3+", l: "Architectures", hi: true }],
+    stack: ["PyTorch", "DeepLabV3+", "FPN", "CNNs"],
+    accent: "#9B7FFF", tag: "RESEARCH", wide: false,
   },
   {
-    num: "04",
-    title: "Digital Recipe Book API",
-    role: "Backend",
-    type: "Engineering",
-    description: "Production Flask REST API with MySQL storage, replacing a fragile in-memory prototype. Full CRUD, input validation, and clean endpoint design.",
-    highlight: "RESTful · MySQL · Flask",
-    stack: ["Python", "Flask", "MySQL", "Git"],
-    link: "https://github.com/eymen160",
-    meta: "Backend · 2024",
-    accent: "#C8963E",
-    tag: "Engineering",
+    id: "04", title: "Digital Recipe Book API", role: "Full Stack · Backend Engineering",
+    body: "Production Flask backend with persistent MySQL storage. RESTful API with structured routing and proper error handling — replaced a fragile in-memory prototype the team had relied on.",
+    metrics: [{ v: "Flask", l: "Framework", hi: false }, { v: "MySQL", l: "Database", hi: false }, { v: "REST", l: "API Pattern", hi: false }],
+    stack: ["Python", "Flask", "MySQL", "REST API", "Git"],
+    accent: "#FFB347", tag: "ENGINEERING", wide: false,
   },
 ];
 
-function ProjectRow({ p, i }: { p: typeof projects[0]; i: number }) {
+function Card({ p, i }: { p: typeof projects[0]; i: number }) {
   const ref = useRef(null);
   const iv = useInView(ref, { once: true, margin: "-60px" });
-  const isEven = i % 2 === 0;
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={iv ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        borderTop: i === 0 ? "none" : "1px solid rgba(27,42,74,0.08)",
-        padding: "clamp(24px,4vw,44px) 0",
-        position: "relative",
-        cursor: "default",
-      }}
-      className="group"
-    >
-      {/* Hover background sweep */}
-      <motion.div
-        initial={{ scaleX: 0, opacity: 0 }}
-        whileHover={{ scaleX: 1, opacity: 1 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        style={{ position: "absolute", inset: "-1px 0", background: `linear-gradient(${isEven ? "90deg" : "270deg"}, ${p.accent}06, transparent)`, borderRadius: "6px", transformOrigin: isEven ? "left" : "right", pointerEvents: "none" }}
-      />
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 40 }} animate={iv ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+      className={`group relative flex flex-col justify-between overflow-hidden ${p.wide ? "md:col-span-2" : ""}`}
+      style={{ background: SURFACE, border: `1px solid ${BORDER}`, padding: "clamp(24px, 3.5vw, 32px)" }}
+      whileHover={{ y: -4, transition: { duration: 0.22 } }}>
 
-      <div style={{ display: "grid", gridTemplateColumns: "56px 1fr 1fr auto", gap: "clamp(14px,2.5vw,36px)", alignItems: "start", position: "relative" }}>
+      <motion.div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: p.accent, transformOrigin: "left", scaleX: 0 }}
+        whileHover={{ scaleX: 1 }} transition={{ duration: 0.35 }} />
+      <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: p.accent + "10", filter: "blur(32px)" }} />
 
-        {/* Number + accent line */}
-        <div>
-          <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: "14px", color: p.accent, letterSpacing: "0.1em", marginBottom: "8px" }}>{p.num}</div>
-          <motion.div
-            initial={{ scaleY: 0 }} animate={iv ? { scaleY: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 + i * 0.06 }}
-            style={{ width: "1px", height: "40px", background: `linear-gradient(to bottom, ${p.accent}, transparent)`, transformOrigin: "top" }}
-          />
-        </div>
-
-        {/* Left: title + meta */}
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px", flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "13px", color: p.accent, background: `${p.accent}12`, padding: "3px 9px", borderRadius: "3px", letterSpacing: "0.14em", textTransform: "uppercase" }}>{p.tag}</span>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "13px", color: "rgba(27,42,74,0.55)", letterSpacing: "0.12em", textTransform: "uppercase" }}>{p.type}</span>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "18px" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: "9px", color: p.accent, background: p.accent + "12", padding: "3px 8px", letterSpacing: "0.14em" }}>{p.tag}</span>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 300, fontSize: "10px", color: MUTED, letterSpacing: "0.08em" }}>{p.role.split(" · ")[1] || p.role}</span>
+            </div>
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "clamp(1.1rem, 2vw, 1.4rem)", lineHeight: 1.15, color: TEXT, letterSpacing: "-0.01em" }}>{p.title}</h3>
           </div>
-
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(1.4rem,2.5vw,1.95rem)", lineHeight: 1.08, color: "#1B2A4A", letterSpacing: "-0.015em", marginBottom: "8px" }}>
-            {p.title}
-          </h3>
-
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(27,42,74,0.5)" }}>{p.meta}</span>
-        </div>
-
-        {/* Right: description + stack */}
-        <div>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "1.02rem", lineHeight: 1.85, color: "rgba(27,42,74,0.72)", marginBottom: "16px" }}>
-            {p.description}
-          </p>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: p.accent, background: `${p.accent}12`, padding: "4px 11px", borderRadius: "4px", border: `1px solid ${p.accent}28` }}>
-              ↑ {p.highlight}
-            </span>
-          </div>
-
-          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-            {p.stack.map(t => (
-              <motion.span key={t}
-                whileHover={{ scale: 1.08, backgroundColor: "rgba(27,42,74,0.1)", color: "#1B2A4A" }}
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "13px", color: "rgba(27,42,74,0.6)", background: "rgba(27,42,74,0.05)", padding: "3px 9px", borderRadius: "3px", border: "1px solid rgba(27,42,74,0.08)", transition: "all 0.16s" }}>
-                {t}
-              </motion.span>
-            ))}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, marginLeft: "16px" }}>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: "2.4rem", color: TEXT, opacity: 0.04, lineHeight: 1 }}
+              className="group-hover:opacity-[0.08] transition-opacity">{p.id}</span>
+            <a href="https://github.com/eymen160" target="_blank" rel="noopener noreferrer"
+              style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${BORDER}`, color: MUTED, textDecoration: "none", transition: "all 0.2s" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = p.accent; (e.currentTarget as HTMLElement).style.color = p.accent; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = BORDER; (e.currentTarget as HTMLElement).style.color = MUTED; }}>
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+              </svg>
+            </a>
           </div>
         </div>
+        <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 400, fontSize: "0.9rem", lineHeight: 1.8, color: MUTED, marginBottom: "22px" }}>{p.body}</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", paddingBottom: "18px", marginBottom: "18px", borderBottom: `1px solid ${BORDER}` }}>
+          {p.metrics.map(m => (
+            <div key={m.l}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: "1.15rem", lineHeight: 1, color: m.hi ? p.accent : TEXT, letterSpacing: "-0.01em" }}>{m.v}</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 300, fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, marginTop: "5px" }}>{m.l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* GitHub link */}
-        <motion.a href={p.link} target="_blank" rel="noopener noreferrer"
-          whileHover={{ scale: 1.08, color: p.accent }}
-          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "rgba(27,42,74,0.48)", textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", whiteSpace: "nowrap", transition: "color 0.2s", paddingTop: "2px", display: "flex", alignItems: "center", gap: "4px" }}>
-          View ↗
-        </motion.a>
+      <div style={{ position: "relative", zIndex: 1, display: "flex", flexWrap: "wrap", gap: "6px" }}>
+        {p.stack.map(t => (
+          <span key={t} style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "10px", color: MUTED, background: "rgba(205,214,244,0.04)", border: `1px solid ${BORDER}`, padding: "4px 10px", letterSpacing: "0.04em" }}>{t}</span>
+        ))}
       </div>
     </motion.div>
   );
 }
 
 export default function Work() {
-  const headRef = useRef(null);
-  const headIv = useInView(headRef, { once: true, margin: "-60px" });
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const labelX = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const ref = useRef(null);
+  const iv = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="work" ref={sectionRef} style={{ background: "#FAF7F2", paddingTop: "clamp(72px,10vw,112px)", paddingBottom: "clamp(72px,10vw,112px)", position: "relative" }}>
-      <div style={{ position: "absolute", top: 0, left: "40px", right: "40px", height: "1px", background: "linear-gradient(90deg, transparent, rgba(27,42,74,0.12), transparent)" }} />
-
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(20px,5vw,40px)" }}>
-
-        {/* Section header with parallax label */}
-        <div ref={headRef} style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "clamp(36px,6vw,64px)", flexWrap: "wrap", gap: "20px", overflow: "hidden" }}>
-          <motion.div initial={{ opacity: 0, y: 28 }} animate={headIv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
-            {/* Parallax section label */}
-            <motion.div style={{ x: labelX }}>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "13px", color: "#C8963E", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "14px" }}>Selected Work</p>
-            </motion.div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 0.9, letterSpacing: "-0.025em", color: "#1B2A4A" }}>
-              Projects &amp;<br />
-              <em style={{ color: "rgba(27,42,74,0.2)", fontStyle: "italic" }}>Research</em>
+    <section id="work" style={{ background: BG, paddingTop: "clamp(80px, 12vw, 120px)", paddingBottom: "clamp(80px, 12vw, 120px)", position: "relative" }}>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", background: `linear-gradient(90deg, transparent, ${BORDER}, transparent)` }} />
+      <div className="max-w-[1320px] mx-auto px-6 md:px-14 relative z-10">
+        <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={iv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}
+          style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "clamp(36px, 6vw, 56px)" }}
+          className="md:flex-row md:items-end md:justify-between">
+          <div>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "11px", color: ACCENT, letterSpacing: "0.12em", marginBottom: "14px" }}>// selected_work</p>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "clamp(2.6rem, 6.5vw, 5.5rem)", lineHeight: 0.9, letterSpacing: "-0.02em", color: TEXT }}>
+              Projects &amp;<br /><span style={{ color: "rgba(205,214,244,0.15)" }}>Research</span>
             </h2>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={headIv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.15 }}
-            style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
-            <motion.a whileHover={{ scale: 1.04 }} href="https://github.com/eymen160" target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", color: "#1B2A4A", textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", borderBottom: "2px solid #C8963E", paddingBottom: "2px", display: "inline-block" }}>
-              All on GitHub ↗
-            </motion.a>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(27,42,74,0.55)" }}>4 projects · 2024–2026</span>
-          </motion.div>
-        </div>
-
-        {/* Project list with top border */}
-        <div style={{ borderTop: "1px solid rgba(27,42,74,0.1)" }}>
-          {projects.map((p, i) => <ProjectRow key={p.num} p={p} i={i} />)}
-          <div style={{ borderTop: "1px solid rgba(27,42,74,0.08)", paddingTop: "28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(27,42,74,0.35)", letterSpacing: "0.08em" }}>All projects NIH-funded or personal · open source</span>
-            <motion.a whileHover={{ scale: 1.04, color: "#C8963E" }} href="https://github.com/eymen160" target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(27,42,74,0.4)", textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.2s" }}>
-              github.com/eymen160 ↗
-            </motion.a>
           </div>
+          <motion.a href="https://github.com/eymen160" target="_blank" rel="noopener noreferrer"
+            whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "10px 18px", border: `1px solid ${BORDER}`, fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: "11px", color: MUTED, textDecoration: "none", letterSpacing: "0.08em", transition: "all 0.2s" }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(205,214,244,0.2)"; el.style.color = TEXT; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = BORDER; el.style.color = MUTED; }}>
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
+              <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+            </svg>
+            All on GitHub ↗
+          </motion.a>
+        </motion.div>
+        <div className="grid md:grid-cols-2 gap-3">
+          {projects.map((p, i) => <Card key={p.id} p={p} i={i} />)}
         </div>
       </div>
     </section>

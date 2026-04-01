@@ -6,16 +6,16 @@ import Work from "@/components/sections/Work";
 import Timeline from "@/components/sections/Timeline";
 import Contact from "@/components/sections/Contact";
 import ScrollProgress from "@/components/ScrollProgress";
-import Marquee from "@/components/Marquee";
+import CustomCursor from "@/components/CustomCursor";
 
 const Index = () => {
   return (
-    <div style={{ background: "#FAF7F2" }}>
+    <div style={{ background: "#07090F" }}>
+      <CustomCursor />
       <ScrollProgress />
       <Header />
       <main>
         <Hero />
-        <Marquee />
         <Work />
         <About />
         <Timeline />

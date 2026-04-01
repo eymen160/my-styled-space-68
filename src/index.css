@@ -1,45 +1,45 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --navy: #1B2A4A;
-  --navy-deep: #0F1D35;
-  --cream: #FAF7F2;
-  --cream-warm: #F2EDE4;
-  --amber: #C8963E;
-  --amber-light: rgba(200,150,62,0.12);
-  --blue-accent: #6B9AE8;
-  --green-accent: #4ade80;
-  --text-primary: #1B2A4A;
-  --text-muted: rgba(27,42,74,0.55);
-  --text-faint: rgba(27,42,74,0.32);
-  --border: rgba(27,42,74,0.1);
+  --bg: #07090F;
+  --surface: #0D1017;
+  --surface-2: #131A24;
+  --accent: #00FF94;
+  --accent-dim: rgba(0, 255, 148, 0.09);
+  --accent-border: rgba(0, 255, 148, 0.22);
+  --blue: #4D8EFF;
+  --blue-dim: rgba(77, 142, 255, 0.1);
+  --text: #CDD6F4;
+  --text-muted: rgba(205, 214, 244, 0.48);
+  --text-faint: rgba(205, 214, 244, 0.18);
+  --border: rgba(205, 214, 244, 0.07);
+  --border-bright: rgba(205, 214, 244, 0.15);
 }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
+@layer base {
+  * { box-sizing: border-box; cursor: none; }
+
+  html { scroll-behavior: smooth; background: #07090F; }
+
+  body {
+    background: #07090F;
+    color: #CDD6F4;
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(0, 255, 148, 0.2);
+    color: #CDD6F4;
+  }
+
+  ::-webkit-scrollbar { width: 2px; }
+  ::-webkit-scrollbar-track { background: #07090F; }
+  ::-webkit-scrollbar-thumb { background: rgba(0, 255, 148, 0.4); border-radius: 1px; }
 }
-
-body {
-  background: var(--cream);
-  color: var(--navy);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-
-::selection {
-  background: rgba(200,150,62,0.22);
-  color: var(--navy);
-}
-
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: rgba(27,42,74,0.18); border-radius: 2px; }
-
-/* Smooth transitions for interactive elements */
-a, button { transition: all 0.22s cubic-bezier(0.16,1,0.3,1); }
-
-/* Typography scale */
-.display { font-family: 'Cormorant Garamond', serif; }
-.body { font-family: 'DM Sans', sans-serif; }

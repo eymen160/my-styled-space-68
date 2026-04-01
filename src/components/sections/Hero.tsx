@@ -1,233 +1,163 @@
-import { motion, useScroll, useTransform, useSpring, animate } from "framer-motion";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { motion, useScroll, useTransform, animate } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
-// Character-by-character animated heading
-function SplitHeading({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
-  const chars = text.split("");
-  return (
-    <span style={{ display: "inline-block", overflow: "hidden", ...style }}>
-      {chars.map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: "105%", opacity: 0 }}
-          animate={{ y: "0%", opacity: 1 }}
-          transition={{ duration: 0.9, delay: delay + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-          style={{ display: "inline-block", willChange: "transform" }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
+const BG = "#07090F";
+const ACCENT = "#00FF94";
+const TEXT = "#CDD6F4";
+const MUTED = "rgba(205,214,244,0.45)";
+const BORDER = "rgba(205,214,244,0.07)";
 
-// Counting number on intersection
-function LiveCounter({ to, decimals = 0, suffix = "", prefix = "" }: { to: number; decimals?: number; suffix?: string; prefix?: string }) {
+function Counter({ to, decimals = 2 }: { to: number; decimals?: number }) {
   const [val, setVal] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const fired = useRef(false);
   useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !fired.current) {
-        fired.current = true;
-        animate(0, to, { duration: 2, ease: [0.16, 1, 0.3, 1], onUpdate: v => setVal(parseFloat(v.toFixed(decimals))) });
-      }
-    }, { threshold: 0.6 });
-    obs.observe(el); return () => obs.disconnect();
+    const ctrl = animate(0, to, {
+      duration: 2.4, delay: 1.0, ease: "easeOut",
+      onUpdate: v => setVal(parseFloat(v.toFixed(decimals))),
+    });
+    return ctrl.stop;
   }, [to, decimals]);
-  return <span ref={ref}>{prefix}{val.toFixed(decimals)}{suffix}</span>;
+  return <>{val.toFixed(decimals)}</>;
 }
 
-const ROLES = ["AI Researcher", "ML Engineer", "Deep Learning", "CS Junior @ KSU"];
+const stats = [
+  { key: "DICE_SCORE", val: 99.69, suffix: "%", dec: 2 },
+  { key: "SOTA_DELTA", val: 2.7, suffix: "pp", dec: 1 },
+  { key: "GPA", val: 3.56, suffix: "", dec: 2 },
+];
+
+const roles = ["AI/ML Researcher", "Deep Learning Eng", "NIH Research Asst", "CS Junior @ KSU"];
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const op = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const sc = useTransform(scrollYProgress, [0, 0.5], [1, 0.97]);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const yPara = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   const [roleIdx, setRoleIdx] = useState(0);
+  const [blink, setBlink] = useState(true);
+
   useEffect(() => {
-    const t = setInterval(() => setRoleIdx(i => (i + 1) % ROLES.length), 2600);
-    return () => clearInterval(t);
+    const id = setInterval(() => setRoleIdx(i => (i + 1) % roles.length), 2800);
+    return () => clearInterval(id);
   }, []);
 
-  const stats = [
-    { n: 3.56, dec: 2, sfx: "", label: "GPA / KSU", note: "Presidential Scholar" },
-    { n: 2.7, dec: 1, sfx: "%", label: "Above SOTA", note: "vs. published baseline" },
-    { n: 6, dec: 0, sfx: "K+", label: "Images", note: "NIH research pipeline" },
-  ];
+  useEffect(() => {
+    const id = setInterval(() => setBlink(b => !b), 530);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <section ref={sectionRef} style={{
-      background: "linear-gradient(150deg, #0D1B30 0%, #1B2A4A 55%, #152238 100%)",
-      minHeight: "100vh", position: "relative", display: "flex",
-      flexDirection: "column", justifyContent: "flex-end",
-      overflow: "hidden", paddingTop: "120px"
-    }}>
-      {/* Animated mesh blobs */}
-      <motion.div
-        animate={{ x: [0, 25, 0], y: [0, -20, 0], scale: [1, 1.2, 1], opacity: [0.18, 0.28, 0.18] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        style={{ position: "absolute", top: "-30%", right: "-10%", width: "70vw", height: "80vh", borderRadius: "50%", background: "radial-gradient(ellipse, rgba(200,150,62,0.3) 0%, transparent 58%)", pointerEvents: "none", filter: "blur(48px)", willChange: "transform" }}
-      />
-      <motion.div
-        animate={{ x: [0, -20, 0], y: [0, 18, 0], scale: [1, 1.3, 1], opacity: [0.06, 0.13, 0.06] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-        style={{ position: "absolute", bottom: "0%", left: "-15%", width: "65vw", height: "70vh", borderRadius: "50%", background: "radial-gradient(ellipse, rgba(80,120,220,0.25) 0%, transparent 62%)", pointerEvents: "none", filter: "blur(56px)" }}
-      />
+    <section ref={ref} style={{ background: BG, minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "100px" }}>
 
-      {/* Fine grid */}
-      <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(250,247,242,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(250,247,242,0.022) 1px, transparent 1px)", backgroundSize: "80px 80px", pointerEvents: "none" }} />
+      {/* Grid */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `linear-gradient(${BORDER} 1px, transparent 1px), linear-gradient(90deg, ${BORDER} 1px, transparent 1px)`, backgroundSize: "64px 64px" }} />
+      {/* Glows */}
+      <div style={{ position: "absolute", top: "-10%", left: "55%", width: "50vw", height: "70vh", background: "radial-gradient(ellipse, rgba(0,255,148,0.05) 0%, transparent 68%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: "10%", left: "-5%", width: "40vw", height: "40vh", background: "radial-gradient(ellipse, rgba(77,142,255,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
 
-      {/* Noise overlay */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.03, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "180px", pointerEvents: "none" }} />
+      <motion.div style={{ y: yPara, opacity: fade }} className="relative z-10 flex-1 max-w-[1320px] mx-auto w-full px-6 md:px-14">
 
-      {/* Animated top rule */}
-      <motion.div
-        initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }}
-        transition={{ duration: 1.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        style={{ position: "absolute", top: "88px", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(250,247,242,0.08) 30%, rgba(200,150,62,0.18) 50%, rgba(250,247,242,0.08) 70%, transparent)", transformOrigin: "left" }}
-      />
-
-      {/* Content */}
-      <motion.div style={{ y, opacity: op, scale: sc }} className="relative z-10">
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(20px,5vw,40px)" }}>
-
-          {/* Tag row */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "clamp(32px, 5vw, 56px)", flexWrap: "wrap" }}
-          >
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "13px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.2em", textTransform: "uppercase" }}>Portfolio · 2025</span>
-            <span style={{ width: "1px", height: "12px", background: "rgba(250,247,242,0.15)" }} />
-
-            {/* Flipping role tag */}
-            <div style={{ height: "24px", overflow: "hidden", position: "relative" }}>
-              <motion.div
-                key={roleIdx}
-                initial={{ y: "110%" }}
-                animate={{ y: "0%" }}
-                exit={{ y: "-110%" }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "13px", color: "#C8963E", letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(200,150,62,0.1)", padding: "4px 12px", borderRadius: "3px", border: "1px solid rgba(200,150,62,0.25)", display: "inline-block" }}>
-                  {ROLES[roleIdx]}
-                </span>
-              </motion.div>
-            </div>
-
-            <span style={{ width: "1px", height: "12px", background: "rgba(250,247,242,0.15)" }} />
-
-            {/* Live availability */}
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "13px", color: "#4ade80", letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(74,222,128,0.08)", padding: "4px 12px", borderRadius: "3px", border: "1px solid rgba(74,222,128,0.2)", display: "inline-flex", alignItems: "center", gap: "7px" }}>
-              <motion.span
-                animate={{ opacity: [1, 0.2, 1], scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.8, repeat: Infinity }}
-                style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#4ade80", display: "inline-block", flexShrink: 0 }}
-              />
-              Open to Work · S'26
+        {/* Status bar */}
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "clamp(48px, 8vw, 80px)", flexWrap: "wrap", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }} />
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "11px", color: ACCENT, letterSpacing: "0.1em" }}>
+              STATUS: OPEN_TO_INTERNSHIP
             </span>
-          </motion.div>
+          </div>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 300, fontSize: "10px", color: MUTED, letterSpacing: "0.08em" }}>
+            LAT: 34.02°N · LON: 84.36°W · KSU · ROSWELL, GA
+          </span>
+        </motion.div>
 
-          {/* Mega name — split char animation */}
-          <div style={{ marginBottom: "clamp(32px, 6vw, 64px)" }}>
-            <div style={{ lineHeight: 0.86, marginBottom: "0.04em" }}>
-              <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "clamp(5rem, 16vw, 15rem)", letterSpacing: "-0.03em", color: "#FAF7F2", display: "block", lineHeight: 0.86 }}>
-                <SplitHeading text="Eymen" delay={0.1} />
-              </h1>
+        {/* Name */}
+        <div style={{ marginBottom: "clamp(28px, 4vw, 48px)" }}>
+          {["EYMEN", "KEYVAN."].map((word, wi) => (
+            <div key={word} style={{ overflow: "hidden" }}>
+              <motion.h1
+                initial={{ y: "108%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 1.1, delay: 0.2 + wi * 0.13, ease: [0.16, 1, 0.3, 1] }}
+                style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "clamp(4.2rem, 13.5vw, 12.5rem)", lineHeight: 0.88, letterSpacing: "-0.02em", color: wi === 0 ? TEXT : "rgba(205,214,244,0.14)", paddingBottom: "0.1em" }}>
+                {word}
+              </motion.h1>
             </div>
-            <div style={{ lineHeight: 0.86 }}>
-              <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontStyle: "italic", fontSize: "clamp(5rem, 16vw, 15rem)", letterSpacing: "-0.03em", display: "block", lineHeight: 0.86, WebkitTextStroke: "1.5px rgba(250,247,242,0.18)", color: "transparent" }}>
-                <SplitHeading text="Keyvan" delay={0.45} />
-              </h1>
+          ))}
+        </div>
+
+        {/* Role + Stats */}
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: "flex", flexDirection: "column", gap: "clamp(28px, 4vw, 40px)" }} className="lg:flex-row lg:items-start lg:justify-between">
+
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "12px", color: MUTED }}>//</span>
+              <div style={{ overflow: "hidden", height: "20px" }}>
+                <motion.span key={roleIdx} initial={{ y: "100%" }} animate={{ y: "0%" }} transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ display: "block", fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "13px", color: TEXT, letterSpacing: "0.04em" }}>
+                  {roles[roleIdx]}
+                </motion.span>
+              </div>
+              <span style={{ display: "inline-block", width: "2px", height: "14px", background: ACCENT, opacity: blink ? 1 : 0, transition: "opacity 0.1s" }} />
             </div>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 400, fontSize: "1.0rem", lineHeight: 1.82, color: MUTED, maxWidth: "440px" }}>
+              CS junior at <strong style={{ fontWeight: 700, color: TEXT }}>Kennesaw State University</strong> conducting NIH-funded deep learning research in medical imaging. My models beat every comparable published benchmark.
+            </p>
           </div>
 
-          {/* Bottom grid */}
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "end", gap: "32px", paddingTop: "clamp(18px, 3vw, 28px)", paddingBottom: "clamp(36px, 6vw, 60px)", borderTop: "1px solid rgba(250,247,242,0.08)" }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <motion.p
-                initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.35 }}
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "clamp(1rem, 1.7vw, 1.15rem)", lineHeight: 1.82, color: "rgba(250,247,242,0.82)", maxWidth: "480px" }}
-              >
-                CS junior at <span style={{ color: "#FAF7F2", fontWeight: 600 }}>Kennesaw State University</span>.<br />
-                NIH-funded deep learning researcher in medical AI.<br />
-                Building models that outperform published benchmarks.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 1.5 }}
-                style={{ display: "flex", gap: "10px", flexWrap: "wrap" as const }}
-              >
-                <motion.button
-                  whileHover={{ scale: 1.05, backgroundColor: "#C8963E", color: "#FAF7F2" }}
-                  whileTap={{ scale: 0.96 }}
-                  onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "14px", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "#1B2A4A", background: "#FAF7F2", border: "2px solid transparent", padding: "12px 28px", borderRadius: "4px", cursor: "pointer", transition: "all 0.25s" }}
-                >
-                  View Work
-                </motion.button>
-                <motion.a
-                  whileHover={{ scale: 1.05, borderColor: "rgba(250,247,242,0.55)", color: "#FAF7F2" }}
-                  whileTap={{ scale: 0.96 }}
-                  href="https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf"
-                  target="_blank" rel="noopener noreferrer"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(250,247,242,0.78)", textDecoration: "none", border: "2px solid rgba(250,247,242,0.18)", padding: "12px 28px", borderRadius: "4px", display: "inline-block" }}
-                >
-                  Resume ↗
-                </motion.a>
-              </motion.div>
+          {/* Stats terminal */}
+          <div style={{ border: `1px solid ${BORDER}`, background: "rgba(13,16,23,0.7)", backdropFilter: "blur(8px)", padding: "20px 24px", minWidth: "300px", flexShrink: 0 }}>
+            <div style={{ marginBottom: "14px", paddingBottom: "10px", borderBottom: `1px solid ${BORDER}` }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "10px", color: MUTED, letterSpacing: "0.1em" }}>SYSTEM · METRICS · LIVE</span>
             </div>
-
-            {/* Glassmorphism stat cards */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 1.45 }}
-              style={{ display: "flex", flexDirection: "column", gap: "8px", minWidth: "200px" }}
-            >
-              {stats.map((s, i) => (
-                <motion.div key={s.label}
-                  initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 1.55 + i * 0.09 }}
-                  whileHover={{ scale: 1.04, borderColor: "rgba(200,150,62,0.35)", backgroundColor: "rgba(200,150,62,0.1)" }}
-                  style={{ padding: "11px 16px", background: "rgba(250,247,242,0.07)", backdropFilter: "blur(16px)", borderRadius: "8px", border: "1px solid rgba(250,247,242,0.09)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "14px", transition: "all 0.22s" }}
-                >
-                  <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "14px", color: "rgba(250,247,242,0.55)", letterSpacing: "0.14em", textTransform: "uppercase" as const, marginBottom: "2px" }}>{s.label}</div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: "14px", color: "rgba(250,247,242,0.45)" }}>{s.note}</div>
-                  </div>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.55rem", color: "#FAF7F2", lineHeight: 1, flexShrink: 0 }}>
-                    <LiveCounter to={s.n} decimals={s.dec} suffix={s.sfx} />
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
+            {stats.map((s, i) => (
+              <motion.div key={s.key} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.9 + i * 0.12 }}
+                style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "16px", marginBottom: i < stats.length - 1 ? "10px" : 0 }}>
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 300, fontSize: "11px", color: MUTED, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{s.key}</span>
+                <span style={{ flex: 1, borderBottom: "1px dotted rgba(205,214,244,0.12)", height: "1px", marginBottom: "3px" }} />
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: "13px", color: ACCENT, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
+                  <Counter to={s.val} decimals={s.dec} />{s.suffix}
+                </span>
+              </motion.div>
+            ))}
+            <div style={{ marginTop: "14px", paddingTop: "10px", borderTop: `1px solid ${BORDER}` }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 300, fontSize: "9px", color: "rgba(205,214,244,0.2)", letterSpacing: "0.08em" }}>NIH-FUNDED · KENNESAW STATE UNIVERSITY · 2025–2026</span>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
 
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        transition={{ delay: 2.8, duration: 0.8 }}
-        style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}
-      >
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "14px", color: "rgba(250,247,242,0.25)", letterSpacing: "0.3em", textTransform: "uppercase" }}>Scroll</span>
-        <motion.div
-          animate={{ scaleY: [0, 1, 0], opacity: [0, 1, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, #C8963E, transparent)", borderRadius: "1px", transformOrigin: "top" }}
-        />
+      {/* Bottom bar */}
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }}
+        className="relative z-10 max-w-[1320px] mx-auto w-full px-6 md:px-14 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
+        style={{ borderTop: `1px solid ${BORDER}` }}>
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+          <motion.button onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
+            whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}
+            style={{ background: ACCENT, color: "#07090F", padding: "12px 26px", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: "12px", border: "none", letterSpacing: "0.08em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 0 20px rgba(0,255,148,0.2)" }}>
+            [ SEE WORK ]
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M21 12H3" />
+            </svg>
+          </motion.button>
+          <motion.a href="mailto:eymenfaruk479@gmail.com" whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}
+            style={{ padding: "12px 26px", border: `1px solid ${BORDER}`, fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: "12px", color: MUTED, textDecoration: "none", letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", transition: "all 0.2s" }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(205,214,244,0.25)"; el.style.color = TEXT; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = BORDER; el.style.color = MUTED; }}>
+            Get in Touch
+          </motion.a>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+          {[{ l: "GitHub ↗", h: "https://github.com/eymen160" }, { l: "LinkedIn ↗", h: "https://linkedin.com/in/eymenkeyvan" }, { l: "Resume ↗", h: "https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf" }].map(x => (
+            <motion.a key={x.l} href={x.h} target="_blank" rel="noopener noreferrer" whileHover={{ y: -2 }}
+              style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, fontSize: "11px", color: "rgba(205,214,244,0.28)", textDecoration: "none", letterSpacing: "0.06em", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = ACCENT}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(205,214,244,0.28)"}>
+              {x.l}
+            </motion.a>
+          ))}
+        </div>
       </motion.div>
     </section>
   );
