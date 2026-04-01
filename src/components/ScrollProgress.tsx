@@ -5,11 +5,10 @@ export default function ScrollProgress() {
   return (
     <motion.div
       style={{
-        position: "fixed", top: 0, left: 0, right: 0, height: "1px",
+        position: "fixed", top: 0, left: 0, right: 0, height: "2px",
         transformOrigin: "left", scaleX,
-        background: "linear-gradient(90deg, #00FF94, #4D8EFF)",
+        background: "#2563EB",
         zIndex: 60,
-        boxShadow: "0 0 8px rgba(0,255,148,0.5)",
       }}
     />
   );
