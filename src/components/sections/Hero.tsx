@@ -1,127 +1,151 @@
-import { motion, animate } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "../../hooks/useCounter";
 
-function Counter({ to, decimals = 2 }: { to: number; decimals?: number }) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    const ctrl = animate(0, to, {
-      duration: 2.0, delay: 0.6, ease: "easeOut",
-      onUpdate: v => setVal(parseFloat(v.toFixed(decimals))),
-    });
-    return ctrl.stop;
-  }, [to, decimals]);
-  return <>{val.toFixed(decimals)}</>;
-}
-
-const roles = ["AI / ML Researcher", "Deep Learning Engineer", "NIH Research Assistant", "Software Engineer"];
+const NAME = "EYMEN FARUK KEYVAN";
+const SUBTITLE = "AI Researcher · Software Engineer · Builder";
 
 export default function Hero() {
-  const [roleIdx, setRoleIdx] = useState(0);
+  const reduced = useReducedMotion();
+  const [subtitleChars, setSubtitleChars] = useState(0);
+  const [lineDrawn, setLineDrawn] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  /* Start typewriter after name reveal finishes */
   useEffect(() => {
-    const id = setInterval(() => setRoleIdx(i => (i + 1) % roles.length), 3000);
-    return () => clearInterval(id);
-  }, []);
+    const nameDur = reduced ? 0 : NAME.length * 0.04 + 0.6; // rough total
+    const delay = setTimeout(() => {
+      if (reduced) {
+        setSubtitleChars(SUBTITLE.length);
+        setLineDrawn(true);
+        return;
+      }
+      timerRef.current = setInterval(() => {
+        setSubtitleChars((n) => {
+          if (n >= SUBTITLE.length) {
+            clearInterval(timerRef.current!);
+            setTimeout(() => setLineDrawn(true), 200);
+            return n;
+          }
+          return n + 1;
+        });
+      }, 38);
+    }, nameDur * 1000);
+    return () => { clearTimeout(delay); if (timerRef.current) clearInterval(timerRef.current); };
+  }, [reduced]);
+
+  const containerVariants = {
+    hidden: {},
+    show: { transition: { staggerChildren: reduced ? 0 : 0.04, delayChildren: 0.3 } },
+  };
+  const letterVariants = {
+    hidden: { y: 40, opacity: 0 },
+    show:   { y: 0, opacity: 1, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+  };
 
   return (
-    <section style={{ background: "#FFFFFF", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: "80px", paddingBottom: "60px", position: "relative", overflow: "hidden" }}>
+    <section
+      id="hero"
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "120px 40px 80px", maxWidth: 1200, margin: "0 auto" }}
+    >
+      {/* Availability */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.5 }}
+        style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 52, width: "fit-content" }}
+      >
+        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ade80", flexShrink: 0, boxShadow: "0 0 6px #4ade80" }} />
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          Open to Summer 2026 Internships
+        </span>
+      </motion.div>
 
-      {/* Subtle background gradient */}
-      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 70% 40%, #EFF6FF 0%, transparent 70%)", pointerEvents: "none" }} />
+      {/* Name — letter-by-letter */}
+      <motion.h1
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        style={{ fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(3.5rem,10vw,8rem)", lineHeight: 0.9, letterSpacing: "-0.01em", color: "var(--text)", marginBottom: 28, display: "flex", flexWrap: "wrap", columnGap: "0.25em" }}
+        aria-label={NAME}
+      >
+        {NAME.split("").map((char, i) => (
+          char === " "
+            ? <span key={i} style={{ display: "inline-block", width: "0.3em" }} aria-hidden="true" />
+            : (
+              <motion.span key={i} variants={letterVariants} style={{ display: "inline-block" }} aria-hidden="true">
+                {char}
+              </motion.span>
+            )
+        ))}
+      </motion.h1>
 
-      <div className="max-w-[1160px] mx-auto px-6 md:px-10 relative z-10 w-full">
-
-        {/* Availability badge */}
-        <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "32px", padding: "6px 14px", background: "#DCFCE7", border: "1px solid #BBF7D0", borderRadius: "100px" }}>
-          <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#16A34A", flexShrink: 0 }} className="animate-pulse" />
-          <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "13px", color: "#15803D" }}>Open to Summer 2026 Internships</span>
-        </motion.div>
-
-        {/* Name */}
-        <div style={{ marginBottom: "16px", overflow: "hidden" }}>
-          <motion.h1 initial={{ y: "100%", opacity: 0 }} animate={{ y: "0%", opacity: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 800, fontSize: "clamp(3.2rem, 8vw, 6.5rem)", lineHeight: 0.95, letterSpacing: "-0.03em", color: "#0F172A", paddingBottom: "0.08em" }}>
-            Eymen Keyvan
-          </motion.h1>
-        </div>
-
-        {/* Role */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}
-          style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-          <div style={{ width: "3px", height: "22px", background: "#2563EB", borderRadius: "2px", flexShrink: 0 }} />
-          <div style={{ overflow: "hidden", height: "28px" }}>
-            <motion.p key={roleIdx} initial={{ y: "100%" }} animate={{ y: "0%" }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "clamp(1rem, 2.2vw, 1.25rem)", color: "#2563EB", letterSpacing: "-0.01em" }}>
-              {roles[roleIdx]}
-            </motion.p>
-          </div>
-        </motion.div>
-
-        {/* Bio */}
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}
-          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "clamp(1rem, 1.8vw, 1.15rem)", lineHeight: 1.75, color: "#475569", maxWidth: "580px", marginBottom: "40px" }}>
-          CS junior at <strong style={{ fontWeight: 600, color: "#0F172A" }}>Kennesaw State University</strong> with a 3.56 GPA. I conduct NIH-funded deep learning research in medical imaging — building models that outperform every comparable published benchmark by 2.7 percentage points.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
-          style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "60px" }}>
-          <motion.button onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
-            whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }}
-            style={{ background: "#2563EB", color: "#FFFFFF", padding: "13px 28px", fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "15px", border: "none", borderRadius: "10px", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(37,99,235,0.3)" }}>
-            View My Work
-            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M21 12H3" />
-            </svg>
-          </motion.button>
-          <motion.a href="mailto:eymenfaruk479@gmail.com"
-            whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }}
-            style={{ padding: "13px 28px", border: "1.5px solid #E2E8F0", fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "15px", color: "#0F172A", textDecoration: "none", borderRadius: "10px", background: "#FFFFFF", transition: "border-color 0.15s" }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "#94A3B8"}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0"}>
-            Get in Touch
-          </motion.a>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.55 }}
-          style={{ display: "flex", flexWrap: "wrap", gap: "0", borderTop: "1px solid #E2E8F0", paddingTop: "36px" }}>
-          {[
-            { val: 99.69, dec: 2, suffix: "%", label: "Dice Score", sub: "REFUGE2 — SOTA benchmark" },
-            { val: 2.7, dec: 1, suffix: "pp", label: "Above Published Baseline", sub: "NIH retinal research" },
-            { val: 3.56, dec: 2, suffix: "", label: "GPA", sub: "Presidential Scholar · KSU" },
-          ].map((s, i) => (
-            <div key={s.label} style={{ flex: "1 1 180px", paddingRight: "40px", paddingBottom: "8px", borderRight: i < 2 ? "1px solid #E2E8F0" : "none", marginRight: i < 2 ? "40px" : 0 }}>
-              <p style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: "6px" }}>
-                <Counter to={s.val} decimals={s.dec} />{s.suffix}
-              </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "14px", color: "#0F172A", marginBottom: "2px" }}>{s.label}</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "13px", color: "#94A3B8" }}>{s.sub}</p>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Social links */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.7 }}
-          style={{ display: "flex", gap: "20px", marginTop: "32px" }}>
-          {[
-            { l: "GitHub", h: "https://github.com/eymen160" },
-            { l: "LinkedIn", h: "https://linkedin.com/in/eymenkeyvan" },
-            { l: "Resume PDF", h: "https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf" },
-          ].map(x => (
-            <a key={x.l} href={x.h} target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "14px", color: "#64748B", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px", transition: "color 0.15s" }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#2563EB"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#64748B"}>
-              {x.l}
-              <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-              </svg>
-            </a>
-          ))}
-        </motion.div>
+      {/* Subtitle — typewriter */}
+      <div style={{ marginBottom: 20, minHeight: 28 }}>
+        <p style={{ fontFamily: "var(--font-mono)", fontWeight: 300, fontSize: "clamp(0.9rem,1.8vw,1.1rem)", color: "var(--muted)", letterSpacing: "0.04em" }}>
+          {SUBTITLE.slice(0, subtitleChars)}
+          {subtitleChars < SUBTITLE.length && (
+            <span style={{ borderRight: "1.5px solid var(--gold)", marginLeft: 1, animation: "none" }}>‌</span>
+          )}
+        </p>
       </div>
+
+      {/* Gold line */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: lineDrawn ? 1 : 0 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        style={{ height: 1, background: "var(--gold)", transformOrigin: "left", width: "min(360px, 60vw)", marginBottom: 56 }}
+      />
+
+      {/* CTAs + social */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: lineDrawn ? 1 : 0, y: lineDrawn ? 0 : 16 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center", marginBottom: 64 }}
+      >
+        <motion.button
+          whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+          onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+          style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500, color: "var(--bg)", background: "var(--gold)", padding: "12px 28px", borderRadius: "var(--radius)", border: "none", cursor: "pointer", letterSpacing: "0.1em", textTransform: "uppercase" }}
+        >
+          View Projects
+        </motion.button>
+        <motion.a
+          whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+          href="https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf"
+          target="_blank" rel="noopener noreferrer"
+          style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 400, color: "var(--text)", padding: "12px 28px", borderRadius: "var(--radius)", border: "1px solid rgba(240,236,228,0.2)", textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "border-color 0.2s" }}
+          onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--gold)")}
+          onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(240,236,228,0.2)")}
+        >
+          Resume ↗
+        </motion.a>
+      </motion.div>
+
+      {/* Social links */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: lineDrawn ? 1 : 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        style={{ display: "flex", gap: 28 }}
+      >
+        {[
+          { l: "GitHub",   h: "https://github.com/eymen160" },
+          { l: "LinkedIn", h: "https://linkedin.com/in/eymenkeyvan" },
+          { l: "Email",    h: "mailto:eymen@eymenkeyvan.com" },
+        ].map((x) => (
+          <a key={x.l} href={x.h} target="_blank" rel="noopener noreferrer"
+            className="gold-underline-wrap"
+            style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", textDecoration: "none", letterSpacing: "0.08em", transition: "color 0.2s" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
+          >
+            {x.l}
+          </a>
+        ))}
+      </motion.div>
     </section>
   );
 }

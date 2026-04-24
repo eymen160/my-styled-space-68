@@ -1,155 +1,141 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { useCounter } from "../../hooks/useCounter";
+
+const sectionVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+const itemVariants = {
+  hidden: { y: 60, opacity: 0 },
+  show:   { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+};
+
+function StatBlock({ target, decimals, label, suffix = "" }: { target: number; decimals: number; label: string; suffix?: string }) {
+  const { val, ref } = useCounter(target, decimals);
+  return (
+    <div ref={ref as React.RefObject<HTMLDivElement>} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: "clamp(2.2rem,4vw,3.5rem)", lineHeight: 1, color: "var(--text)", letterSpacing: "-0.01em" }}>
+        {val.toFixed(decimals)}{suffix}
+      </p>
+      <p style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--gold)", letterSpacing: "0.1em", textTransform: "uppercase" }}>{label}</p>
+    </div>
+  );
+}
 
 const skills = [
-  { cat: "Languages", items: ["Python", "SQL", "Java", "HTML/CSS", "R"], color: "#2563EB", bg: "#EFF6FF" },
-  { cat: "AI & ML", items: ["PyTorch", "TensorFlow", "Scikit-learn", "NumPy", "Pandas", "Albumentations"], color: "#7C3AED", bg: "#F5F3FF" },
-  { cat: "Deep Learning", items: ["U-Net", "ResNet", "CNNs", "DeepLabV3+", "FPN", "Transfer Learning"], color: "#0891B2", bg: "#ECFEFF" },
-  { cat: "Tools & Cloud", items: ["Git", "AWS", "Google Colab", "Flask", "MySQL", "Agile"], color: "#EA580C", bg: "#FFF7ED" },
+  { cat: "Languages",       items: ["Python", "JavaScript", "SQL", "R", "Java"] },
+  { cat: "AI / ML",         items: ["PyTorch", "TensorFlow", "Scikit-learn", "LangChain", "LangGraph", "FAISS", "RAG", "Hugging Face", "Claude API", "OpenAI API", "CNNs", "U-Net", "Transfer Learning"] },
+  { cat: "Backend & Cloud", items: ["Flask", "FastAPI", "React", "Docker", "AWS Lambda", "REST APIs", "Git/GitHub", "Streamlit", "CI/CD"] },
 ];
 
 const experience = [
   {
     role: "Undergraduate Research Assistant",
-    org: "Kennesaw State University",
-    detail: "NIH-Funded Deep Learning Lab",
+    org: "Kennesaw State University · NIH-Funded Deep Learning Lab",
     period: "Sep 2025 – Present",
-    color: "#2563EB",
-    bg: "#EFF6FF",
     bullets: [
-      "Built U-Net segmentation models achieving SOTA on REFUGE2 (99.69% Dice)",
-      "Benchmarking DeepLabV3+ & FPN on 6,000+ retinal images from APTOS & IDRiD",
-      "Custom loss functions for severe class imbalance in lesion detection",
+      "End-to-end retinal image AI across 3 clinical datasets (6,000+ images)",
+      "Fovea detection at 84.97%, surpassing a published benchmark",
+      "Custom audit script caught data quality issues, keeping the pipeline clean",
     ],
   },
   {
     role: "Vice President",
-    org: "Global Dev & Networking Club",
-    detail: "KSU — Student Leadership",
-    period: "2024 – Present",
-    color: "#16A34A",
-    bg: "#DCFCE7",
+    org: "Global Development & Networking Club · KSU",
+    period: "2025 – Present",
     bullets: [
-      "Organized Youth Convention 2025 with 70+ attendees, speakers from Meta & Emory",
-      "Led technical workshops and industry networking events across campus",
+      "Youth Convention 2025: 60+ students, speakers from Meta, Avanade, Emory",
+      "Led technical workshops and industry networking events",
     ],
   },
 ];
 
 export default function About() {
-  const ref = useRef(null);
-  const iv = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section id="about" ref={ref} style={{ background: "#FFFFFF", paddingTop: "clamp(72px, 10vw, 110px)", paddingBottom: "clamp(72px, 10vw, 110px)", borderTop: "1px solid #E2E8F0" }}>
-      <div className="max-w-[1160px] mx-auto px-6 md:px-10">
+    <section id="about" style={{ padding: "clamp(80px,12vw,140px) 40px", maxWidth: 1200, margin: "0 auto" }}>
+      <motion.div
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+      >
+        {/* Label */}
+        <motion.p variants={itemVariants} style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--gold)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 20 }}>
+          01 — About
+        </motion.p>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={iv ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }} style={{ marginBottom: "56px" }}>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "13px", color: "#2563EB", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "10px" }}>About</p>
-          <h2 style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 800, fontSize: "clamp(2.2rem, 5vw, 3.5rem)", lineHeight: 1, letterSpacing: "-0.02em", color: "#0F172A" }}>
-            Background & Skills
-          </h2>
-        </motion.div>
+        {/* Heading */}
+        <motion.h2 variants={itemVariants} style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: "clamp(2.5rem,6vw,5rem)", lineHeight: 1, letterSpacing: "-0.01em", color: "var(--text)", marginBottom: 56 }}>
+          Background &amp; Skills
+        </motion.h2>
 
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "64px 80px" }}>
+          {/* Left */}
+          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+            <p style={{ fontFamily: "var(--font-mono)", fontSize: 14, lineHeight: 1.85, color: "var(--muted)", fontWeight: 300 }}>
+              CS junior at <span style={{ color: "var(--text)", fontWeight: 400 }}>Kennesaw State University</span> (3.56 GPA, Presidential Scholarship, graduating Dec 2027) focused on deep learning, LLM systems, and medical AI. NIH-funded. McKinsey Forward 2026 selectee.
+            </p>
 
-          {/* Left: Bio + Experience */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={iv ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.65, delay: 0.1 }} style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
-
-            <div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "1.0rem", lineHeight: 1.8, color: "#475569", marginBottom: "14px" }}>
-                I'm a Computer Science junior at <strong style={{ fontWeight: 600, color: "#0F172A" }}>Kennesaw State University</strong> (3.56 GPA, Presidential Hardship Scholar, graduating Dec 2027) focused on deep learning and medical AI.
-              </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "1.0rem", lineHeight: 1.8, color: "#475569" }}>
-                My NIH-funded research produces segmentation models that exceed every comparable published benchmark. Outside the lab, I've built a full ML trading pipeline, REST APIs, and lead technical programming as VP of our dev club.
-              </p>
-            </div>
-
-            {/* Education card */}
-            <div style={{ padding: "20px", border: "1.5px solid #E2E8F0", borderRadius: "12px", background: "#F8FAFC" }}>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "12px", color: "#64748B", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "10px" }}>Education</p>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "8px" }}>
-                <div>
-                  <p style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: "1.05rem", color: "#0F172A", marginBottom: "2px" }}>B.S. Computer Science</p>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "14px", color: "#64748B" }}>Kennesaw State University</p>
+            {/* Stats */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0, borderTop: "1px solid var(--border)", paddingTop: 36 }}>
+              {[
+                { target: 2, decimals: 0, label: "Hacklanta Finance Track", suffix: "nd" },
+                { target: 0.8461, decimals: 4, label: "NIH Dice Score" },
+                { target: 3.56, decimals: 2, label: "GPA · KSU" },
+              ].map((s, i) => (
+                <div key={s.label} style={{ paddingRight: i < 2 ? 24 : 0, borderRight: i < 2 ? "1px solid var(--border)" : "none", marginRight: i < 2 ? 24 : 0 }}>
+                  <StatBlock {...s} />
                 </div>
-                <div style={{ textAlign: "right" }}>
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "13px", color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: "6px" }}>GPA: 3.56</span>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "13px", color: "#94A3B8", marginTop: "4px" }}>Expected Dec 2027</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Experience */}
-            <div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "12px", color: "#64748B", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "16px" }}>Experience</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {experience.map((e, i) => (
-                  <motion.div key={e.role}
-                    initial={{ opacity: 0, y: 14 }} animate={iv ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.25 + i * 0.1 }}
-                    style={{ padding: "18px 20px", border: "1.5px solid #E2E8F0", borderRadius: "12px", background: "#FFFFFF" }}
-                    onMouseEnter={el => (el.currentTarget as HTMLElement).style.borderColor = e.color + "60"}
-                    onMouseLeave={el => (el.currentTarget as HTMLElement).style.borderColor = "#E2E8F0"}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "6px", marginBottom: "10px" }}>
-                      <div>
-                        <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "0.9rem", color: "#0F172A", marginBottom: "2px" }}>{e.role}</p>
-                        <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "13px", color: "#64748B" }}>{e.org} · <span style={{ color: "#94A3B8" }}>{e.detail}</span></p>
-                      </div>
-                      <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "12px", color: e.color, background: e.bg, padding: "3px 9px", borderRadius: "6px", whiteSpace: "nowrap" }}>{e.period}</span>
+            <div style={{ borderTop: "1px solid var(--border)", paddingTop: 36 }}>
+              <p style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--gold)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 24 }}>Experience</p>
+              {experience.map((e) => (
+                <div key={e.role} style={{ marginBottom: 28, paddingBottom: 28, borderBottom: "1px solid var(--border)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 500, color: "var(--text)", marginBottom: 3 }}>{e.role}</p>
+                      <p style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", fontWeight: 300 }}>{e.org}</p>
                     </div>
-                    <ul style={{ display: "flex", flexDirection: "column", gap: "5px", paddingLeft: "0", margin: 0, listStyle: "none" }}>
-                      {e.bullets.map(b => (
-                        <li key={b} style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
-                          <span style={{ width: "4px", height: "4px", background: e.color, borderRadius: "50%", flexShrink: 0, marginTop: "8px" }} />
-                          <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "13px", color: "#475569", lineHeight: 1.6 }}>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                ))}
-              </div>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(201,168,76,0.6)", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>{e.period}</span>
+                  </div>
+                  <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
+                    {e.bullets.map((b) => (
+                      <li key={b} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                        <span style={{ color: "var(--gold)", fontSize: 8, flexShrink: 0, marginTop: 6 }}>▸</span>
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--muted)", lineHeight: 1.65, fontWeight: 300 }}>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Right: Skills */}
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={iv ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.65, delay: 0.18 }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: "12px", color: "#64748B", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "16px" }}>Technical Skills</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {skills.map((g, gi) => (
-                <motion.div key={g.cat}
-                  initial={{ opacity: 0, y: 14 }} animate={iv ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + gi * 0.07 }}
-                  style={{ padding: "18px", border: "1.5px solid #E2E8F0", borderRadius: "12px", background: "#FAFAFA" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = g.color + "50"}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0"}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "12px", color: g.color, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: "12px" }}>{g.cat}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                    {g.items.map(skill => (
-                      <span key={skill} style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "13px", color: "#374151", background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: "6px", padding: "4px 12px" }}>
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* Currently learning */}
-              <div style={{ padding: "16px 18px", border: "1.5px solid #BBF7D0", borderRadius: "12px", background: "#F0FDF4", display: "flex", alignItems: "flex-start", gap: "10px" }}>
-                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#16A34A", flexShrink: 0, marginTop: "5px" }} className="animate-pulse" />
-                <div>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "12px", color: "#15803D", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: "8px" }}>Currently Pursuing</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                    {["AWS Cloud Practitioner", "Graph ML", "LeetCode Patterns", "DeepLabV3+ Benchmarking"].map(item => (
-                      <span key={item} style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "12px", color: "#166534", background: "#DCFCE7", border: "1px solid #86EFAC", borderRadius: "6px", padding: "4px 10px" }}>{item}</span>
-                    ))}
-                  </div>
+          {/* Right: skills */}
+          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+            {skills.map((g, gi) => (
+              <div key={g.cat}>
+                <p style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--gold)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 14 }}>
+                  {String(gi + 1).padStart(2, "0")} — {g.cat}
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {g.items.map((s) => (
+                    <span key={s} style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "4px 12px", transition: "border-color 0.2s, color 0.2s", cursor: "default" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.color = "var(--gold)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}>
+                      {s}
+                    </span>
+                  ))}
                 </div>
+                {gi < skills.length - 1 && <div style={{ height: 1, background: "var(--border)", marginTop: 28 }} />}
               </div>
-            </div>
+            ))}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
