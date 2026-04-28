@@ -1,50 +1,42 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * useCounter — animates a number from 0 to `target` when the ref enters viewport.
+ * Animates a number from 0 to `target` when the returned ref scrolls into view.
+ * Returns [displayValue, ref].
  */
-export function useCounter(target: number, decimals = 2, duration = 1800) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<HTMLElement | null>(null);
+export default function useCounter(target: number, decimals = 0): [string, React.RefObject<HTMLDivElement>] {
+  const [val, setVal] = useState("0");
+  const ref     = useRef<HTMLDivElement>(null);
   const started = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
           const start = performance.now();
-          const tick = (now: number) => {
-            const p = Math.min((now - start) / duration, 1);
-            const ease = 1 - Math.pow(1 - p, 3);
-            setVal(parseFloat((target * ease).toFixed(decimals)));
-            if (p < 1) requestAnimationFrame(tick);
+          const dur   = 1600;
+
+          const tick = (ts: number) => {
+            const pct  = Math.min((ts - start) / dur, 1);
+            const ease = 1 - Math.pow(1 - pct, 3); // cubic ease-out
+            setVal((target * ease).toFixed(decimals));
+            if (pct < 1) requestAnimationFrame(tick);
           };
+
           requestAnimationFrame(tick);
+          obs.disconnect();
         }
       },
-      { rootMargin: "-80px" }
+      { rootMargin: "-40px" }
     );
+
     obs.observe(el);
     return () => obs.disconnect();
-  }, [target, decimals, duration]);
+  }, [target, decimals]);
 
-  return { val, ref };
-}
-
-/**
- * useReducedMotion — returns true if user prefers reduced motion.
- */
-export function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return reduced;
+  return [val, ref as React.RefObject<HTMLDivElement>];
 }

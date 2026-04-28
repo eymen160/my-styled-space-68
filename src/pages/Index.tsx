@@ -1,23 +1,25 @@
 import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 import Hero from "../components/sections/Hero";
-import MarqueeDivider from "../components/sections/Marquee";
+import MarqueeBanner from "../components/sections/MarqueeBanner";
 import About from "../components/sections/About";
 import Projects from "../components/sections/Projects";
+import Research from "../components/sections/Research";
 import Contact from "../components/sections/Contact";
-import Footer from "../components/layout/Footer";
 
 export default function Index() {
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh" }}>
+    <>
       <Header />
       <main>
         <Hero />
-        <MarqueeDivider />
+        <MarqueeBanner />
         <About />
         <Projects />
+        <Research />
         <Contact />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

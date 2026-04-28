@@ -1,151 +1,169 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useReducedMotion } from "../../hooks/useCounter";
+import useCounter from "../../hooks/useCounter";
 
-const NAME = "EYMEN FARUK KEYVAN";
-const SUBTITLE = "AI Researcher · Software Engineer · Builder";
+const ROLES = ["AI Researcher", "ML Engineer", "Software Engineer", "Problem Solver"];
+const STATS = [
+  { value: 84.97, suffix: "%",  decimals: 2, label: "Fovea Detection", sub: "Surpasses published benchmark" },
+  { value: 2,     suffix: "nd", decimals: 0, label: "Hacklanta Finance Track", sub: "Georgia State · 50+ teams" },
+  { value: 3.56,  suffix: "",   decimals: 2, label: "GPA — KSU", sub: "Presidential Scholarship" },
+];
+
+const spring = { type: "spring", stiffness: 80, damping: 18 } as const;
+const fadeUp = (delay = 0) => ({
+  initial:    { opacity: 0, y: 36 },
+  animate:    { opacity: 1, y: 0 },
+  transition: { duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] },
+});
+
+function StatItem({ s, i }: { s: typeof STATS[0]; i: number }) {
+  const [val, ref] = useCounter(s.value, s.decimals);
+  return (
+    <div
+      ref={ref}
+      className="flex-1 min-w-[150px]"
+      style={{
+        paddingLeft:  i > 0 ? 36 : 0,
+        paddingRight: i < 2 ? 36 : 0,
+        borderRight:  i < 2 ? "1px solid var(--border)" : "none",
+      }}
+    >
+      <p
+        className="display font-extrabold tracking-tight mb-1"
+        style={{ fontSize: "clamp(2rem,3.5vw,2.8rem)", lineHeight: 1, color: "var(--gold)" }}
+      >
+        {val}{s.suffix}
+      </p>
+      <p className="text-sm font-semibold mb-0.5" style={{ color: "var(--navy)" }}>{s.label}</p>
+      <p className="text-xs" style={{ color: "var(--muted)" }}>{s.sub}</p>
+    </div>
+  );
+}
 
 export default function Hero() {
-  const reduced = useReducedMotion();
-  const [subtitleChars, setSubtitleChars] = useState(0);
-  const [lineDrawn, setLineDrawn] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [roleIdx,  setRoleIdx]  = useState(0);
+  const [roleFade, setRoleFade] = useState(true);
 
-  /* Start typewriter after name reveal finishes */
   useEffect(() => {
-    const nameDur = reduced ? 0 : NAME.length * 0.04 + 0.6; // rough total
-    const delay = setTimeout(() => {
-      if (reduced) {
-        setSubtitleChars(SUBTITLE.length);
-        setLineDrawn(true);
-        return;
-      }
-      timerRef.current = setInterval(() => {
-        setSubtitleChars((n) => {
-          if (n >= SUBTITLE.length) {
-            clearInterval(timerRef.current!);
-            setTimeout(() => setLineDrawn(true), 200);
-            return n;
-          }
-          return n + 1;
-        });
-      }, 38);
-    }, nameDur * 1000);
-    return () => { clearTimeout(delay); if (timerRef.current) clearInterval(timerRef.current); };
-  }, [reduced]);
-
-  const containerVariants = {
-    hidden: {},
-    show: { transition: { staggerChildren: reduced ? 0 : 0.04, delayChildren: 0.3 } },
-  };
-  const letterVariants = {
-    hidden: { y: 40, opacity: 0 },
-    show:   { y: 0, opacity: 1, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
-  };
+    const id = setInterval(() => {
+      setRoleFade(false);
+      setTimeout(() => { setRoleIdx(i => (i + 1) % ROLES.length); setRoleFade(true); }, 320);
+    }, 3200);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section
       id="hero"
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "120px 40px 80px", maxWidth: 1200, margin: "0 auto" }}
+      className="min-h-screen flex items-center relative overflow-hidden"
+      style={{ padding: "120px clamp(20px,5vw,48px) 80px", background: "var(--cream)" }}
     >
-      {/* Availability */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.5 }}
-        style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 52, width: "fit-content" }}
-      >
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ade80", flexShrink: 0, boxShadow: "0 0 6px #4ade80" }} />
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Open to Summer 2026 Internships
-        </span>
-      </motion.div>
-
-      {/* Name — letter-by-letter */}
-      <motion.h1
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        style={{ fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(3.5rem,10vw,8rem)", lineHeight: 0.9, letterSpacing: "-0.01em", color: "var(--text)", marginBottom: 28, display: "flex", flexWrap: "wrap", columnGap: "0.25em" }}
-        aria-label={NAME}
-      >
-        {NAME.split("").map((char, i) => (
-          char === " "
-            ? <span key={i} style={{ display: "inline-block", width: "0.3em" }} aria-hidden="true" />
-            : (
-              <motion.span key={i} variants={letterVariants} style={{ display: "inline-block" }} aria-hidden="true">
-                {char}
-              </motion.span>
-            )
-        ))}
-      </motion.h1>
-
-      {/* Subtitle — typewriter */}
-      <div style={{ marginBottom: 20, minHeight: 28 }}>
-        <p style={{ fontFamily: "var(--font-mono)", fontWeight: 300, fontSize: "clamp(0.9rem,1.8vw,1.1rem)", color: "var(--muted)", letterSpacing: "0.04em" }}>
-          {SUBTITLE.slice(0, subtitleChars)}
-          {subtitleChars < SUBTITLE.length && (
-            <span style={{ borderRight: "1.5px solid var(--gold)", marginLeft: 1, animation: "none" }}>‌</span>
-          )}
-        </p>
-      </div>
-
-      {/* Gold line */}
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: lineDrawn ? 1 : 0 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ height: 1, background: "var(--gold)", transformOrigin: "left", width: "min(360px, 60vw)", marginBottom: 56 }}
+      {/* Warm radial glow */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "10%", right: "-5%",
+          width: 640, height: 560, borderRadius: "50%",
+          background: "radial-gradient(ellipse 70% 55% at 55% 40%, rgba(196,147,63,0.13) 0%, transparent 68%)",
+        }}
+      />
+      {/* Vertical accent line */}
+      <div
+        className="absolute left-10 hidden lg:block"
+        style={{
+          top: "18%", bottom: "18%", width: 2,
+          background: "linear-gradient(to bottom, transparent, var(--gold), transparent)",
+          opacity: 0.45, borderRadius: 1,
+        }}
       />
 
-      {/* CTAs + social */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: lineDrawn ? 1 : 0, y: lineDrawn ? 0 : 16 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center", marginBottom: 64 }}
-      >
-        <motion.button
-          whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-          onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-          style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500, color: "var(--bg)", background: "var(--gold)", padding: "12px 28px", borderRadius: "var(--radius)", border: "none", cursor: "pointer", letterSpacing: "0.1em", textTransform: "uppercase" }}
-        >
-          View Projects
-        </motion.button>
-        <motion.a
-          whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-          href="https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf"
-          target="_blank" rel="noopener noreferrer"
-          style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 400, color: "var(--text)", padding: "12px 28px", borderRadius: "var(--radius)", border: "1px solid rgba(240,236,228,0.2)", textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "border-color 0.2s" }}
-          onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--gold)")}
-          onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(240,236,228,0.2)")}
-        >
-          Resume ↗
-        </motion.a>
-      </motion.div>
+      <div className="max-w-[1160px] mx-auto w-full relative z-10 pl-0 lg:pl-8">
 
-      {/* Social links */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: lineDrawn ? 1 : 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        style={{ display: "flex", gap: 28 }}
-      >
-        {[
-          { l: "GitHub",   h: "https://github.com/eymen160" },
-          { l: "LinkedIn", h: "https://linkedin.com/in/eymenkeyvan" },
-          { l: "Email",    h: "mailto:eymen@eymenkeyvan.com" },
-        ].map((x) => (
-          <a key={x.l} href={x.h} target="_blank" rel="noopener noreferrer"
-            className="gold-underline-wrap"
-            style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", textDecoration: "none", letterSpacing: "0.08em", transition: "color 0.2s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
+        {/* Badge */}
+        <motion.div {...fadeUp(0)} className="mb-10">
+          <span
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+            style={{ background: "#DCFCE7", border: "1px solid rgba(22,163,74,.18)", color: "#15803D" }}
           >
-            {x.l}
-          </a>
-        ))}
-      </motion.div>
+            <span className="w-2 h-2 rounded-full bg-green-600 pulse-dot flex-shrink-0" />
+            Open to Summer 2026 Internships
+          </span>
+        </motion.div>
+
+        {/* Name */}
+        <motion.div {...fadeUp(0.12)} className="mb-7">
+          <h1
+            className="display font-extrabold tracking-tight"
+            style={{
+              fontSize: "clamp(3.4rem,9.5vw,8rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              color: "var(--navy)",
+            }}
+          >
+            Eymen Faruk<br />
+            <span style={{ color: "var(--gold)", fontStyle: "italic" }}>Keyvan</span>
+          </h1>
+        </motion.div>
+
+        {/* Role */}
+        <motion.div {...fadeUp(0.25)} className="flex items-center gap-2.5 mb-10 h-8">
+          <span className="text-lg font-light" style={{ color: "var(--muted)" }}>CS @ KSU ·</span>
+          <span
+            className="text-lg font-semibold transition-all duration-300"
+            style={{
+              color:     "var(--navy)",
+              opacity:   roleFade ? 1 : 0,
+              transform: roleFade ? "none" : "translateY(-6px)",
+            }}
+          >
+            {ROLES[roleIdx]}
+          </span>
+        </motion.div>
+
+        {/* CTAs */}
+        <motion.div {...fadeUp(0.38)} className="flex flex-wrap gap-3 mb-16">
+          <motion.button
+            onClick={() => {
+              const el = document.getElementById("projects");
+              if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
+            }}
+            className="px-8 py-3.5 rounded-xl text-base font-semibold border-none cursor-pointer"
+            style={{ background: "var(--navy)", color: "var(--cream)", boxShadow: "0 4px 18px rgba(12,25,41,0.25)" }}
+            whileHover={{ y: -2, scale: 1.02, background: "var(--gold)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={spring}
+          >
+            View Projects ↓
+          </motion.button>
+
+          <motion.a
+            href="https://eymenkeyvan.com/resume/EYMEN_KEYVAN_RESUME.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3.5 rounded-xl text-base font-medium no-underline"
+            style={{
+              color: "var(--navy)",
+              border: "1.5px solid var(--border)",
+              background: "transparent",
+            }}
+            whileHover={{ borderColor: "var(--gold)", color: "var(--gold)", y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            transition={spring}
+          >
+            Resume ↗
+          </motion.a>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          {...fadeUp(0.5)}
+          className="flex flex-wrap gap-0"
+          style={{ borderTop: "1px solid var(--border)", paddingTop: 32 }}
+        >
+          {STATS.map((s, i) => <StatItem key={s.label} s={s} i={i} />)}
+        </motion.div>
+      </div>
     </section>
   );
 }

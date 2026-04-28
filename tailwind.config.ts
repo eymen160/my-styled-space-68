@@ -1,39 +1,36 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
-  prefix: "",
+  content: [
+    "./index.html",
+    "./src/**/*.{ts,tsx,js,jsx}",
+  ],
   theme: {
-    container: { center: true, padding: "2rem", screens: { "2xl": "1400px" } },
     extend: {
-      colors: {
-        bg:      "#0a0a0a",
-        primary: "#f0ece4",
-        gold:    "#c9a84c",
-        muted:   "rgba(240,236,228,0.45)",
-        border:  "rgba(240,236,228,0.08)",
-        surface: "rgba(240,236,228,0.04)",
-      },
       fontFamily: {
-        serif: ["Cormorant Garamond", "Georgia", "serif"],
-        mono:  ["DM Mono", "JetBrains Mono", "monospace"],
+        display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
+        sans:    ["Inter", "system-ui", "sans-serif"],
       },
-      keyframes: {
-        "marquee-scroll": {
-          from: { transform: "translateX(0)" },
-          to:   { transform: "translateX(-50%)" },
-        },
-        "scale-pulse": {
-          "0%, 100%": { transform: "translate(-50%, -50%) scale(1)" },
-          "50%":       { transform: "translate(-50%, -50%) scale(1.04)" },
-        },
+      colors: {
+        cream:      "#F8F4EC",
+        "cream-dark": "#EDE8DC",
+        "cream-mid":  "#F2EDE3",
+        navy:       "#0C1929",
+        "navy-mid": "#1A2F4A",
+        gold:       "#C4933F",
+        "gold-light": "#F5EDD8",
       },
-      animation: {
-        "marquee": "marquee-scroll 28s linear infinite",
-        "bg-pulse": "scale-pulse 4s ease-in-out infinite",
+      maxWidth: {
+        container: "1160px",
+      },
+      borderRadius: {
+        xl:  "12px",
+        "2xl": "16px",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [],
+};
+
+export default config;
