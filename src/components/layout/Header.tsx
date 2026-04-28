@@ -11,7 +11,7 @@ const NAV = [
 function scrollTo(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
-  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
+  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
 }
 
 export default function Header() {
@@ -38,39 +38,40 @@ export default function Header() {
     <motion.header
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background:    scrolled ? "rgba(248,244,236,0.93)" : "transparent",
-        backdropFilter:scrolled ? "blur(16px) saturate(1.6)" : "none",
-        borderBottom:  scrolled ? "1px solid #DDD6C8" : "1px solid transparent",
-        transition:    "all 0.45s cubic-bezier(0.16,1,0.3,1)",
+        background:     scrolled ? "rgba(9,9,11,0.85)" : "transparent",
+        backdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
+        borderBottom:   scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
+        transition:     "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
       }}
     >
-      {/* Scroll progress */}
       <ScrollProgress />
 
-      <div className="max-w-[1160px] mx-auto px-8 h-16 flex items-center justify-between">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="display font-extrabold text-lg tracking-tight bg-transparent border-none cursor-pointer"
-          style={{ color: "var(--navy)", fontStyle: "italic" }}
+          style={{ color: "var(--lime)", fontStyle: "italic", letterSpacing: "-0.02em" }}
         >
           EFK
         </button>
 
-        <nav className="hidden md:flex gap-1">
+        <nav className="hidden md:flex items-center gap-0.5">
           {NAV.map(({ label, id }) => (
             <button
               key={id}
               onClick={() => scrollTo(id)}
-              className="px-4 py-2 rounded-lg text-sm bg-transparent border-none cursor-pointer transition-all duration-200"
-              style={{
-                color:      active === id ? "var(--navy)" : "var(--muted)",
-                fontWeight: active === id ? 600 : 400,
-                background: "transparent",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = "var(--cream-dark)")}
-              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+              className="relative px-4 py-2 text-sm bg-transparent border-none cursor-pointer transition-colors duration-200 rounded-lg"
+              style={{ color: active === id ? "var(--text)" : "var(--muted)", fontWeight: active === id ? 500 : 400 }}
             >
-              {label}
+              {active === id && (
+                <motion.span
+                  layoutId="nav-bg"
+                  className="absolute inset-0 rounded-lg"
+                  style={{ background: "rgba(255,255,255,0.06)" }}
+                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10">{label}</span>
             </button>
           ))}
         </nav>
@@ -78,11 +79,8 @@ export default function Header() {
         <motion.a
           href="mailto:ekeyvan@students.kennesaw.edu"
           className="text-sm font-semibold no-underline whitespace-nowrap px-5 py-2.5 rounded-lg"
-          style={{
-            background: "var(--navy)",
-            color:      "var(--cream)",
-          }}
-          whileHover={{ scale: 1.03, y: -1, background: "var(--gold)" }}
+          style={{ background: "var(--lime)", color: "#09090B" }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
           transition={{ type: "spring", stiffness: 400, damping: 22 }}
         >

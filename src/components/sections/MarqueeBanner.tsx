@@ -8,11 +8,11 @@ export default function MarqueeBanner() {
   const doubled = [...ITEMS, ...ITEMS];
   return (
     <div
-      className="overflow-hidden py-3.5"
+      className="overflow-hidden py-3"
       style={{
-        borderTop: "1px solid var(--border)",
+        borderTop:    "1px solid var(--border)",
         borderBottom: "1px solid var(--border)",
-        background: "var(--cream-dark)",
+        background:   "var(--surface)",
       }}
     >
       <div className="flex whitespace-nowrap marquee-track">
@@ -21,17 +21,17 @@ export default function MarqueeBanner() {
             <span
               className="px-7"
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.13em",
+                fontFamily:    "'Inter', sans-serif",
+                fontSize:       11,
+                fontWeight:     600,
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: "var(--muted)",
+                color:          "var(--faint)",
               }}
             >
               {item}
             </span>
-            <span style={{ color: "var(--gold)", fontSize: 6, opacity: 0.6 }}>◆</span>
+            <span style={{ color: "var(--lime)", fontSize: 5, opacity: 0.5 }}>◆</span>
           </span>
         ))}
       </div>

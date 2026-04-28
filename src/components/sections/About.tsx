@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.09 } },
 };
 const item = {
   hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.75, ease } },
 };
 
 const SKILLS = [
@@ -16,9 +18,9 @@ const SKILLS = [
 ];
 
 const RECOGNITION = [
-  { t: "McKinsey Forward Program",    s: "2026 Selectee · Competitive global program" },
-  { t: "Hacklanta 2026 — 2nd Place",  s: "Finance Track · Georgia State · 50+ teams" },
-  { t: "Presidential Scholarship",    s: "Kennesaw State University" },
+  { t: "McKinsey Forward Program",   s: "2026 Selectee · Competitive global program" },
+  { t: "Hacklanta 2026 — 2nd Place", s: "Finance Track · Georgia State · 50+ teams" },
+  { t: "Presidential Scholarship",   s: "Kennesaw State University" },
 ];
 
 const EXPERIENCE = [
@@ -43,33 +45,56 @@ const EXPERIENCE = [
   },
 ];
 
-export default function About() {
+function SectionHeading({ num, eyebrow, title }: { num: string; eyebrow: string; title: string }) {
   return (
-    <section
-      id="about"
-      className="section-pad"
-      style={{ background: "var(--cream)" }}
-    >
-      <div className="max-w-[1160px] mx-auto">
-
-        {/* Header */}
+    <div className="relative mb-16 overflow-hidden">
+      <span
+        className="display font-extrabold absolute select-none pointer-events-none"
+        style={{
+          fontSize: "clamp(8rem, 20vw, 16rem)",
+          lineHeight: 1,
+          color: "rgba(255,255,255,0.025)",
+          top: "-0.18em",
+          left: "-0.04em",
+          letterSpacing: "-0.05em",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {num}
+      </span>
+      <div className="relative z-10">
         <motion.div
-          className="mb-14"
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease }}
         >
-          <p className="eyebrow mb-4">01 — About</p>
+          <p className="eyebrow mb-3">{eyebrow}</p>
           <h2
             className="display font-extrabold tracking-tight"
-            style={{ fontSize: "clamp(2rem,4vw,3.4rem)", lineHeight: 1.1, color: "var(--navy)", letterSpacing: "-0.02em" }}
+            style={{ fontSize: "clamp(2.2rem, 5vw, 5rem)", lineHeight: 1.05, color: "var(--text)", letterSpacing: "-0.03em" }}
           >
-            Background & Skills
+            {title}
           </h2>
+          <motion.div
+            style={{ height: 1, background: "var(--lime)", transformOrigin: "left", marginTop: 20, maxWidth: 240 }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.1, delay: 0.25, ease }}
+          />
         </motion.div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Bento Grid */}
+export default function About() {
+  return (
+    <section id="about" className="section-pad" style={{ background: "var(--bg)" }}>
+      <div className="max-w-[1200px] mx-auto">
+        <SectionHeading num="01" eyebrow="01 — About" title="Background & Skills" />
+
         <motion.div
           className="grid grid-cols-1 md:grid-cols-12 gap-3"
           variants={container}
@@ -82,7 +107,7 @@ export default function About() {
             <p className="eyebrow">Bio</p>
             <p className="text-base leading-[1.85]" style={{ color: "var(--body)" }}>
               CS junior at{" "}
-              <strong style={{ color: "var(--navy)", fontWeight: 700 }}>Kennesaw State University</strong>{" "}
+              <strong style={{ color: "var(--text)", fontWeight: 700 }}>Kennesaw State University</strong>{" "}
               (3.56 GPA, Presidential Scholarship, graduating Dec 2027). I build AI systems that solve hard, meaningful problems — from retinal disease detection to customs fraud detection.
             </p>
             <p className="text-base leading-[1.85]" style={{ color: "var(--body)" }}>
@@ -90,7 +115,7 @@ export default function About() {
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               {["NIH-Funded Research", "McKinsey Forward 2026", "Presidential Scholar", "Deep Learning", "LLM Systems"].map(t => (
-                <span key={t} className="chip chip-gold">{t}</span>
+                <span key={t} className="chip chip-lime">{t}</span>
               ))}
             </div>
           </motion.div>
@@ -99,16 +124,16 @@ export default function About() {
           <motion.div
             variants={item}
             className="card md:col-span-5 p-8 flex flex-col justify-between"
-            style={{ background: "var(--navy)", borderColor: "var(--navy-mid)" }}
+            style={{ background: "var(--surface2)", borderColor: "var(--border2)" }}
           >
-            <p className="eyebrow" style={{ color: "var(--gold)" }}>Recognition</p>
-            <div className="flex flex-col gap-4 mt-6">
+            <p className="eyebrow" style={{ color: "var(--lime)" }}>Recognition</p>
+            <div className="flex flex-col gap-5 mt-6">
               {RECOGNITION.map(r => (
                 <div key={r.t} className="flex gap-3 items-start">
-                  <span style={{ color: "var(--gold)", fontSize: 8, marginTop: 6, flexShrink: 0 }}>★</span>
+                  <span style={{ color: "var(--lime)", fontSize: 7, marginTop: 5, flexShrink: 0 }}>★</span>
                   <div>
-                    <p className="text-sm font-semibold" style={{ color: "var(--cream)" }}>{r.t}</p>
-                    <p className="text-xs mt-0.5" style={{ color: "rgba(248,244,236,0.5)" }}>{r.s}</p>
+                    <p className="text-sm font-semibold" style={{ color: "var(--text)" }}>{r.t}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>{r.s}</p>
                   </div>
                 </div>
               ))}
@@ -140,15 +165,18 @@ export default function About() {
               >
                 <div className="flex justify-between flex-wrap gap-1 mb-3">
                   <div>
-                    <p className="text-sm font-bold" style={{ color: "var(--navy)" }}>{exp.role}</p>
+                    <p className="text-sm font-bold" style={{ color: "var(--text)" }}>{exp.role}</p>
                     <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>{exp.org}</p>
                   </div>
-                  <span className="text-xs font-medium" style={{ color: "var(--gold)" }}>{exp.period}</span>
+                  <span className="text-xs font-medium" style={{ color: "var(--lime)" }}>{exp.period}</span>
                 </div>
                 <ul className="flex flex-col gap-2">
                   {exp.bullets.map(b => (
                     <li key={b} className="flex gap-2.5 items-start">
-                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[7px]" style={{ background: "var(--gold)" }} />
+                      <span
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[6px]"
+                        style={{ background: "var(--lime)", opacity: 0.7 }}
+                      />
                       <span className="text-sm leading-[1.75]" style={{ color: "var(--body)" }}>{b}</span>
                     </li>
                   ))}

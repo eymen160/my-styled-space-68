@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 const PROJECTS = [
   {
@@ -48,81 +50,104 @@ const PROJECTS = [
   },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-const cardAnim = {
-  hidden: { opacity: 0, y: 32 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } },
-};
-
-function ProjectCard({ p }: { p: typeof PROJECTS[0] }) {
+function ProjectRow({ p, index }: { p: typeof PROJECTS[0]; index: number }) {
   const [open, setOpen] = useState(false);
 
   return (
     <motion.div
-      variants={cardAnim}
-      className="card p-8 cursor-pointer"
-      onClick={() => setOpen(o => !o)}
-      whileHover={{ y: -4, boxShadow: "0 20px 56px rgba(12,25,41,0.1)", borderColor: "var(--border2)" }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay: index * 0.08, ease }}
+      style={{ borderBottom: "1px solid var(--border)" }}
     >
-      {p.badge && (
-        <div className="mb-4">
-          <span className="chip chip-gold text-xs">{p.badge}</span>
-        </div>
-      )}
-
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs font-semibold mb-2" style={{ color: "var(--faint)", letterSpacing: "0.06em" }}>{p.num}</p>
-          <h3
-            className="display font-extrabold tracking-tight mb-1.5"
-            style={{ fontSize: "clamp(1.2rem,2.5vw,1.65rem)", lineHeight: 1.15, color: "var(--navy)", letterSpacing: "-0.02em" }}
-          >
-            {p.title}
-          </h3>
-          <p className="text-sm font-medium mb-3" style={{ color: "var(--gold)" }}>{p.sub}</p>
-          <p className="text-sm" style={{ color: "var(--body)" }}>→ {p.result}</p>
-        </div>
-
-        <div className="flex flex-col items-end gap-3 flex-shrink-0">
-          <span className="text-xs" style={{ color: "var(--faint)", whiteSpace: "nowrap" }}>{p.date}</span>
-          <motion.a
-            href={p.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-9 h-9 rounded-lg flex items-center justify-center text-sm no-underline"
-            style={{ background: "var(--cream-dark)", border: "1px solid var(--border)", color: "var(--navy)" }}
-            onClick={e => e.stopPropagation()}
-            whileHover={{ background: "var(--navy)", color: "var(--cream)", borderColor: "var(--navy)" }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-          >
-            ↗
-          </motion.a>
-        </div>
-      </div>
-
-      {/* Expandable */}
-      <motion.div
-        initial={false}
-        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        style={{ overflow: "hidden" }}
+      {/* Row header — always visible */}
+      <button
+        className="w-full text-left py-7 flex items-start gap-5 bg-transparent border-none cursor-pointer group"
+        onClick={() => setOpen(o => !o)}
+        style={{ padding: "28px 0" }}
       >
-        <div className="pt-5 mt-5" style={{ borderTop: "1px solid var(--border)" }}>
-          <p className="text-sm leading-[1.85] mb-4" style={{ color: "var(--body)" }}>{p.body}</p>
-          <div className="flex flex-wrap gap-1.5">
-            {p.stack.map(t => <span key={t} className="chip">{t}</span>)}
+        {/* Number */}
+        <span
+          className="display font-extrabold flex-shrink-0 mt-1"
+          style={{ fontSize: "clamp(0.85rem, 1.2vw, 1rem)", color: "var(--faint)", letterSpacing: "0.04em", minWidth: 32 }}
+        >
+          {p.num}
+        </span>
+
+        {/* Main content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="min-w-0">
+              {p.badge && (
+                <span className="chip chip-lime text-xs mb-3 inline-block">{p.badge}</span>
+              )}
+              <h3
+                className="display font-extrabold tracking-tight mb-1"
+                style={{
+                  fontSize: "clamp(1.4rem, 3.5vw, 2.4rem)",
+                  lineHeight: 1.1,
+                  color: "var(--text)",
+                  letterSpacing: "-0.025em",
+                  transition: "color 0.2s ease",
+                }}
+              >
+                {p.title}
+              </h3>
+              <p className="text-sm font-medium mb-1.5" style={{ color: "var(--lime)" }}>{p.sub}</p>
+              <p className="text-sm" style={{ color: "var(--body)" }}>→ {p.result}</p>
+            </div>
+
+            {/* Right side */}
+            <div className="flex flex-col items-end gap-3 flex-shrink-0">
+              <span className="text-xs" style={{ color: "var(--muted)", whiteSpace: "nowrap" }}>{p.date}</span>
+              <div className="flex items-center gap-2">
+                <motion.a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={e => e.stopPropagation()}
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-sm no-underline"
+                  style={{ background: "var(--surface2)", border: "1px solid var(--border)", color: "var(--body)" }}
+                  whileHover={{ background: "var(--lime)", color: "#09090B", borderColor: "var(--lime)" }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  ↗
+                </motion.a>
+                <motion.span
+                  style={{ color: "var(--muted)", fontSize: 18, lineHeight: 1 }}
+                  animate={{ rotate: open ? 45 : 0 }}
+                  transition={{ duration: 0.3, ease }}
+                >
+                  +
+                </motion.span>
+              </div>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </button>
 
-      <p className="text-xs mt-3 text-right" style={{ color: "var(--faint)" }}>
-        {open ? "↑ less" : "↓ more"}
-      </p>
+      {/* Expandable detail */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="detail"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.45, ease }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="pb-7 pl-[52px]">
+              <p className="text-sm leading-[1.9] mb-5" style={{ color: "var(--body)", maxWidth: 680 }}>{p.body}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {p.stack.map(t => <span key={t} className="chip">{t}</span>)}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -132,34 +157,53 @@ export default function Projects() {
     <section
       id="projects"
       className="section-pad"
-      style={{ background: "var(--cream-mid)", borderTop: "1px solid var(--border)" }}
+      style={{ background: "var(--surface)", borderTop: "1px solid var(--border)" }}
     >
-      <div className="max-w-[1160px] mx-auto">
-        <motion.div
-          className="mb-14"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <p className="eyebrow mb-4">02 — Projects</p>
-          <h2
-            className="display font-extrabold tracking-tight"
-            style={{ fontSize: "clamp(2rem,4vw,3.4rem)", lineHeight: 1.1, color: "var(--navy)", letterSpacing: "-0.02em" }}
+      <div className="max-w-[1200px] mx-auto">
+        {/* Section heading */}
+        <div className="relative mb-16 overflow-hidden">
+          <span
+            className="display font-extrabold absolute select-none pointer-events-none"
+            style={{
+              fontSize: "clamp(8rem, 20vw, 16rem)",
+              lineHeight: 1,
+              color: "rgba(255,255,255,0.025)",
+              top: "-0.18em",
+              left: "-0.04em",
+              letterSpacing: "-0.05em",
+            }}
           >
-            Selected Work
-          </h2>
-        </motion.div>
+            02
+          </span>
+          <div className="relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease }}
+            >
+              <p className="eyebrow mb-3">02 — Projects</p>
+              <h2
+                className="display font-extrabold tracking-tight"
+                style={{ fontSize: "clamp(2.2rem, 5vw, 5rem)", lineHeight: 1.05, color: "var(--text)", letterSpacing: "-0.03em" }}
+              >
+                Selected Work
+              </h2>
+              <motion.div
+                style={{ height: 1, background: "var(--lime)", transformOrigin: "left", marginTop: 20, maxWidth: 240 }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 1.1, delay: 0.25, ease }}
+              />
+            </motion.div>
+          </div>
+        </div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-3"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {PROJECTS.map(p => <ProjectCard key={p.num} p={p} />)}
-        </motion.div>
+        {/* Project list */}
+        <div style={{ borderTop: "1px solid var(--border)" }}>
+          {PROJECTS.map((p, i) => <ProjectRow key={p.num} p={p} index={i} />)}
+        </div>
       </div>
     </section>
   );

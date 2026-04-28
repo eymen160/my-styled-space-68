@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
 const RESEARCH = [
   {
     title: "NIH Retinal Image AI",
     meta:  "Undergraduate Research · KSU · Sep 2025 – Present",
     metric: "84.97%",
-    metricLabel: "Fovea Detection Accuracy",
+    metricLabel: "Fovea Detection",
     body: "End-to-end retinal image analysis system in PyTorch across 3 clinical datasets (6,000+ images) to automate detection of eye diseases as part of an ongoing NIH-funded study. Improved fovea detection accuracy to 84.97%, surpassing an existing published benchmark, by redesigning the model training approach and data processing strategy. Caught and fixed a data quality issue (duplicate images leaking across train/test splits) using a custom audit script, preventing misleading accuracy results.",
     stack: ["PyTorch", "ResNet34", "U-Net", "Python", "Google Colab"],
     link:  "https://github.com/eymen160/fovea-segmentation",
@@ -21,91 +23,112 @@ const RESEARCH = [
   },
 ];
 
-const cardAnim = {
-  hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } },
-};
-
 export default function Research() {
   return (
     <section
       id="research"
       className="section-pad"
-      style={{ background: "var(--cream)", borderTop: "1px solid var(--border)" }}
+      style={{ background: "var(--bg)", borderTop: "1px solid var(--border)" }}
     >
-      <div className="max-w-[1160px] mx-auto">
-        <motion.div
-          className="mb-14"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <p className="eyebrow mb-4">03 — Research</p>
-          <h2
-            className="display font-extrabold tracking-tight"
-            style={{ fontSize: "clamp(2rem,4vw,3.4rem)", lineHeight: 1.1, color: "var(--navy)", letterSpacing: "-0.02em" }}
+      <div className="max-w-[1200px] mx-auto">
+        {/* Section heading */}
+        <div className="relative mb-16 overflow-hidden">
+          <span
+            className="display font-extrabold absolute select-none pointer-events-none"
+            style={{
+              fontSize: "clamp(8rem, 20vw, 16rem)",
+              lineHeight: 1,
+              color: "rgba(255,255,255,0.025)",
+              top: "-0.18em",
+              left: "-0.04em",
+              letterSpacing: "-0.05em",
+            }}
           >
-            NIH-Funded AI Research
-          </h2>
-        </motion.div>
+            03
+          </span>
+          <div className="relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease }}
+            >
+              <p className="eyebrow mb-3">03 — Research</p>
+              <h2
+                className="display font-extrabold tracking-tight"
+                style={{ fontSize: "clamp(2.2rem, 5vw, 5rem)", lineHeight: 1.05, color: "var(--text)", letterSpacing: "-0.03em" }}
+              >
+                NIH-Funded AI Research
+              </h2>
+              <motion.div
+                style={{ height: 1, background: "var(--lime)", transformOrigin: "left", marginTop: 20, maxWidth: 240 }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 1.1, delay: 0.25, ease }}
+              />
+            </motion.div>
+          </div>
+        </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           {RESEARCH.map((r, i) => (
             <motion.div
               key={r.title}
-              variants={cardAnim}
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              custom={i}
+              transition={{ duration: 0.75, delay: i * 0.1, ease }}
               className="card p-8"
-              whileHover={{ y: -3, boxShadow: "0 16px 48px rgba(12,25,41,0.08)", borderColor: "var(--border2)" }}
-              transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              whileHover={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)", borderColor: "var(--border2)" }}
             >
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
                     <div>
                       <h3
                         className="display font-bold tracking-tight mb-1.5"
-                        style={{ fontSize: "clamp(1.1rem,2vw,1.4rem)", color: "var(--navy)", letterSpacing: "-0.02em" }}
+                        style={{ fontSize: "clamp(1.1rem, 2vw, 1.45rem)", color: "var(--text)", letterSpacing: "-0.02em" }}
                       >
                         {r.title}
                       </h3>
-                      <p className="text-sm font-medium" style={{ color: "var(--gold)" }}>{r.meta}</p>
+                      <p className="text-sm font-medium" style={{ color: "var(--lime)" }}>{r.meta}</p>
                     </div>
                     <motion.a
                       href={r.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-9 h-9 rounded-lg flex items-center justify-center text-sm no-underline flex-shrink-0"
-                      style={{ background: "var(--cream-dark)", border: "1px solid var(--border)", color: "var(--navy)" }}
-                      whileHover={{ background: "var(--navy)", color: "var(--cream)", borderColor: "var(--navy)" }}
+                      style={{ background: "var(--surface2)", border: "1px solid var(--border)", color: "var(--body)" }}
+                      whileHover={{ background: "var(--lime)", color: "#09090B", borderColor: "var(--lime)" }}
                       whileTap={{ scale: 0.9 }}
                       transition={{ duration: 0.2 }}
                     >
                       ↗
                     </motion.a>
                   </div>
-                  <p className="text-sm leading-[1.85] mb-5" style={{ color: "var(--body)" }}>{r.body}</p>
+                  <p className="text-sm leading-[1.9] mb-5" style={{ color: "var(--body)" }}>{r.body}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {r.stack.map(t => <span key={t} className="chip">{t}</span>)}
                   </div>
                 </div>
 
-                {/* Metric callout */}
+                {/* Metric */}
                 <div
-                  className="flex-shrink-0 rounded-xl p-6 flex flex-col items-center justify-center text-center min-w-[140px]"
-                  style={{ background: "var(--navy)", border: "1.5px solid var(--navy-mid)" }}
+                  className="flex-shrink-0 rounded-xl p-6 flex flex-col items-center justify-center text-center"
+                  style={{
+                    background: "var(--lime-dim)",
+                    border: "1px solid rgba(200,255,62,0.18)",
+                    minWidth: 140,
+                  }}
                 >
                   <p
-                    className="display font-extrabold"
-                    style={{ fontSize: "2rem", lineHeight: 1, color: "var(--gold)", letterSpacing: "-0.03em", marginBottom: 6 }}
+                    className="display font-extrabold mb-1.5"
+                    style={{ fontSize: "2rem", lineHeight: 1, color: "var(--lime)", letterSpacing: "-0.04em" }}
                   >
                     {r.metric}
                   </p>
-                  <p className="text-xs text-center leading-tight" style={{ color: "rgba(248,244,236,0.5)", maxWidth: 100 }}>
+                  <p className="text-xs leading-tight text-center" style={{ color: "var(--muted)", maxWidth: 100 }}>
                     {r.metricLabel}
                   </p>
                 </div>
