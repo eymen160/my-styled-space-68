@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Magnetic from "../Magnetic";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const spring = { type: "spring", stiffness: 300, damping: 22 } as const;
@@ -177,19 +178,20 @@ export default function Contact() {
                   ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
                   ["GitHub",   "https://github.com/eymen160"],
                 ].map(([label, href]) => (
-                  <motion.a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-medium no-underline px-5 py-2.5 rounded-lg"
-                    style={{ border: "1px solid var(--border)", color: "var(--body)", background: "transparent" }}
-                    whileHover={{ borderColor: "var(--lime)", color: "var(--lime)", background: "var(--lime-dim)" }}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {label} ↗
-                  </motion.a>
+                  <Magnetic key={label} strength={0.3}>
+                    <motion.a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block text-sm font-medium no-underline px-5 py-2.5 rounded-lg"
+                      style={{ border: "1px solid var(--border)", color: "var(--body)", background: "transparent" }}
+                      whileHover={{ borderColor: "var(--lime)", color: "var(--lime)", background: "var(--lime-dim)" }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {label} ↗
+                    </motion.a>
+                  </Magnetic>
                 ))}
               </div>
             </div>

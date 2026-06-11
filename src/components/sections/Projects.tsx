@@ -52,6 +52,7 @@ const PROJECTS = [
 
 function ProjectRow({ p, index }: { p: typeof PROJECTS[0]; index: number }) {
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
@@ -59,24 +60,48 @@ function ProjectRow({ p, index }: { p: typeof PROJECTS[0]; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, delay: index * 0.08, ease }}
-      style={{ borderBottom: "1px solid var(--border)" }}
+      style={{ borderBottom: "1px solid var(--border)", position: "relative" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      data-cursor="view"
     >
+      {/* Hover flare — sweeps in behind the row */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(90deg, rgba(200,255,62,0.05), transparent 60%)",
+          transformOrigin: "left",
+        }}
+        animate={{ scaleX: hovered ? 1 : 0, opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.5, ease }}
+      />
+
       {/* Row header — always visible */}
       <button
-        className="w-full text-left py-7 flex items-start gap-5 bg-transparent border-none cursor-pointer group"
+        className="w-full text-left py-7 flex items-start gap-5 bg-transparent border-none cursor-pointer group relative"
         onClick={() => setOpen(o => !o)}
         style={{ padding: "28px 0" }}
       >
         {/* Number */}
         <span
           className="display font-extrabold flex-shrink-0 mt-1"
-          style={{ fontSize: "clamp(0.85rem, 1.2vw, 1rem)", color: "var(--faint)", letterSpacing: "0.04em", minWidth: 32 }}
+          style={{
+            fontSize: "clamp(0.85rem, 1.2vw, 1rem)",
+            color: hovered ? "var(--lime)" : "var(--faint)",
+            letterSpacing: "0.04em",
+            minWidth: 32,
+            transition: "color 0.25s ease",
+          }}
         >
           {p.num}
         </span>
 
         {/* Main content */}
-        <div className="flex-1 min-w-0">
+        <motion.div
+          className="flex-1 min-w-0"
+          animate={{ x: hovered ? 14 : 0 }}
+          transition={{ duration: 0.45, ease }}
+        >
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="min-w-0">
               {p.badge && (
@@ -87,9 +112,9 @@ function ProjectRow({ p, index }: { p: typeof PROJECTS[0]; index: number }) {
                 style={{
                   fontSize: "clamp(1.4rem, 3.5vw, 2.4rem)",
                   lineHeight: 1.1,
-                  color: "var(--text)",
+                  color: hovered ? "var(--lime)" : "var(--text)",
                   letterSpacing: "-0.025em",
-                  transition: "color 0.2s ease",
+                  transition: "color 0.25s ease",
                 }}
               >
                 {p.title}
@@ -125,7 +150,7 @@ function ProjectRow({ p, index }: { p: typeof PROJECTS[0]; index: number }) {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </button>
 
       {/* Expandable detail */}

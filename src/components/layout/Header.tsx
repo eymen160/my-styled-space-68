@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Magnetic from "../Magnetic";
+import { smoothScrollTo } from "../../lib/scrollTo";
 
 const NAV = [
   { label: "About",    id: "about"    },
@@ -8,19 +10,19 @@ const NAV = [
   { label: "Contact",  id: "contact"  },
 ];
 
-function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
-}
-
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden,   setHidden]   = useState(false);
   const [active,   setActive]   = useState("");
+  const lastY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 60);
+      const y = window.scrollY;
+      setScrolled(y > 60);
+      // Hide when scrolling down past the hero, reveal on any scroll up
+      setHidden(y > 500 && y > lastY.current);
+      lastY.current = y;
       for (const { id } of NAV) {
         const el = document.getElementById(id);
         if (el) {
@@ -28,7 +30,7 @@ export default function Header() {
           if (r.top <= 80 && r.bottom >= 80) { setActive(id); return; }
         }
       }
-      if (window.scrollY < 80) setActive("");
+      if (y < 80) setActive("");
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -37,6 +39,9 @@ export default function Header() {
   return (
     <motion.header
       className="fixed top-0 left-0 right-0 z-50"
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: hidden ? "-100%" : 0, opacity: 1 }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       style={{
         background:     scrolled ? "rgba(9,9,11,0.85)" : "transparent",
         backdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
@@ -48,7 +53,7 @@ export default function Header() {
 
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => smoothScrollTo(null)}
           className="display font-extrabold text-lg tracking-tight bg-transparent border-none cursor-pointer"
           style={{ color: "var(--lime)", fontStyle: "italic", letterSpacing: "-0.02em" }}
         >
@@ -59,7 +64,7 @@ export default function Header() {
           {NAV.map(({ label, id }) => (
             <button
               key={id}
-              onClick={() => scrollTo(id)}
+              onClick={() => smoothScrollTo(id)}
               className="relative px-4 py-2 text-sm bg-transparent border-none cursor-pointer transition-colors duration-200 rounded-lg"
               style={{ color: active === id ? "var(--text)" : "var(--muted)", fontWeight: active === id ? 500 : 400 }}
             >
@@ -76,16 +81,18 @@ export default function Header() {
           ))}
         </nav>
 
-        <motion.a
-          href="mailto:ekeyvan@students.kennesaw.edu"
-          className="text-sm font-semibold no-underline whitespace-nowrap px-5 py-2.5 rounded-lg"
-          style={{ background: "var(--lime)", color: "#09090B" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: "spring", stiffness: 400, damping: 22 }}
-        >
-          Hire Me
-        </motion.a>
+        <Magnetic strength={0.3}>
+          <motion.a
+            href="mailto:ekeyvan@students.kennesaw.edu"
+            className="inline-block text-sm font-semibold no-underline whitespace-nowrap px-5 py-2.5 rounded-lg"
+            style={{ background: "var(--lime)", color: "#09090B" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 400, damping: 22 }}
+          >
+            Hire Me
+          </motion.a>
+        </Magnetic>
       </div>
     </motion.header>
   );

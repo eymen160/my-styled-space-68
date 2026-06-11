@@ -20,6 +20,8 @@
   }
 
   html { scroll-behavior: smooth; }
+  html.lenis { scroll-behavior: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto; }
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
@@ -88,12 +90,58 @@
   }
 }
 
+/* ── CUSTOM CURSOR ── */
+@media (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor a,
+  .has-custom-cursor button { cursor: none; }
+}
+
+/* ── GRAIN OVERLAY ── */
+.grain {
+  position: fixed;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.6s steps(4) infinite;
+}
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, 1%); }
+  50%  { transform: translate(1%, -2%); }
+  75%  { transform: translate(-1%, 2%); }
+  100% { transform: translate(2%, -1%); }
+}
+
+/* ── OUTLINED TYPE ── */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--faint);
+}
+.text-outline-lime {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(200, 255, 62, 0.45);
+}
+
 /* ── MARQUEE ── */
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
 .marquee-track { animation: marquee 26s linear infinite; }
+.marquee-track-slow { animation: marquee 38s linear infinite; }
+.marquee-track-reverse { animation: marquee-reverse 38s linear infinite; }
+.marquee-pause:hover .marquee-track,
+.marquee-pause:hover .marquee-track-slow,
+.marquee-pause:hover .marquee-track-reverse { animation-play-state: paused; }
 
 /* ── PULSE DOT ── */
 @keyframes pulse-dot {
@@ -127,4 +175,14 @@
   background: linear-gradient(90deg, var(--lime), rgba(200, 255, 62, 0.4));
   z-index: 1000;
   transform-origin: left;
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .marquee-track-slow,
+  .marquee-track-reverse,
+  .grain,
+  .pulse-dot { animation: none; }
+  html { scroll-behavior: auto; }
 }
