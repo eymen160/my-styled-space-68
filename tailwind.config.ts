@@ -9,24 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
-        sans:    ["Inter", "system-ui", "sans-serif"],
-      },
-      colors: {
-        cream:      "#F8F4EC",
-        "cream-dark": "#EDE8DC",
-        "cream-mid":  "#F2EDE3",
-        navy:       "#0C1929",
-        "navy-mid": "#1A2F4A",
-        gold:       "#C4933F",
-        "gold-light": "#F5EDD8",
+        sans:  ["Inter", "system-ui", "sans-serif"],
+        serif: ["Instrument Serif", "Georgia", "serif"],
       },
       maxWidth: {
-        container: "1160px",
-      },
-      borderRadius: {
-        xl:  "12px",
-        "2xl": "16px",
+        container: "1120px",
       },
     },
   },

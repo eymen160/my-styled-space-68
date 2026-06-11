@@ -1,202 +1,80 @@
 import { motion } from "framer-motion";
-import Magnetic from "../Magnetic";
+import Reveal from "../Reveal";
 
-const ease = [0.16, 1, 0.3, 1] as const;
 const spring = { type: "spring", stiffness: 300, damping: 22 } as const;
-
-const INFO_CARDS = [
-  { label: "Location",  value: "Roswell, GA",   sub: "United States" },
-  { label: "Response",  value: "< 24 hours",    sub: "Average reply time" },
-];
 
 export default function Contact() {
   return (
     <section
       id="contact"
-      className="section-pad"
-      style={{ background: "var(--surface)", borderTop: "1px solid var(--border)" }}
+      className="relative z-10 section-pad overflow-hidden"
+      style={{ background: "var(--bg2)", borderTop: "1px solid var(--line)" }}
     >
-      <div className="max-w-[1200px] mx-auto">
-        {/* Section heading */}
-        <div className="relative mb-16 overflow-hidden">
+      {/* Dot grid echo from the hero */}
+      <div className="absolute inset-0 dot-grid pointer-events-none" />
+
+      <div className="max-w-[760px] mx-auto relative z-10 flex flex-col items-center text-center">
+
+        <Reveal>
           <span
-            className="display font-extrabold absolute select-none pointer-events-none"
-            style={{
-              fontSize: "clamp(8rem, 20vw, 16rem)",
-              lineHeight: 1,
-              color: "rgba(255,255,255,0.025)",
-              top: "-0.18em",
-              left: "-0.04em",
-              letterSpacing: "-0.05em",
-            }}
+            className="inline-flex items-center gap-2 pl-3 pr-4 py-1.5 rounded-full text-[13px] font-medium mb-8"
+            style={{ background: "#fff", border: "1px solid var(--line)", color: "var(--body)" }}
           >
-            04
+            <span className="w-2 h-2 rounded-full flex-shrink-0 pulse-dot" style={{ background: "var(--green)" }} />
+            Available now · replies within 24 hours
           </span>
-          <div className="relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, ease }}
-            >
-              <p className="eyebrow mb-3">04 — Contact</p>
-              <h2
-                className="display font-extrabold tracking-tight"
-                style={{ fontSize: "clamp(2.4rem, 6.5vw, 6.5rem)", lineHeight: 0.97, color: "var(--text)", letterSpacing: "-0.035em" }}
-              >
-                Let's work<br />
-                <em style={{ color: "var(--lime)", fontStyle: "italic" }}>together.</em>
-              </h2>
-              <motion.div
-                style={{ height: 1, background: "var(--lime)", transformOrigin: "left", marginTop: 24, maxWidth: 240 }}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 1.1, delay: 0.25, ease }}
-              />
-            </motion.div>
-          </div>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          {/* Left column */}
-          <motion.div
-            className="flex flex-col gap-3"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+        <Reveal delay={0.08}>
+          <h2
+            className="font-bold tracking-tight mb-6"
+            style={{ fontSize: "clamp(2.6rem, 6.5vw, 4.8rem)", lineHeight: 1.02, letterSpacing: "-0.045em", color: "var(--ink)" }}
           >
-            {/* Status card */}
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
-              className="card p-7"
-            >
-              <p className="eyebrow mb-4" style={{ fontSize: 10 }}>Status</p>
-              <div className="flex items-center gap-2.5 mb-3">
-                <span className="w-2 h-2 rounded-full flex-shrink-0 pulse-dot" style={{ background: "var(--green)" }} />
-                <span className="text-sm font-semibold" style={{ color: "var(--text)" }}>Available Now</span>
-              </div>
-              <p
-                className="display font-bold tracking-tight mb-1.5"
-                style={{ fontSize: "1.3rem", color: "var(--text)", letterSpacing: "-0.02em" }}
-              >
-                Summer 2026 Internship
-              </p>
-              <p className="text-sm" style={{ color: "var(--muted)" }}>AI/ML · Software Engineering · Data Analytics</p>
-            </motion.div>
+            Let's build something{" "}
+            <span className="serif" style={{ color: "var(--accent)", fontSize: "1.05em" }}>worth shipping.</span>
+          </h2>
+        </Reveal>
 
-            {/* Info cards */}
-            <div className="grid grid-cols-2 gap-3">
-              {INFO_CARDS.map(c => (
-                <motion.div
-                  key={c.label}
-                  variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
-                  className="card p-5"
-                >
-                  <p className="eyebrow mb-3" style={{ fontSize: 10 }}>{c.label}</p>
-                  <p
-                    className="display font-bold tracking-tight mb-1"
-                    style={{ fontSize: "1rem", color: "var(--text)", letterSpacing: "-0.01em" }}
-                  >
-                    {c.value}
-                  </p>
-                  <p className="text-xs" style={{ color: "var(--muted)" }}>{c.sub}</p>
-                </motion.div>
-              ))}
-            </div>
+        <Reveal delay={0.16}>
+          <p className="max-w-[480px] text-[15.5px] leading-[1.7] mb-10" style={{ color: "var(--body)" }}>
+            Looking for Summer 2026 internships in AI/ML engineering, software
+            development, and data analytics. Also open to research collaborations.
+            Based in Roswell, GA.
+          </p>
+        </Reveal>
 
-            {/* Resume download */}
+        <Reveal delay={0.24}>
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <motion.a
-              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
-              href="/resume/EYMEN_KEYVAN_RESUME.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card p-5 no-underline flex items-center justify-between"
-              whileHover={{ y: -3, borderColor: "var(--lime)", boxShadow: "0 12px 40px rgba(0,0,0,0.4)" }}
+              href="mailto:ekeyvan@students.kennesaw.edu"
+              className="px-8 py-4 rounded-full text-[15px] font-semibold no-underline"
+              style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 16px rgba(0,113,227,0.25)" }}
+              whileHover={{ scale: 1.045, backgroundColor: "#0077ED", boxShadow: "0 10px 32px rgba(0,113,227,0.35)" }}
+              whileTap={{ scale: 0.97 }}
               transition={spring}
             >
-              <div>
-                <p className="eyebrow mb-2" style={{ fontSize: 10 }}>Resume</p>
-                <p
-                  className="display font-bold tracking-tight"
-                  style={{ fontSize: "1.1rem", color: "var(--text)", letterSpacing: "-0.02em" }}
-                >
-                  Download PDF
-                </p>
-              </div>
-              <span
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-base"
-                style={{ background: "var(--lime-dim)", color: "var(--lime)", border: "1px solid rgba(200,255,62,0.2)" }}
-              >
-                ↗
-              </span>
+              ekeyvan@students.kennesaw.edu
             </motion.a>
-          </motion.div>
-
-          {/* Right column */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.75, delay: 0.14, ease }}
-            className="card p-8 flex flex-col gap-7"
-          >
-            <p className="eyebrow" style={{ fontSize: 10 }}>Get in touch</p>
-
-            <p className="text-base leading-[1.85]" style={{ color: "var(--body)" }}>
-              Actively looking for{" "}
-              <strong style={{ color: "var(--text)", fontWeight: 700 }}>Summer 2026 internships</strong>{" "}
-              in AI/ML engineering, software development, and data analytics. Open to research collaborations.
-            </p>
-
-            {/* Email */}
-            <div>
-              <p className="eyebrow mb-3" style={{ fontSize: 10 }}>Email</p>
-              <a
-                href="mailto:ekeyvan@students.kennesaw.edu"
-                className="link-hover display font-bold tracking-tight"
-                style={{
-                  fontSize: "clamp(0.95rem, 1.8vw, 1.35rem)",
-                  color: "var(--text)",
-                  letterSpacing: "-0.02em",
-                  display: "block",
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = "var(--lime)")}
-                onMouseLeave={e => (e.currentTarget.style.color = "var(--text)")}
+            {[
+              ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
+              ["GitHub",   "https://github.com/eymen160"],
+            ].map(([label, href]) => (
+              <motion.a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-4 rounded-full text-[15px] font-semibold no-underline"
+                style={{ background: "#fff", border: "1px solid var(--line)", color: "var(--ink)" }}
+                whileHover={{ scale: 1.045, borderColor: "var(--line2)", boxShadow: "0 8px 24px rgba(0,0,0,0.07)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={spring}
               >
-                ekeyvan@students.kennesaw.edu ↗
-              </a>
-            </div>
-
-            {/* Profiles */}
-            <div>
-              <p className="eyebrow mb-3" style={{ fontSize: 10 }}>Profiles</p>
-              <div className="flex gap-2 flex-wrap">
-                {[
-                  ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
-                  ["GitHub",   "https://github.com/eymen160"],
-                ].map(([label, href]) => (
-                  <Magnetic key={label} strength={0.3}>
-                    <motion.a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block text-sm font-medium no-underline px-5 py-2.5 rounded-lg"
-                      style={{ border: "1px solid var(--border)", color: "var(--body)", background: "transparent" }}
-                      whileHover={{ borderColor: "var(--lime)", color: "var(--lime)", background: "var(--lime-dim)" }}
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {label} ↗
-                    </motion.a>
-                  </Magnetic>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
+                {label} ↗
+              </motion.a>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
