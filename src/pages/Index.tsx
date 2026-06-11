@@ -1,22 +1,23 @@
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Hero from "../components/sections/Hero";
-import MarqueeBanner from "../components/sections/MarqueeBanner";
-import About from "../components/sections/About";
-import Projects from "../components/sections/Projects";
+import Work from "../components/sections/Work";
 import Research from "../components/sections/Research";
+import About from "../components/sections/About";
 import Contact from "../components/sections/Contact";
+import useLenis from "../hooks/useLenis";
 
 export default function Index() {
+  useLenis();
+
   return (
     <>
       <Header />
       <main>
         <Hero />
-        <MarqueeBanner />
-        <About />
-        <Projects />
+        <Work />
         <Research />
+        <About />
         <Contact />
       </main>
       <Footer />

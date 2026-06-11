@@ -1,110 +1,72 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { smoothScrollTo } from "../../lib/scrollTo";
 
 const NAV = [
-  { label: "About",    id: "about"    },
-  { label: "Projects", id: "projects" },
+  { label: "Work",     id: "work"     },
   { label: "Research", id: "research" },
+  { label: "About",    id: "about"    },
   { label: "Contact",  id: "contact"  },
 ];
 
-function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
-}
-
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [active,   setActive]   = useState("");
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 60);
-      for (const { id } of NAV) {
-        const el = document.getElementById(id);
-        if (el) {
-          const r = el.getBoundingClientRect();
-          if (r.top <= 80 && r.bottom >= 80) { setActive(id); return; }
-        }
-      }
-      if (window.scrollY < 80) setActive("");
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <motion.header
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{
-        background:     scrolled ? "rgba(9,9,11,0.85)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
-        borderBottom:   scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-        transition:     "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
-      }}
-    >
-      <ScrollProgress />
-
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 pointer-events-none">
+      <motion.header
+        className="pointer-events-auto flex items-center gap-1 rounded-full pl-5 pr-1.5 py-1.5"
+        initial={{ y: -56, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+        style={{
+          background: scrolled ? "rgba(255,255,255,0.72)" : "rgba(255,255,255,0.5)",
+          backdropFilter: "blur(20px) saturate(1.6)",
+          WebkitBackdropFilter: "blur(20px) saturate(1.6)",
+          border: "1px solid rgba(0,0,0,0.07)",
+          boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.08)" : "0 2px 12px rgba(0,0,0,0.04)",
+          transition: "background 0.35s ease, box-shadow 0.35s ease",
+        }}
+      >
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="display font-extrabold text-lg tracking-tight bg-transparent border-none cursor-pointer"
-          style={{ color: "var(--lime)", fontStyle: "italic", letterSpacing: "-0.02em" }}
+          onClick={() => smoothScrollTo(null)}
+          className="text-sm font-bold tracking-tight bg-transparent border-none cursor-pointer mr-2"
+          style={{ color: "var(--ink)", letterSpacing: "-0.02em" }}
         >
-          EFK
+          Eymen Keyvan
         </button>
 
-        <nav className="hidden md:flex items-center gap-0.5">
+        <nav className="hidden md:flex items-center">
           {NAV.map(({ label, id }) => (
             <button
               key={id}
-              onClick={() => scrollTo(id)}
-              className="relative px-4 py-2 text-sm bg-transparent border-none cursor-pointer transition-colors duration-200 rounded-lg"
-              style={{ color: active === id ? "var(--text)" : "var(--muted)", fontWeight: active === id ? 500 : 400 }}
+              onClick={() => smoothScrollTo(id, -88)}
+              className="px-3.5 py-2 text-[13.5px] font-medium bg-transparent border-none cursor-pointer rounded-full transition-colors duration-200 hover:text-[--ink]"
+              style={{ color: "var(--body)" }}
             >
-              {active === id && (
-                <motion.span
-                  layoutId="nav-bg"
-                  className="absolute inset-0 rounded-lg"
-                  style={{ background: "rgba(255,255,255,0.06)" }}
-                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                />
-              )}
-              <span className="relative z-10">{label}</span>
+              {label}
             </button>
           ))}
         </nav>
 
         <motion.a
           href="mailto:ekeyvan@students.kennesaw.edu"
-          className="text-sm font-semibold no-underline whitespace-nowrap px-5 py-2.5 rounded-lg"
-          style={{ background: "var(--lime)", color: "#09090B" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: "spring", stiffness: 400, damping: 22 }}
+          className="ml-1 text-[13.5px] font-semibold no-underline whitespace-nowrap px-4.5 py-2 rounded-full"
+          style={{ background: "var(--accent)", color: "#fff", padding: "8px 18px" }}
+          whileHover={{ scale: 1.04, backgroundColor: "#0077ED" }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ type: "spring", stiffness: 400, damping: 24 }}
         >
-          Hire Me
+          Get in touch
         </motion.a>
-      </div>
-    </motion.header>
-  );
-}
-
-function ScrollProgress() {
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const fn = () => {
-      const total = document.body.scrollHeight - window.innerHeight;
-      setWidth(total > 0 ? (window.scrollY / total) * 100 : 0);
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-  return (
-    <div
-      id="scroll-progress"
-      style={{ width: `${width}%`, transition: "width 0.1s linear" }}
-    />
+      </motion.header>
+    </div>
   );
 }

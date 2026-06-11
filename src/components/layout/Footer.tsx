@@ -1,46 +1,45 @@
-const LINKS = [
-  ["GitHub",   "https://github.com/eymen160"],
-  ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
-  ["Email",    "mailto:ekeyvan@students.kennesaw.edu"],
-] as const;
+import { useEffect, useState } from "react";
+import { smoothScrollTo } from "../../lib/scrollTo";
+
+function LocalTime() {
+  const [time, setTime] = useState("");
+  useEffect(() => {
+    const fmt = () =>
+      new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit", minute: "2-digit",
+        hour12: true, timeZone: "America/New_York",
+      });
+    setTime(fmt());
+    const id = setInterval(() => setTime(fmt()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="text-[13px] tabular-nums" style={{ color: "var(--muted)" }}>
+      Atlanta, GA · {time} ET
+    </span>
+  );
+}
 
 export default function Footer() {
   return (
     <footer
-      className="py-8 px-5 sm:px-8"
-      style={{ borderTop: "1px solid var(--border)", background: "var(--bg)" }}
+      className="relative z-10 py-8 px-5 sm:px-8"
+      style={{ background: "var(--bg2)", borderTop: "1px solid var(--line)" }}
     >
-      <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between gap-4">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="display font-extrabold text-base bg-transparent border-none cursor-pointer transition-colors duration-200"
-          style={{ color: "var(--faint)", fontStyle: "italic", letterSpacing: "-0.02em" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "var(--lime)")}
-          onMouseLeave={e => (e.currentTarget.style.color = "var(--faint)")}
-        >
-          EFK
-        </button>
-
-        <p className="text-xs tracking-wide" style={{ color: "var(--faint)" }}>
-          © {new Date().getFullYear()} Eymen Faruk Keyvan · CS @ KSU
+      <div className="max-w-[1120px] mx-auto flex flex-wrap items-center justify-between gap-4">
+        <p className="text-[13px]" style={{ color: "var(--muted)" }}>
+          © {new Date().getFullYear()} Eymen Faruk Keyvan
         </p>
-
-        <div className="flex gap-6">
-          {LINKS.map(([label, href]) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs no-underline transition-colors duration-200"
-              style={{ color: "var(--muted)" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--lime)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "var(--muted)")}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
+        <LocalTime />
+        <button
+          onClick={() => smoothScrollTo(null)}
+          className="text-[13px] font-medium bg-transparent border-none cursor-pointer transition-colors duration-200"
+          style={{ color: "var(--body)" }}
+          onMouseEnter={e => (e.currentTarget.style.color = "var(--accent)")}
+          onMouseLeave={e => (e.currentTarget.style.color = "var(--body)")}
+        >
+          Back to top ↑
+        </button>
       </div>
     </footer>
   );
