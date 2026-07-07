@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Magnetic from "../Magnetic";
 
 function IconLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   return (
@@ -69,15 +70,17 @@ export default function Header() {
               <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
             </svg>
           </IconLink>
-          <a
-            href="/resume/EYMEN_KEYVAN_RESUME.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="pill pill-solid ml-2"
-            style={{ padding: "10px 24px", fontSize: 14 }}
-          >
-            Resume
-          </a>
+          <Magnetic className="ml-2" strength={0.25}>
+            <a
+              href="/resume/EYMEN_KEYVAN_RESUME.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill pill-solid"
+              style={{ padding: "10px 24px", fontSize: 14 }}
+            >
+              Resume
+            </a>
+          </Magnetic>
         </div>
       </div>
     </header>

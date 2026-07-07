@@ -130,6 +130,19 @@
   }
 }
 
+/* ── DRIFTING DUST ── */
+@keyframes dust-drift {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translate(26px, -64px); opacity: 0; }
+}
+.dust {
+  animation-name: dust-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 /* ── STATUS DOT ── */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(78, 217, 160, 0.45); }

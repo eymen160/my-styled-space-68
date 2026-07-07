@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import Magnetic from "../Magnetic";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -43,12 +44,16 @@ export default function Contact() {
         </motion.p>
 
         <motion.div {...fade(0.3)} className="flex flex-wrap items-center justify-center gap-4 mb-12">
-          <a href="mailto:ekeyvan@students.kennesaw.edu" className="pill pill-solid">
-            Say hello ✉
-          </a>
-          <a href="/resume/EYMEN_KEYVAN_RESUME.pdf" target="_blank" rel="noopener noreferrer" className="pill pill-outline">
-            Resume ↗
-          </a>
+          <Magnetic>
+            <a href="mailto:ekeyvan@students.kennesaw.edu" className="pill pill-solid">
+              Say hello ✉
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a href="/resume/EYMEN_KEYVAN_RESUME.pdf" target="_blank" rel="noopener noreferrer" className="pill pill-outline">
+              Resume ↗
+            </a>
+          </Magnetic>
         </motion.div>
 
         <motion.div {...fade(0.4)} className="flex flex-wrap items-center justify-center gap-7">
