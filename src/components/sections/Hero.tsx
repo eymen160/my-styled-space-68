@@ -242,7 +242,7 @@ function IdBadge({ reduced }: { reduced: boolean }) {
                       IF FOUND, PLEASE RETURN TO
                     </p>
                     <p className="font-mono text-center mb-4" style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "#22252C" }}>
-                      EKEYVAN@STUDENTS.KENNESAW.EDU
+                      EYMENFARUK479@GMAIL.COM
                     </p>
                     {/* Stamp */}
                     <div
@@ -366,9 +366,10 @@ export default function Hero() {
               className="text-base leading-[1.85] mb-10 mx-auto lg:mx-0"
               style={{ color: "var(--body)", maxWidth: 440 }}
             >
-              I build AI systems that hold up to measurement — retinal imaging
-              models, LLM pipelines over SEC filings, and an award-winning
-              customs auditor.
+              I turn research problems into working software: <strong style={{ color: "var(--text)", fontWeight: 600 }}>84.97% fovea
+              detection</strong> for an NIH-funded study — beating a published benchmark —
+              and a customs-duty auditor that took <strong style={{ color: "var(--text)", fontWeight: 600 }}>2nd place at Hacklanta 2026</strong>,
+              shipped to production in 12 hours.
             </motion.p>
 
             <motion.div {...fade(0.97)} className="flex flex-wrap items-center gap-5 justify-center lg:justify-start">

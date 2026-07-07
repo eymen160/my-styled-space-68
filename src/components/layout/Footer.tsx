@@ -14,7 +14,7 @@ export default function Footer() {
           {[
             ["GitHub", "https://github.com/eymen160"],
             ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
-            ["Email", "mailto:ekeyvan@students.kennesaw.edu"],
+            ["Email", "mailto:eymenfaruk479@gmail.com"],
           ].map(([label, href]) => (
             <a
               key={label}

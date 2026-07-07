@@ -38,14 +38,14 @@ export default function Contact() {
           className="text-base md:text-lg leading-[1.85] mb-12 mx-auto"
           style={{ color: "var(--body)", maxWidth: 520 }}
         >
-          Looking for Summer 2027 internships in AI/ML engineering, software
-          development, and data analytics. Open to research collaborations —
-          I reply within 24 hours.
+          Looking for a Summer 2027 internship in software engineering, AI/ML,
+          or data — somewhere with hard problems and high standards. Also open
+          to research collaborations. I reply within 24 hours.
         </motion.p>
 
         <motion.div {...fade(0.3)} className="flex flex-wrap items-center justify-center gap-4 mb-12">
           <Magnetic>
-            <a href="mailto:ekeyvan@students.kennesaw.edu" className="pill pill-solid">
+            <a href="mailto:eymenfaruk479@gmail.com" className="pill pill-solid">
               Say hello ✉
             </a>
           </Magnetic>
@@ -58,7 +58,7 @@ export default function Contact() {
 
         <motion.div {...fade(0.4)} className="flex flex-wrap items-center justify-center gap-7">
           {[
-            ["ekeyvan@students.kennesaw.edu", "mailto:ekeyvan@students.kennesaw.edu"],
+            ["eymenfaruk479@gmail.com", "mailto:eymenfaruk479@gmail.com"],
             ["GitHub", "https://github.com/eymen160"],
             ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
           ].map(([label, href]) => (

@@ -54,7 +54,7 @@ export default function Header() {
 
         {/* Socials + Resume */}
         <div className="flex items-center gap-2.5">
-          <IconLink href="mailto:ekeyvan@students.kennesaw.edu" label="Email">
+          <IconLink href="mailto:eymenfaruk479@gmail.com" label="Email">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2.5" y="5" width="19" height="14" rx="2.5" />
               <path d="m3 7 9 6 9-6" />

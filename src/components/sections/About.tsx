@@ -16,18 +16,18 @@ const EXPERIENCE = [
     org: "Kennesaw State University — NIH Deep Learning Lab",
     period: "Sep 2025 – Present",
     bullets: [
-      "End-to-end retinal image AI across 3 clinical datasets (6,000+ images)",
-      "Fovea detection at 84.97% — surpassing a published benchmark",
-      "Custom audit script caught & fixed a critical data quality issue",
+      "Built an end-to-end retinal image analysis pipeline in PyTorch across 3 clinical datasets (6,000+ images) for an NIH-funded study on automated eye-disease diagnosis",
+      "Raised fovea detection accuracy to 84.97% — surpassing a published benchmark — by redesigning the training approach and data processing strategy",
+      "Wrote a custom audit script that caught duplicate images leaking across train/test splits, protecting the study’s integrity",
     ],
   },
   {
     role: "Vice President",
-    org: "Global Dev & Networking Club · KSU",
+    org: "Global Development & Networking Club · KSU",
     period: "2025 – Present",
     bullets: [
-      "Youth Convention 2025 · 60+ students, speakers from Meta, Avanade, Emory",
-      "Led technical workshops and industry networking events",
+      "Organized Youth Convention 2025 for 60+ students, with speakers from Meta, Avanade, and Emory University",
+      "Directed panels, a networking fair, and hands-on technical workshops",
     ],
   },
 ];
@@ -81,9 +81,12 @@ export default function About() {
           style={{ color: "var(--body)", maxWidth: 760 }}
         >
           I’m a CS student at <strong style={{ color: "var(--text)", fontWeight: 700 }}>Kennesaw State University</strong>{" "}
-          (3.56 GPA, Presidential Scholarship, graduating Dec 2027). I build AI systems that
-          solve hard, meaningful problems — from retinal disease detection to customs fraud
-          detection. Currently NIH-funded; McKinsey Forward 2026 selectee.
+          (GPA 3.56, Presidential Scholarship, graduating Dec 2027). By day I do NIH-funded
+          deep learning research on retinal disease detection; the rest of the time I ship
+          full-stack AI products — most recently a customs-duty auditor that placed 2nd of
+          50+ teams at Hacklanta 2026. I care about results that survive scrutiny: when my
+          own accuracy numbers looked too good, I wrote the audit script that proved them
+          wrong, fixed the data leak, and earned them back for real.
         </motion.p>
 
         {/* Stats */}
