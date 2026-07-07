@@ -1,153 +1,129 @@
-import { motion, useReducedMotion } from "framer-motion";
-import useCounter from "../../hooks/useCounter";
+import { motion, useMotionValue, useTransform, useReducedMotion } from "framer-motion";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-const READOUTS = [
-  { value: 84.97, suffix: "%", decimals: 2, label: "Fovea detection", sub: "Surpasses published benchmark" },
-  { value: 2, suffix: "nd", decimals: 0, label: "Hacklanta · Finance track", sub: "Georgia State · 50+ teams" },
-  { value: 3.56, suffix: "", decimals: 2, label: "GPA — Kennesaw State", sub: "Presidential Scholarship" },
-];
+function scrollToId(id: string) {
+  const el = document.getElementById(id);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 76, behavior: "smooth" });
+}
 
-/* ── Signature: fovea lock-on reticle ─────────────────────────────
-   A diagnostic overlay on a retinal fundus — the subject of Eymen's
-   NIH research. The reticle scans, then locks onto the fovea. */
-function Reticle({ reduced }: { reduced: boolean }) {
-  const CX = 200, CY = 200;
-  const FOVEA = { x: 252, y: 214 };
-  const DISC = { x: 142, y: 186 };
-
-  const ticks = Array.from({ length: 72 }, (_, i) => {
-    const a = (i / 72) * Math.PI * 2;
-    const long = i % 6 === 0;
-    const r1 = long ? 180 : 186;
-    const r2 = 192;
-    return {
-      x1: CX + Math.cos(a) * r1, y1: CY + Math.sin(a) * r1,
-      x2: CX + Math.cos(a) * r2, y2: CY + Math.sin(a) * r2,
-      long,
-    };
-  });
-
+function Barcode() {
+  const widths = [3, 1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 2, 1, 1, 3, 1, 2, 2, 1, 3, 1, 1, 2, 1];
+  let x = 0;
   return (
-    <svg
-      viewBox="0 0 400 400"
-      className="w-full h-auto"
-      role="img"
-      aria-label="Stylized retinal fundus scan with a diagnostic reticle locked on the fovea"
-    >
-      <defs>
-        <radialGradient id="fundus" cx="48%" cy="47%" r="55%">
-          <stop offset="0%" stopColor="rgba(232,166,75,0.30)" />
-          <stop offset="55%" stopColor="rgba(200,110,45,0.14)" />
-          <stop offset="100%" stopColor="rgba(200,110,45,0)" />
-        </radialGradient>
-      </defs>
-
-      {/* Fundus disc */}
-      <circle cx={CX} cy={CY} r={158} fill="url(#fundus)" />
-      <circle cx={CX} cy={CY} r={158} fill="none" stroke="var(--line)" strokeWidth="1" />
-
-      {/* Vessels — faint arcs branching from the optic disc */}
-      <g stroke="rgba(232,166,75,0.22)" strokeWidth="1.1" fill="none">
-        <path d={`M ${DISC.x} ${DISC.y} C 160 120, 230 90, 292 138`} />
-        <path d={`M ${DISC.x} ${DISC.y} C 155 260, 220 310, 288 272`} />
-        <path d={`M ${DISC.x} ${DISC.y} C 190 170, 240 160, 300 190`} opacity="0.6" />
-        <path d={`M ${DISC.x} ${DISC.y} C 180 230, 235 255, 296 240`} opacity="0.6" />
-      </g>
-
-      {/* Optic disc marker */}
-      <circle cx={DISC.x} cy={DISC.y} r={13} fill="rgba(232,166,75,0.14)" stroke="rgba(232,166,75,0.3)" strokeWidth="1" />
-      <text x={DISC.x - 20} y={DISC.y - 22} fontFamily="'IBM Plex Mono', monospace" fontSize="8" letterSpacing="0.12em" fill="var(--dim)">
-        OPTIC DISC
-      </text>
-
-      {/* Tick ring */}
-      <g>
-        {ticks.map((t, i) => (
-          <line
-            key={i}
-            x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-            stroke={t.long ? "var(--line2)" : "var(--line)"}
-            strokeWidth="1"
-          />
-        ))}
-      </g>
-
-      {/* Rotating dashed rings */}
-      <circle
-        cx={CX} cy={CY} r={168}
-        fill="none" stroke="rgba(232,166,75,0.35)" strokeWidth="1" strokeDasharray="2 10"
-        className={reduced ? undefined : "reticle-spin"}
-      />
-      <circle
-        cx={CX} cy={CY} r={110}
-        fill="none" stroke="rgba(99,207,192,0.28)" strokeWidth="1" strokeDasharray="14 10"
-        className={reduced ? undefined : "reticle-spin-rev"}
-      />
-
-      {/* Crosshair */}
-      <line x1={CX} y1={16} x2={CX} y2={384} stroke="var(--line)" strokeWidth="1" />
-      <line x1={16} y1={CY} x2={384} y2={CY} stroke="var(--line)" strokeWidth="1" />
-
-      {/* Lock-on target — springs from center to the fovea */}
-      <motion.g
-        initial={reduced ? false : { x: CX - FOVEA.x, y: CY - FOVEA.y, scale: 2.4, opacity: 0 }}
-        animate={{ x: 0, y: 0, scale: 1, opacity: 1 }}
-        transition={{ duration: 1.3, delay: 0.9, ease }}
-        style={{ transformOrigin: `${FOVEA.x}px ${FOVEA.y}px` }}
-      >
-        {/* Corner brackets */}
-        <g stroke="var(--amber)" strokeWidth="1.4" fill="none">
-          <path d={`M ${FOVEA.x - 16} ${FOVEA.y - 9} v -7 h 7`} />
-          <path d={`M ${FOVEA.x + 9} ${FOVEA.y - 16} h 7 v 7`} />
-          <path d={`M ${FOVEA.x + 16} ${FOVEA.y + 9} v 7 h -7`} />
-          <path d={`M ${FOVEA.x - 9} ${FOVEA.y + 16} h -7 v -7`} />
-        </g>
-        <circle cx={FOVEA.x} cy={FOVEA.y} r={2.4} fill="var(--amber)" />
-      </motion.g>
-
-      {/* Callout — fades in after lock */}
-      <motion.g
-        initial={reduced ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 2.1 }}
-      >
-        <line
-          x1={FOVEA.x - 16} y1={FOVEA.y + 16} x2={FOVEA.x - 48} y2={FOVEA.y + 58}
-          stroke="var(--amber)" strokeWidth="1" opacity="0.6"
-        />
-        <text x={FOVEA.x - 52} y={FOVEA.y + 66} textAnchor="end" fontFamily="'IBM Plex Mono', monospace" fontSize="9" letterSpacing="0.12em" fill="var(--amber)">
-          FOVEA LOCALIZED
-        </text>
-        <text x={FOVEA.x - 52} y={FOVEA.y + 80} textAnchor="end" fontFamily="'IBM Plex Mono', monospace" fontSize="9" letterSpacing="0.12em" fill="var(--dim)">
-          CONF 84.97%
-        </text>
-      </motion.g>
+    <svg width="132" height="30" viewBox="0 0 132 30" aria-hidden="true">
+      {widths.map((w, i) => {
+        const rect = <rect key={i} x={x} y={0} width={w * 1.8} height={30} fill="#22252C" />;
+        x += w * 1.8 + 2.4;
+        return rect;
+      })}
     </svg>
   );
 }
 
-function Readout({ r, i }: { r: typeof READOUTS[0]; i: number }) {
-  const [val, ref] = useCounter(r.value, r.decimals);
+/* ── Signature: draggable researcher ID badge ─────────────────────
+   Hangs from a lanyard, swings idly, and can be grabbed and thrown —
+   it springs back to rest. */
+function IdBadge({ reduced }: { reduced: boolean }) {
+  const x = useMotionValue(0);
+  const rotate = useTransform(x, [-140, 140], [-13, 13]);
+
   return (
-    <div
-      ref={ref}
-      className="flex-1 min-w-[140px]"
-      style={{
-        paddingLeft: i > 0 ? 28 : 0,
-        paddingRight: i < READOUTS.length - 1 ? 28 : 0,
-        borderRight: i < READOUTS.length - 1 ? "1px solid var(--line)" : "none",
-      }}
-    >
-      <p
-        className="font-mono font-semibold mb-1.5"
-        style={{ fontSize: "clamp(1.35rem, 2.4vw, 1.9rem)", lineHeight: 1, color: "var(--amber)", letterSpacing: "-0.02em" }}
+    <div className="relative flex flex-col items-center select-none" aria-label="Researcher ID badge for Eymen Faruk Keyvan">
+      {/* Idle pendulum sway */}
+      <motion.div
+        style={{ transformOrigin: "50% -180px" }}
+        animate={reduced ? undefined : { rotate: [1.4, -1.4, 1.4] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
-        {val}{r.suffix}
+        <motion.div
+          initial={reduced ? false : { y: -420, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 60, damping: 13, delay: 0.55 }}
+        >
+          <motion.div
+            drag
+            dragSnapToOrigin
+            dragElastic={0.16}
+            dragConstraints={{ top: -50, bottom: 110, left: -150, right: 150 }}
+            dragTransition={{ bounceStiffness: 260, bounceDamping: 11 }}
+            whileDrag={{ scale: 1.03 }}
+            style={{ x, rotate, cursor: "grab", touchAction: "none" }}
+            whileTap={{ cursor: "grabbing" }}
+            className="flex flex-col items-center"
+          >
+            {/* Lanyard strap */}
+            <div
+              className="w-[15px] h-[150px] flex-shrink-0"
+              style={{
+                background: "linear-gradient(90deg, #10141C, #262C38 45%, #10141C)",
+                borderRadius: 2,
+              }}
+            />
+            {/* Clip */}
+            <div
+              className="w-[34px] h-[16px] -mt-[2px] flex-shrink-0"
+              style={{ background: "#2C333F", borderRadius: "4px 4px 6px 6px", border: "1px solid #3A424F" }}
+            />
+
+            {/* Card */}
+            <div
+              className="w-[248px] -mt-[3px] flex flex-col items-center px-6 pt-5 pb-6"
+              style={{
+                background: "#F7F5F0",
+                borderRadius: 18,
+                boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.35)",
+              }}
+            >
+              {/* Punch hole */}
+              <div className="w-[46px] h-[9px] rounded-full mb-4" style={{ background: "#04070D", opacity: 0.85 }} />
+
+              {/* Org line */}
+              <p className="font-mono text-center" style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "#8A8F98" }}>
+                KENNESAW STATE UNIVERSITY
+              </p>
+              <p className="font-mono text-center mb-4" style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "#C98A2D" }}>
+                NIH DEEP LEARNING LAB
+              </p>
+
+              {/* Avatar */}
+              <div
+                className="w-[82px] h-[82px] rounded-full flex items-center justify-center mb-4 font-extrabold"
+                style={{
+                  background: "radial-gradient(circle at 32% 28%, #2E3A52, #10141C)",
+                  color: "#FFC96B",
+                  fontSize: 26,
+                  border: "3px solid #E7E3D9",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.18)",
+                }}
+              >
+                EK
+              </div>
+
+              {/* Name & role */}
+              <p className="font-extrabold text-center" style={{ color: "#181C25", fontSize: 17, lineHeight: 1.25 }}>
+                Eymen Faruk Keyvan
+              </p>
+              <p className="text-center mb-4" style={{ color: "#6A6F7A", fontSize: 12, fontWeight: 500 }}>
+                AI Researcher · CS ’27
+              </p>
+
+              {/* Divider */}
+              <div className="w-full h-px mb-4" style={{ background: "#E4E0D6" }} />
+
+              {/* Barcode + tag */}
+              <Barcode />
+              <p className="font-mono mt-2.5" style={{ fontSize: 8, letterSpacing: "0.22em", color: "#8A8F98" }}>
+                SUMMER 2027 · INTERN CANDIDATE
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      <p className="mt-7 text-xs" style={{ color: "var(--muted)" }}>
+        go ahead — grab it
       </p>
-      <p className="text-xs font-semibold mb-0.5" style={{ color: "var(--paper)" }}>{r.label}</p>
-      <p className="text-xs" style={{ color: "var(--dim)" }}>{r.sub}</p>
     </div>
   );
 }
@@ -155,96 +131,90 @@ function Readout({ r, i }: { r: typeof READOUTS[0]; i: number }) {
 export default function Hero() {
   const reduced = useReducedMotion() ?? false;
   const fade = (delay: number) => ({
-    initial: reduced ? false : { opacity: 0, y: 14 },
+    initial: reduced ? false : { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.75, delay, ease },
+    transition: { duration: 0.85, delay, ease },
   });
 
   return (
     <section
       id="hero"
-      className="min-h-screen flex flex-col justify-center relative overflow-hidden graticule"
-      style={{ padding: "120px clamp(20px, 5vw, 56px) 72px", background: "var(--ink)" }}
+      className="min-h-screen flex flex-col justify-center relative overflow-hidden"
+      style={{ padding: "110px clamp(24px, 6vw, 64px) 64px", background: "var(--bg)" }}
     >
+      {/* Warm pool of light behind the badge */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "-10%", right: "-6%",
+          width: 760, height: 760,
+          background: "radial-gradient(circle at 55% 40%, rgba(255,201,107,0.07) 0%, transparent 62%)",
+        }}
+      />
+
       <div className="max-w-container mx-auto w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-12 lg:gap-16 items-center mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-16 lg:gap-8 items-center">
 
-          {/* Left — identification */}
-          <div>
-            <motion.p {...fade(0.05)} className="mono-label flex items-center gap-2.5 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 pulse-dot" style={{ background: "var(--ok)" }} />
-              <span style={{ color: "var(--ok)" }}>Open to Summer 2027 internships</span>
-            </motion.p>
-
-            <h1
-              className="display font-extrabold uppercase mb-7"
-              style={{ fontSize: "clamp(2.7rem, 8vw, 6.2rem)", lineHeight: 0.98, letterSpacing: "-0.015em" }}
+          {/* Left — greeting */}
+          <div className="text-center lg:text-left">
+            <motion.p
+              {...fade(0.05)}
+              className="inline-flex items-center gap-2.5 mb-8 px-4 py-2 rounded-full text-[13px] font-medium"
+              style={{ background: "var(--card2)", border: "1px solid var(--border)", color: "var(--body)" }}
             >
-              <motion.span {...fade(0.15)} style={{ display: "block" }}>Eymen</motion.span>
-              <motion.span {...fade(0.28)} style={{ display: "block" }}>Faruk</motion.span>
-              <motion.span {...fade(0.41)} style={{ display: "block", color: "var(--amber)" }}>Keyvan</motion.span>
-            </h1>
+              <span className="w-2 h-2 rounded-full flex-shrink-0 pulse-dot" style={{ background: "var(--ok)" }} />
+              Open to Summer 2027 internships
+            </motion.p>
 
             <motion.p
-              {...fade(0.6)}
-              className="text-base leading-[1.8] mb-9"
-              style={{ color: "var(--body)", maxWidth: 460 }}
+              {...fade(0.15)}
+              className="serif italic glow mb-3"
+              style={{ fontSize: "clamp(1.9rem, 3.6vw, 2.9rem)", lineHeight: 1.1, color: "var(--text)" }}
             >
-              AI researcher & engineer — CS student at Kennesaw State University.
-              I build systems that hold up to measurement: NIH-funded retinal
-              imaging models, LLM pipelines over SEC filings, and an
-              award-winning customs auditor.
+              Hey there — I’m
             </motion.p>
 
-            <motion.div {...fade(0.72)} className="flex flex-wrap gap-3">
-              <button
-                onClick={() => {
-                  const el = document.getElementById("projects");
-                  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
-                }}
-                className="font-mono text-xs font-semibold uppercase tracking-[0.12em] px-7 py-3.5 border-none cursor-pointer transition-opacity duration-200 hover:opacity-85"
-                style={{ background: "var(--amber)", color: "#0A1517", borderRadius: 2 }}
-              >
-                View projects ↓
+            <motion.h1
+              {...fade(0.26)}
+              className="font-extrabold glow mb-7"
+              style={{ fontSize: "clamp(3.4rem, 8vw, 6.2rem)", lineHeight: 1.0, letterSpacing: "-0.03em" }}
+            >
+              Eymen<br />Keyvan
+            </motion.h1>
+
+            <motion.p {...fade(0.4)} className="eyebrow mb-7">
+              CS @ Kennesaw State · NIH-funded AI researcher
+            </motion.p>
+
+            <motion.p
+              {...fade(0.5)}
+              className="text-base leading-[1.85] mb-10 mx-auto lg:mx-0"
+              style={{ color: "var(--body)", maxWidth: 440 }}
+            >
+              I build AI systems that hold up to measurement — retinal imaging
+              models, LLM pipelines over SEC filings, and an award-winning
+              customs auditor.
+            </motion.p>
+
+            <motion.div {...fade(0.62)} className="flex flex-wrap items-center gap-5 justify-center lg:justify-start">
+              <button onClick={() => scrollToId("contact")} className="pill pill-outline border-none" style={{ border: "1px solid var(--border2)" }}>
+                Contact me
               </button>
-              <a
-                href="/resume/EYMEN_KEYVAN_RESUME.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-xs font-semibold uppercase tracking-[0.12em] px-7 py-3.5 no-underline transition-colors duration-200"
-                style={{ color: "var(--paper)", border: "1px solid var(--line2)", borderRadius: 2 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--amber)"; e.currentTarget.style.color = "var(--amber)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--line2)"; e.currentTarget.style.color = "var(--paper)"; }}
+              <button
+                onClick={() => scrollToId("projects")}
+                className="link-hover text-sm font-medium bg-transparent border-none cursor-pointer"
+                style={{ color: "var(--body)" }}
               >
-                Resume ↗
-              </a>
+                or see my work ↓
+              </button>
             </motion.div>
           </div>
 
-          {/* Right — the instrument */}
-          <motion.div
-            initial={reduced ? false : { opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.5, ease }}
-            className="hidden sm:block max-w-[400px] w-full mx-auto lg:mx-0"
-          >
-            <Reticle reduced={reduced} />
-            <p className="mono-label mt-4 text-center lg:text-left" style={{ fontSize: 10, lineHeight: 1.7 }}>
-              Fig. 01 — Retinal fundus scan · 3 clinical datasets · n = 6,000+ images
-            </p>
-          </motion.div>
+          {/* Right — the badge */}
+          <div className="flex justify-center lg:justify-end lg:pr-8">
+            <IdBadge reduced={reduced} />
+          </div>
         </div>
-
-        {/* Readout strip */}
-        <motion.div
-          initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.9, delay: 1.0 }}
-          className="flex flex-wrap gap-y-8"
-          style={{ borderTop: "1px solid var(--line)", paddingTop: 30 }}
-        >
-          {READOUTS.map((r, i) => <Readout key={r.label} r={r} i={i} />)}
-        </motion.div>
       </div>
     </section>
   );

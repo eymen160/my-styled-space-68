@@ -4,40 +4,40 @@
 
 @layer base {
   :root {
-    --ink:      #0A1517;
-    --ink2:     #0E1B1E;
-    --ink3:     #142529;
-    --line:     #1C3036;
-    --line2:    #2A454D;
-    --paper:    #EAE6DB;
-    --body:     #93A5A2;
-    --dim:      #5C726F;
-    --amber:    #E8A64B;
-    --amber-dim: rgba(232, 166, 75, 0.10);
-    --cyan:     #63CFC0;
-    --ok:       #4ED9A0;
+    --bg:      #04070D;
+    --card:    rgba(255, 255, 255, 0.03);
+    --card2:   rgba(255, 255, 255, 0.055);
+    --border:  rgba(255, 255, 255, 0.09);
+    --border2: rgba(255, 255, 255, 0.18);
+    --text:    #F5F3EE;
+    --body:    #A9B0BE;
+    --muted:   #666E7E;
+    --warm:    #FFC96B;
+    --warm-dim: rgba(255, 201, 107, 0.12);
+    --ok:      #4ED9A0;
   }
 
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: "Instrument Sans", system-ui, sans-serif;
-    background: var(--ink);
-    color: var(--paper);
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
-  ::selection { background: var(--amber); color: #0A1517; }
+  ::selection { background: var(--warm); color: #04070D; }
 
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--ink); }
-  ::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 0; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--amber); }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--warm); }
 
   :focus-visible {
-    outline: 1px solid var(--amber);
+    outline: 2px solid var(--warm);
     outline-offset: 3px;
+    border-radius: 4px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -51,62 +51,82 @@
 }
 
 @layer components {
-  /* Display face — Archivo, semi-expanded, the instrument voice */
-  .display {
-    font-family: "Archivo", system-ui, sans-serif;
-    font-variation-settings: "wdth" 116;
-    letter-spacing: -0.01em;
+  .serif {
+    font-family: "Instrument Serif", Georgia, serif;
   }
 
-  /* Monospace annotation label — the graticule voice */
-  .mono-label {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
-    font-weight: 500;
+  /* Small letterspaced caps line — the refs' quiet sub-headline voice */
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--dim);
+    letter-spacing: 0.28em;
+    color: var(--muted);
   }
 
-  .panel {
-    background: var(--ink2);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    transition: border-color 0.25s ease;
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 30px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
-  .panel:hover { border-color: var(--line2); }
+  .pill-solid {
+    background: var(--text);
+    color: #04070D;
+    border: 1px solid var(--text);
+  }
+  .pill-solid:hover { transform: scale(1.04); }
+  .pill-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border2);
+  }
+  .pill-outline:hover { border-color: var(--text); transform: scale(1.04); }
 
   .chip {
     display: inline-flex;
     align-items: center;
-    padding: 3px 9px;
-    border-radius: 2px;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
-    font-weight: 400;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
     white-space: nowrap;
-    background: transparent;
-    border: 1px solid var(--line);
+    background: var(--card);
+    border: 1px solid var(--border);
     color: var(--body);
     transition: border-color 0.15s ease, color 0.15s ease;
   }
-  .chip:hover { border-color: var(--line2); color: var(--paper); }
-  .chip-amber {
-    background: var(--amber-dim);
-    border-color: rgba(232, 166, 75, 0.28);
-    color: var(--amber);
+  .chip:hover { border-color: var(--border2); color: var(--text); }
+  .chip-warm {
+    background: var(--warm-dim);
+    border-color: rgba(255, 201, 107, 0.25);
+    color: var(--warm);
   }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .card:hover { border-color: var(--border2); background: var(--card2); }
 
   .section-pad {
-    padding: clamp(76px, 10vw, 120px) clamp(20px, 5vw, 56px);
+    padding: clamp(88px, 12vw, 150px) clamp(24px, 6vw, 64px);
   }
 
-  /* Faint graticule grid — hero only */
-  .graticule {
-    background-image:
-      linear-gradient(to right, rgba(99, 207, 192, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(99, 207, 192, 0.035) 1px, transparent 1px);
-    background-size: 56px 56px;
+  /* Soft glow on hero display type — the Julia treatment */
+  .glow {
+    text-shadow:
+      0 0 24px rgba(245, 243, 238, 0.22),
+      0 0 90px rgba(255, 201, 107, 0.10);
   }
 }
 
@@ -117,20 +137,6 @@
 }
 .pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
 
-/* ── RETICLE ROTATION ── */
-@keyframes reticle-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-.reticle-spin {
-  animation: reticle-spin 60s linear infinite;
-  transform-origin: 50% 50%;
-}
-.reticle-spin-rev {
-  animation: reticle-spin 90s linear infinite reverse;
-  transform-origin: 50% 50%;
-}
-
 /* ── LINK UNDERLINE ── */
 .link-hover {
   position: relative;
@@ -139,9 +145,9 @@
 .link-hover::after {
   content: "";
   position: absolute;
-  bottom: -2px; left: 0; right: 0;
+  bottom: -3px; left: 0; right: 0;
   height: 1px;
-  background: var(--amber);
+  background: var(--warm);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);

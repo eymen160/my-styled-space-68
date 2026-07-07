@@ -2,41 +2,40 @@ import { motion, useReducedMotion } from "framer-motion";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/* Section header — a labeled rule, like a figure caption in a lab report. */
+/* Big friendly section heading — eyebrow caps + display title,
+   with an optional serif-italic accent word. */
 export default function SectionHeader({
-  index,
-  label,
-  meta,
+  eyebrow,
   title,
+  accent,
+  center = false,
 }: {
-  index: string;
-  label: string;
-  meta: string;
+  eyebrow: string;
   title: string;
+  accent?: string;
+  center?: boolean;
 }) {
   const reduced = useReducedMotion() ?? false;
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 16 }}
+      initial={reduced ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, ease }}
-      className="mb-14"
+      transition={{ duration: 0.8, ease }}
+      className={`mb-16 ${center ? "text-center" : ""}`}
     >
-      <div
-        className="flex items-baseline justify-between gap-4 flex-wrap pb-3 mb-8"
-        style={{ borderBottom: "1px solid var(--line)" }}
-      >
-        <p className="mono-label" style={{ color: "var(--amber)" }}>
-          {index} / {label}
-        </p>
-        <p className="mono-label" style={{ fontSize: 10 }}>{meta}</p>
-      </div>
+      <p className="eyebrow mb-5">{eyebrow}</p>
       <h2
-        className="display font-extrabold uppercase"
-        style={{ fontSize: "clamp(1.9rem, 4.2vw, 3.4rem)", lineHeight: 1.04, letterSpacing: "-0.01em", color: "var(--paper)" }}
+        className="font-extrabold"
+        style={{ fontSize: "clamp(2.3rem, 5.5vw, 4rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "var(--text)" }}
       >
         {title}
+        {accent && (
+          <>
+            {" "}
+            <em className="serif italic font-normal" style={{ color: "var(--warm)" }}>{accent}</em>
+          </>
+        )}
       </h2>
     </motion.div>
   );
