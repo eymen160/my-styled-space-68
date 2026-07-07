@@ -4,103 +4,132 @@
 
 @layer base {
   :root {
-    --bg:        #09090B;
-    --surface:   #111113;
-    --surface2:  #1C1C1F;
-    --lime:      #C8FF3E;
-    --lime-dim:  rgba(200, 255, 62, 0.12);
-    --text:      #F0EFEB;
-    --body:      #9B9B9B;
-    --muted:     #636366;
-    --faint:     #3A3A3D;
-    --border:    #222226;
-    --border2:   #313138;
-    --green:     #30D158;
-    --red:       #FF453A;
+    --ink:      #0A1517;
+    --ink2:     #0E1B1E;
+    --ink3:     #142529;
+    --line:     #1C3036;
+    --line2:    #2A454D;
+    --paper:    #EAE6DB;
+    --body:     #93A5A2;
+    --dim:      #5C726F;
+    --amber:    #E8A64B;
+    --amber-dim: rgba(232, 166, 75, 0.10);
+    --cyan:     #63CFC0;
+    --ok:       #4ED9A0;
   }
 
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: "Instrument Sans", system-ui, sans-serif;
+    background: var(--ink);
+    color: var(--paper);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
-  ::selection { background: var(--lime); color: #09090B; }
+  ::selection { background: var(--amber); color: #0A1517; }
 
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--ink); }
+  ::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber); }
+
+  :focus-visible {
+    outline: 1px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {
-  .display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
-
-  .eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
+  /* Display face — Archivo, semi-expanded, the instrument voice */
+  .display {
+    font-family: "Archivo", system-ui, sans-serif;
+    font-variation-settings: "wdth" 116;
+    letter-spacing: -0.01em;
   }
+
+  /* Monospace annotation label — the graticule voice */
+  .mono-label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+  }
+
+  .panel {
+    background: var(--ink2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    transition: border-color 0.25s ease;
+  }
+  .panel:hover { border-color: var(--line2); }
 
   .chip {
     display: inline-flex;
     align-items: center;
-    padding: 3px 11px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 400;
     white-space: nowrap;
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    background: transparent;
+    border: 1px solid var(--line);
     color: var(--body);
     transition: border-color 0.15s ease, color 0.15s ease;
   }
-  .chip:hover {
-    border-color: var(--border2);
-    color: var(--text);
-  }
-  .chip-lime {
-    background: var(--lime-dim);
-    color: var(--lime);
-    border-color: rgba(200, 255, 62, 0.22);
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    transition:
-      box-shadow 0.3s ease,
-      border-color 0.2s ease;
-  }
-  .card:hover {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    border-color: var(--border2);
+  .chip:hover { border-color: var(--line2); color: var(--paper); }
+  .chip-amber {
+    background: var(--amber-dim);
+    border-color: rgba(232, 166, 75, 0.28);
+    color: var(--amber);
   }
 
   .section-pad {
-    padding: clamp(80px, 12vw, 128px) clamp(20px, 5vw, 56px);
+    padding: clamp(76px, 10vw, 120px) clamp(20px, 5vw, 56px);
+  }
+
+  /* Faint graticule grid — hero only */
+  .graticule {
+    background-image:
+      linear-gradient(to right, rgba(99, 207, 192, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(99, 207, 192, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
   }
 }
 
-/* ── MARQUEE ── */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.marquee-track { animation: marquee 26s linear infinite; }
-
-/* ── PULSE DOT ── */
+/* ── STATUS DOT ── */
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.5); }
-  50%      { opacity: 0.8; box-shadow: 0 0 0 8px rgba(48, 209, 88, 0); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(78, 217, 160, 0.45); }
+  50%      { opacity: 0.75; box-shadow: 0 0 0 7px rgba(78, 217, 160, 0); }
 }
-.pulse-dot { animation: pulse-dot 2.2s ease-in-out infinite; }
+.pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
+
+/* ── RETICLE ROTATION ── */
+@keyframes reticle-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.reticle-spin {
+  animation: reticle-spin 60s linear infinite;
+  transform-origin: 50% 50%;
+}
+.reticle-spin-rev {
+  animation: reticle-spin 90s linear infinite reverse;
+  transform-origin: 50% 50%;
+}
 
 /* ── LINK UNDERLINE ── */
 .link-hover {
@@ -108,23 +137,13 @@
   text-decoration: none;
 }
 .link-hover::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px; left: 0; right: 0;
   height: 1px;
-  background: var(--lime);
+  background: var(--amber);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .link-hover:hover::after { transform: scaleX(1); }
-
-/* ── SCROLL PROGRESS ── */
-#scroll-progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--lime), rgba(200, 255, 62, 0.4));
-  z-index: 1000;
-  transform-origin: left;
-}

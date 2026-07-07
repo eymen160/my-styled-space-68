@@ -1,111 +1,73 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import SectionHeader from "../SectionHeader";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-const RESEARCH = [
+const FINDINGS = [
   {
+    id: "R-01",
     title: "NIH Retinal Image AI",
-    meta:  "Undergraduate Research · KSU · Sep 2025 – Present",
+    meta: "Undergraduate research · KSU · Sep 2025 – Present",
     metric: "84.97%",
-    metricLabel: "Fovea Detection",
+    metricLabel: "Fovea detection accuracy",
     body: "End-to-end retinal image analysis system in PyTorch across 3 clinical datasets (6,000+ images) to automate detection of eye diseases as part of an ongoing NIH-funded study. Improved fovea detection accuracy to 84.97%, surpassing an existing published benchmark, by redesigning the model training approach and data processing strategy. Caught and fixed a data quality issue (duplicate images leaking across train/test splits) using a custom audit script, preventing misleading accuracy results.",
     stack: ["PyTorch", "ResNet34", "U-Net", "Python", "Google Colab"],
-    link:  "https://github.com/eymen160/fovea-segmentation",
+    link: "https://github.com/eymen160/fovea-segmentation",
   },
   {
+    id: "R-02",
     title: "U-Net Optic Disc Segmentation",
-    meta:  "Medical Image Segmentation · Feb 2026",
+    meta: "Medical image segmentation · Feb 2026",
     metric: "84.61%",
-    metricLabel: "Dice Score — REFUGE2",
+    metricLabel: "Dice score — REFUGE2",
     body: "Independently designed a ResNet34-based U-Net for medical image segmentation on the REFUGE2 eye dataset. Reached 84.61% Dice score on a clean, leakage-free test split after discovering and removing contaminated training data that would have inflated results and misrepresented model capability.",
     stack: ["PyTorch", "ResNet34", "Albumentations", "Google Colab Pro"],
-    link:  "https://github.com/eymen160/unet-optic-disc-segmentation",
+    link: "https://github.com/eymen160/unet-optic-disc-segmentation",
   },
 ];
 
 export default function Research() {
+  const reduced = useReducedMotion() ?? false;
   return (
-    <section
-      id="research"
-      className="section-pad"
-      style={{ background: "var(--bg)", borderTop: "1px solid var(--border)" }}
-    >
-      <div className="max-w-[1200px] mx-auto">
-        {/* Section heading */}
-        <div className="relative mb-16 overflow-hidden">
-          <span
-            className="display font-extrabold absolute select-none pointer-events-none"
-            style={{
-              fontSize: "clamp(8rem, 20vw, 16rem)",
-              lineHeight: 1,
-              color: "rgba(255,255,255,0.025)",
-              top: "-0.18em",
-              left: "-0.04em",
-              letterSpacing: "-0.05em",
-            }}
-          >
-            03
-          </span>
-          <div className="relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, ease }}
-            >
-              <p className="eyebrow mb-3">03 — Research</p>
-              <h2
-                className="display font-extrabold tracking-tight"
-                style={{ fontSize: "clamp(2.2rem, 5vw, 5rem)", lineHeight: 1.05, color: "var(--text)", letterSpacing: "-0.03em" }}
-              >
-                NIH-Funded AI Research
-              </h2>
-              <motion.div
-                style={{ height: 1, background: "var(--lime)", transformOrigin: "left", marginTop: 20, maxWidth: 240 }}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 1.1, delay: 0.25, ease }}
-              />
-            </motion.div>
-          </div>
-        </div>
+    <section id="research" className="section-pad" style={{ background: "var(--ink)", borderTop: "1px solid var(--line)" }}>
+      <div className="max-w-container mx-auto">
+        <SectionHeader index="03" label="Research" meta="NIH-funded · 6,000+ images" title="Findings that hold up" />
 
         <div className="flex flex-col gap-4">
-          {RESEARCH.map((r, i) => (
+          {FINDINGS.map((r, i) => (
             <motion.div
-              key={r.title}
-              initial={{ opacity: 0, y: 28 }}
+              key={r.id}
+              initial={reduced ? false : { opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.75, delay: i * 0.1, ease }}
-              className="card p-8"
-              whileHover={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)", borderColor: "var(--border2)" }}
+              transition={{ duration: 0.7, delay: i * 0.1, ease }}
+              className="panel p-8"
             >
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+              <div className="flex flex-col md:flex-row md:items-stretch gap-8">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
                     <div>
+                      <p className="font-mono text-xs mb-2" style={{ color: "var(--dim)", letterSpacing: "0.08em" }}>{r.id}</p>
                       <h3
-                        className="display font-bold tracking-tight mb-1.5"
-                        style={{ fontSize: "clamp(1.1rem, 2vw, 1.45rem)", color: "var(--text)", letterSpacing: "-0.02em" }}
+                        className="display font-bold uppercase mb-1.5"
+                        style={{ fontSize: "clamp(1.05rem, 1.9vw, 1.35rem)", color: "var(--paper)", letterSpacing: "0" }}
                       >
                         {r.title}
                       </h3>
-                      <p className="text-sm font-medium" style={{ color: "var(--lime)" }}>{r.meta}</p>
+                      <p className="text-sm font-medium" style={{ color: "var(--amber)" }}>{r.meta}</p>
                     </div>
-                    <motion.a
+                    <a
                       href={r.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-lg flex items-center justify-center text-sm no-underline flex-shrink-0"
-                      style={{ background: "var(--surface2)", border: "1px solid var(--border)", color: "var(--body)" }}
-                      whileHover={{ background: "var(--lime)", color: "#09090B", borderColor: "var(--lime)" }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
+                      aria-label={`${r.title} on GitHub`}
+                      className="w-9 h-9 flex items-center justify-center text-sm no-underline flex-shrink-0 transition-colors duration-200"
+                      style={{ background: "var(--ink3)", border: "1px solid var(--line)", borderRadius: 2, color: "var(--body)" }}
+                      onMouseEnter={e => { e.currentTarget.style.background = "var(--amber)"; e.currentTarget.style.color = "#0A1517"; e.currentTarget.style.borderColor = "var(--amber)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = "var(--ink3)"; e.currentTarget.style.color = "var(--body)"; e.currentTarget.style.borderColor = "var(--line)"; }}
                     >
                       ↗
-                    </motion.a>
+                    </a>
                   </div>
                   <p className="text-sm leading-[1.9] mb-5" style={{ color: "var(--body)" }}>{r.body}</p>
                   <div className="flex flex-wrap gap-1.5">
@@ -113,22 +75,20 @@ export default function Research() {
                   </div>
                 </div>
 
-                {/* Metric */}
+                {/* Metric readout */}
                 <div
-                  className="flex-shrink-0 rounded-xl p-6 flex flex-col items-center justify-center text-center"
+                  className="flex-shrink-0 p-6 flex flex-col items-center justify-center text-center"
                   style={{
-                    background: "var(--lime-dim)",
-                    border: "1px solid rgba(200,255,62,0.18)",
-                    minWidth: 140,
+                    background: "var(--amber-dim)",
+                    border: "1px solid rgba(232,166,75,0.22)",
+                    borderRadius: 2,
+                    minWidth: 170,
                   }}
                 >
-                  <p
-                    className="display font-extrabold mb-1.5"
-                    style={{ fontSize: "2rem", lineHeight: 1, color: "var(--lime)", letterSpacing: "-0.04em" }}
-                  >
+                  <p className="font-mono font-semibold mb-2" style={{ fontSize: "1.9rem", lineHeight: 1, color: "var(--amber)", letterSpacing: "-0.02em" }}>
                     {r.metric}
                   </p>
-                  <p className="text-xs leading-tight text-center" style={{ color: "var(--muted)", maxWidth: 100 }}>
+                  <p className="mono-label" style={{ fontSize: 9, maxWidth: 130, lineHeight: 1.7 }}>
                     {r.metricLabel}
                   </p>
                 </div>

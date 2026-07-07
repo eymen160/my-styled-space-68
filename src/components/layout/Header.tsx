@@ -1,110 +1,142 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const NAV = [
-  { label: "About",    id: "about"    },
+  { label: "Profile", id: "about" },
   { label: "Projects", id: "projects" },
   { label: "Research", id: "research" },
-  { label: "Contact",  id: "contact"  },
+  { label: "Contact", id: "contact" },
 ];
 
 function scrollTo(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
-  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
 }
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [active,   setActive]   = useState("");
+  const [active, setActive] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 60);
+      setScrolled(window.scrollY > 40);
       for (const { id } of NAV) {
         const el = document.getElementById(id);
         if (el) {
           const r = el.getBoundingClientRect();
-          if (r.top <= 80 && r.bottom >= 80) { setActive(id); return; }
+          if (r.top <= 90 && r.bottom >= 90) { setActive(id); return; }
         }
       }
-      if (window.scrollY < 80) setActive("");
+      if (window.scrollY < 90) setActive("");
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <motion.header
+    <header
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background:     scrolled ? "rgba(9,9,11,0.85)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
-        borderBottom:   scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-        transition:     "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
+        background: scrolled ? "rgba(10, 21, 23, 0.88)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
+        transition: "background 0.3s ease, border-color 0.3s ease",
       }}
     >
-      <ScrollProgress />
-
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <div
+        className="max-w-container mx-auto flex items-center justify-between"
+        style={{ padding: "0 clamp(20px, 5vw, 56px)", height: 64 }}
+      >
+        {/* Wordmark */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="display font-extrabold text-lg tracking-tight bg-transparent border-none cursor-pointer"
-          style={{ color: "var(--lime)", fontStyle: "italic", letterSpacing: "-0.02em" }}
+          className="font-mono text-xs font-semibold tracking-[0.16em] bg-transparent border-none cursor-pointer"
+          style={{ color: "var(--paper)" }}
         >
-          EFK
+          E.F.KEYVAN<span style={{ color: "var(--amber)" }}>_</span>
         </button>
 
-        <nav className="hidden md:flex items-center gap-0.5">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-7">
           {NAV.map(({ label, id }) => (
             <button
               key={id}
               onClick={() => scrollTo(id)}
-              className="relative px-4 py-2 text-sm bg-transparent border-none cursor-pointer transition-colors duration-200 rounded-lg"
-              style={{ color: active === id ? "var(--text)" : "var(--muted)", fontWeight: active === id ? 500 : 400 }}
+              className="mono-label bg-transparent border-none cursor-pointer transition-colors duration-200"
+              style={{ color: active === id ? "var(--amber)" : "var(--dim)" }}
+              onMouseEnter={e => { if (active !== id) e.currentTarget.style.color = "var(--paper)"; }}
+              onMouseLeave={e => { if (active !== id) e.currentTarget.style.color = "var(--dim)"; }}
             >
-              {active === id && (
-                <motion.span
-                  layoutId="nav-bg"
-                  className="absolute inset-0 rounded-lg"
-                  style={{ background: "rgba(255,255,255,0.06)" }}
-                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                />
-              )}
-              <span className="relative z-10">{label}</span>
+              {label}
             </button>
           ))}
+          <a
+            href="/resume/EYMEN_KEYVAN_RESUME.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mono-label no-underline px-4 py-2 transition-colors duration-200"
+            style={{
+              color: "var(--amber)",
+              border: "1px solid rgba(232,166,75,0.35)",
+              borderRadius: 2,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "var(--amber-dim)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+          >
+            Resume ↗
+          </a>
         </nav>
 
-        <motion.a
-          href="mailto:ekeyvan@students.kennesaw.edu"
-          className="text-sm font-semibold no-underline whitespace-nowrap px-5 py-2.5 rounded-lg"
-          style={{ background: "var(--lime)", color: "#09090B" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: "spring", stiffness: 400, damping: 22 }}
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden mono-label bg-transparent border-none cursor-pointer"
+          style={{ color: "var(--paper)" }}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-expanded={menuOpen}
+          aria-label="Toggle navigation"
         >
-          Hire Me
-        </motion.a>
+          {menuOpen ? "Close ✕" : "Menu ☰"}
+        </button>
       </div>
-    </motion.header>
-  );
-}
 
-function ScrollProgress() {
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const fn = () => {
-      const total = document.body.scrollHeight - window.innerHeight;
-      setWidth(total > 0 ? (window.scrollY / total) * 100 : 0);
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-  return (
-    <div
-      id="scroll-progress"
-      style={{ width: `${width}%`, transition: "width 0.1s linear" }}
-    />
+      {/* Mobile dropdown */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden overflow-hidden"
+            style={{ background: "rgba(10,21,23,0.97)", borderBottom: "1px solid var(--line)" }}
+          >
+            <div className="flex flex-col px-6 py-4 gap-4">
+              {NAV.map(({ label, id }) => (
+                <button
+                  key={id}
+                  onClick={() => { setMenuOpen(false); scrollTo(id); }}
+                  className="mono-label bg-transparent border-none cursor-pointer text-left py-1"
+                  style={{ color: active === id ? "var(--amber)" : "var(--body)", fontSize: 12 }}
+                >
+                  {label}
+                </button>
+              ))}
+              <a
+                href="/resume/EYMEN_KEYVAN_RESUME.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mono-label no-underline py-1"
+                style={{ color: "var(--amber)", fontSize: 12 }}
+              >
+                Resume ↗
+              </a>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

@@ -2,31 +2,36 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: ["class"],
-  content: [
-    "./index.html",
-    "./src/**/*.{ts,tsx,js,jsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
       fontFamily: {
-        display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
-        sans:    ["Inter", "system-ui", "sans-serif"],
+        display: ["Archivo", "system-ui", "sans-serif"],
+        sans: ["Instrument Sans", "system-ui", "sans-serif"],
+        mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
       },
       colors: {
-        cream:      "#F8F4EC",
-        "cream-dark": "#EDE8DC",
-        "cream-mid":  "#F2EDE3",
-        navy:       "#0C1929",
-        "navy-mid": "#1A2F4A",
-        gold:       "#C4933F",
-        "gold-light": "#F5EDD8",
+        ink: {
+          DEFAULT: "#0A1517",
+          2: "#0E1B1E",
+          3: "#142529",
+        },
+        line: {
+          DEFAULT: "#1C3036",
+          2: "#2A454D",
+        },
+        paper: "#EAE6DB",
+        body: "#93A5A2",
+        dim: "#5C726F",
+        amber: {
+          DEFAULT: "#E8A64B",
+          dim: "rgba(232,166,75,0.10)",
+        },
+        cyan: "#63CFC0",
+        ok: "#4ED9A0",
       },
       maxWidth: {
-        container: "1160px",
-      },
-      borderRadius: {
-        xl:  "12px",
-        "2xl": "16px",
+        container: "1200px",
       },
     },
   },

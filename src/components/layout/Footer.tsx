@@ -1,41 +1,35 @@
 const LINKS = [
-  ["GitHub",   "https://github.com/eymen160"],
+  ["GitHub", "https://github.com/eymen160"],
   ["LinkedIn", "https://linkedin.com/in/eymenkeyvan"],
-  ["Email",    "mailto:ekeyvan@students.kennesaw.edu"],
+  ["Email", "mailto:ekeyvan@students.kennesaw.edu"],
 ] as const;
 
 export default function Footer() {
   return (
     <footer
-      className="py-8 px-5 sm:px-8"
-      style={{ borderTop: "1px solid var(--border)", background: "var(--bg)" }}
+      className="py-8"
+      style={{ borderTop: "1px solid var(--line)", background: "var(--ink)", padding: "32px clamp(20px, 5vw, 56px)" }}
     >
-      <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between gap-4">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="display font-extrabold text-base bg-transparent border-none cursor-pointer transition-colors duration-200"
-          style={{ color: "var(--faint)", fontStyle: "italic", letterSpacing: "-0.02em" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "var(--lime)")}
-          onMouseLeave={e => (e.currentTarget.style.color = "var(--faint)")}
-        >
-          EFK
-        </button>
-
-        <p className="text-xs tracking-wide" style={{ color: "var(--faint)" }}>
-          © {new Date().getFullYear()} Eymen Faruk Keyvan · CS @ KSU
+      <div className="max-w-container mx-auto flex flex-wrap items-center justify-between gap-4">
+        <p className="font-mono text-[11px] tracking-[0.1em]" style={{ color: "var(--dim)" }}>
+          © {new Date().getFullYear()} EYMEN FARUK KEYVAN
         </p>
 
-        <div className="flex gap-6">
+        <p className="font-mono text-[11px] tracking-[0.1em] hidden sm:block" style={{ color: "var(--dim)" }}>
+          ROSWELL, GA · 34.02°N 84.36°W
+        </p>
+
+        <div className="flex gap-5">
           {LINKS.map(([label, href]) => (
             <a
               key={label}
               href={href}
-              target="_blank"
+              target={href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              className="text-xs no-underline transition-colors duration-200"
-              style={{ color: "var(--muted)" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--lime)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "var(--muted)")}
+              className="font-mono text-[11px] tracking-[0.1em] uppercase no-underline transition-colors duration-200"
+              style={{ color: "var(--dim)" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--amber)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--dim)")}
             >
               {label}
             </a>
