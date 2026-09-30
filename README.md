@@ -2,7 +2,8 @@
 
 Personal site of Eymen Faruk Keyvan — CS @ Kennesaw State, seeking a Summer 2027 SWE/ML internship.
 
-**Stack:** React 18 · Vite · TypeScript · Tailwind CSS 3 · framer-motion. Single page, no router.
+**Stack:** React 18 · Vite · TypeScript · Tailwind CSS 3 · framer-motion · Lenis. Single page, no router.
+Every animation is driven by scroll (none by the mouse).
 
 ## Develop
 
@@ -19,8 +20,9 @@ npm run lint
 |---|---|
 | All site copy (profile, metrics, experience, projects, skills) | `src/content/site.ts` |
 | Resume PDF + preview image | `public/resume/` |
-| Colour tokens (light + dark) | `src/index.css` (`:root`) |
-| Motion primitives (mask reveal, odometer, cursor, magnetic) | `src/components/motion/` |
+| Colour tokens (cream, ink, cobalt, sun, tomato) | `src/index.css` (`:root`) |
+| Photos (graded, cropped, EXIF-stripped WebP) | `public/photos/` |
+| Card illustrations (SVG/CSS) | `src/components/art.tsx` |
 | SEO / Open Graph / JSON-LD | `index.html` |
 
 When the resume changes, update `src/content/site.ts` **and** replace `public/resume/EYMEN_KEYVAN_RESUME.pdf`

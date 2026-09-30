@@ -212,3 +212,18 @@ export const ticker = [
   "Flask",
   "TypeScript",
 ];
+
+/** Scroll-lit intro paragraph. Keep it to things the resume can back up. */
+export const statement =
+  "I care about the part after “it works on my machine.” At FOMA I shipped code to a platform moving 12,000+ orders a month. At KSU I train retinal-imaging models for an NIH-funded study — and I'm the one who went looking for the leaked test images. On weekends I build at hackathons, and sometimes win.";
+
+export type Photo = { src: string; alt: string; caption: string; w: number; h: number };
+
+/** Graded, cropped, EXIF-stripped copies live in public/photos. */
+export const photos: Photo[] = [
+  { src: "/photos/dc-night.webp", alt: "Eymen leaning on a wall outside Café du Parc in Washington, D.C. at night", caption: "D.C., after dark", w: 1100, h: 1375 },
+  { src: "/photos/supreme-court.webp", alt: "Eymen holding an umbrella on the steps of the U.S. Supreme Court", caption: "Supreme Court, in the rain", w: 1100, h: 1375 },
+  { src: "/photos/lake.webp", alt: "Eymen in a blue hoodie by a calm lake under a clear sky", caption: "somewhere quiet, recharging", w: 1000, h: 995 },
+];
+
+export const cutout = { src: "/photos/eymen-cutout.webp", w: 827, h: 1364 };

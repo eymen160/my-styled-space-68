@@ -1,88 +1,80 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { education, recognition, skills } from "../content/site";
 import { ease } from "../lib/motion";
-import SectionTitle from "./SectionTitle";
-import Reveal from "./motion/Reveal";
 
+/** Bento grid: every tile pops in on its own beat. */
 export default function About() {
   const reduced = useReducedMotion();
+  const tile = (i: number) => ({
+    initial: reduced ? false : { opacity: 0, y: 40, scale: 0.96 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
+    viewport: { once: true, margin: "-8% 0px" },
+    transition: { duration: 0.9, delay: (i % 3) * 0.08, ease },
+  });
 
   return (
-    <section id="about" className="scroll-mt-20 pt-28 sm:pt-40">
+    <section id="about" className="scroll-mt-20 pt-32 sm:pt-44">
       <div className="wrap">
-        <SectionTitle num="03" label="About" title={<>Toolkit &amp; training.</>} />
+        <p className="label text-cobalt">03 — About</p>
+        <h2 className="display mt-5 text-[clamp(3rem,7vw,6.4rem)] font-[500] leading-[0.92]">
+          Toolkit &amp; <em className="italic text-cobalt">training.</em>
+        </h2>
 
-        <div className="grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-          {/* education + recognition */}
-          <div className="space-y-12">
-            <Reveal>
-              <div className="rounded-2xl border hairline p-7 sm:p-9" style={{ background: "var(--paper-2)" }}>
-                <p className="label mb-4">Education</p>
-                <h3 className="display text-3xl font-[420] leading-tight">{education.school}</h3>
-                <p className="mt-2 text-ink-2">
-                  {education.degree} · {education.grad}
-                </p>
-                <div className="mt-7 grid grid-cols-2 gap-6 border-t hairline pt-6">
-                  <div>
-                    <p className="label mb-1">GPA</p>
-                    <p className="display text-4xl text-accent">{education.gpa}</p>
-                  </div>
-                  <div>
-                    <p className="label mb-1">Honors</p>
-                    <p className="mt-2 leading-snug">{education.honors}</p>
-                  </div>
-                </div>
-                <p className="label mb-3 mt-7">Relevant coursework</p>
-                <div className="flex flex-wrap gap-2">
-                  {education.coursework.map((c) => (
-                    <span key={c} className="chip">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <p className="label mb-4">Recognition</p>
-              <ul className="divide-y divide-[var(--rule)] border-y hairline">
-                {recognition.map((r) => (
-                  <li key={r} className="flex items-center gap-4 py-4">
-                    <span aria-hidden className="text-accent">
-                      ✦
-                    </span>
-                    {r}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
-
-          {/* skills */}
-          <div>
-            <p className="label mb-6">Skills</p>
-            <dl>
-              {skills.map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  className="grid gap-3 border-t hairline py-6 sm:grid-cols-[9rem_1fr] sm:gap-6"
-                  initial={reduced ? false : { opacity: 0, x: 24 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-5% 0px" }}
-                  transition={{ duration: 0.8, delay: i * 0.07, ease }}
-                >
-                  <dt className="display text-lg italic">{s.label}</dt>
-                  <dd className="flex flex-wrap gap-2">
-                    {s.items.map((it) => (
-                      <span key={it} className="rounded-md px-2.5 py-1 text-[0.92rem] text-ink-2 transition-colors hover:text-ink" style={{ background: "var(--paper-2)" }}>
-                        {it}
-                      </span>
-                    ))}
-                  </dd>
-                </motion.div>
+        <div className="mt-14 grid auto-rows-[minmax(0,auto)] gap-4 md:grid-cols-6">
+          <motion.div {...tile(0)} className="rounded-[24px] p-7 md:col-span-4 md:p-9" style={{ background: "var(--ink)", color: "var(--paper)" }}>
+            <p className="label" style={{ color: "var(--sun)" }}>
+              Education
+            </p>
+            <h3 className="display mt-3 text-[clamp(1.8rem,3.4vw,2.8rem)] font-[500] leading-tight">{education.school}</h3>
+            <p className="mt-1 opacity-75">
+              {education.degree} · {education.grad}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {education.coursework.map((c) => (
+                <span key={c} className="chip">
+                  {c}
+                </span>
               ))}
-            </dl>
-          </div>
+            </div>
+          </motion.div>
+
+          <motion.div {...tile(1)} className="flex flex-col justify-between rounded-[24px] p-7 md:col-span-2 md:p-9" style={{ background: "var(--cobalt)", color: "var(--paper)" }}>
+            <p className="label" style={{ color: "var(--sun)" }}>
+              GPA
+            </p>
+            <p className="display text-[clamp(4rem,9vw,7rem)] font-[600] leading-none">{education.gpa}</p>
+            <p className="opacity-80">{education.honors}</p>
+          </motion.div>
+
+          {skills.map((s, i) => (
+            <motion.div
+              key={s.label}
+              {...tile(i + 2)}
+              className={`rounded-[24px] border border-ink/10 p-7 ${i < 3 ? "md:col-span-2" : "md:col-span-3"}`}
+              style={{ background: i === 4 ? "var(--sun)" : "var(--paper-2)" }}
+            >
+              <p className="display text-xl font-[600] italic">{s.label}</p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {s.items.map((it) => (
+                  <span key={it} className="rounded-full bg-white/70 px-2.5 py-1 text-[0.88rem] text-ink-2">
+                    {it}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+
+          <motion.div {...tile(7)} className="rounded-[24px] p-7 md:col-span-6 md:p-9" style={{ background: "var(--tomato)", color: "var(--ink)" }}>
+            <p className="label">Recognition</p>
+            <ul className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+              {recognition.map((r) => (
+                <li key={r} className="display flex items-baseline gap-3 text-[1.25rem] leading-snug">
+                  <span aria-hidden>✺</span>
+                  {r}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,93 +1,77 @@
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { profile } from "../content/site";
-import Magnetic from "./motion/Magnetic";
-import Reveal from "./motion/Reveal";
-import { motion, useReducedMotion } from "framer-motion";
 import { ease } from "../lib/motion";
-import { Arrow } from "./canvas/FigmaCursor";
-import { EYMEN } from "./canvas/GhostCursor";
+import SpinBadge from "./SpinBadge";
 
+/** Closing cover: the page rises into cobalt and the headline scales up as you arrive. */
 export default function Contact() {
+  const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 20%"] });
+  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.82, 1]);
+  const radius = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [48, 0]);
 
   return (
-    <section id="contact" className="scroll-mt-20 pt-28 sm:pt-40">
-      <div className="wrap">
-        <div className="rounded-[2rem] px-6 py-16 sm:px-14 sm:py-24" style={{ background: "#16150F", color: "#F4F1EA", border: "1px solid var(--rule)" }}>
-          <p className="label mb-8" style={{ color: "rgba(244,241,234,0.6)" }}>
-            <span style={{ color: "#8599FF" }}>04</span> — Contact
+    <section id="contact" ref={ref} className="mt-32 sm:mt-44">
+      <motion.div className="origin-top overflow-hidden" style={{ scale, borderTopLeftRadius: radius, borderTopRightRadius: radius, background: "var(--cobalt)", color: "var(--paper)" }}>
+        <div className="wrap relative pb-16 pt-24 sm:pb-20 sm:pt-32">
+          <p className="label" style={{ color: "var(--sun)" }}>
+            04 — Contact
           </p>
-          <motion.h2
-            className="display text-[clamp(2.6rem,7.5vw,6.4rem)] font-[360] leading-[0.95]"
-            initial={reduced ? false : "hidden"}
-            whileInView="shown"
-            viewport={{ once: true, margin: "-10% 0px" }}
-          >
-            <InView>Hiring for Summer 2027?</InView>
-            <InView delay={0.08}>
-              <em className="italic" style={{ color: "#8599FF" }}>
-                Let's talk.
-              </em>
-            </InView>
-          </motion.h2>
-
-          <Reveal delay={0.15}>
-            <a
-              href={`mailto:${profile.email}`}
-              className="mt-12 inline-block break-all font-mono text-[clamp(1rem,2.6vw,1.6rem)] underline decoration-1 underline-offset-8 transition-colors hover:text-[#8599FF]"
-            >
-              {profile.email}
-            </a>
-            {/* Eymen's cursor, parked next to his inbox */}
+          <h2 className="display mt-6 text-[clamp(3.2rem,11vw,10rem)] font-[800] uppercase leading-[0.85] tracking-[-0.04em]" style={{ fontVariationSettings: '"SOFT" 100, "WONK" 1' }}>
             <motion.span
-              aria-hidden
-              className="ml-3 hidden translate-y-6 items-start align-top sm:inline-flex"
-              animate={reduced ? undefined : { x: [0, 6, 0], y: [24, 18, 24] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+              className="block"
+              initial={reduced ? false : { opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease }}
             >
-              <span className="-scale-x-100">
-                <Arrow color={EYMEN} />
-              </span>
-              <span className="ml-1 mt-4 flex flex-col items-start gap-1.5">
-                <span className="rounded-full rounded-tl-[4px] px-2.5 py-[5px] text-[12px] font-medium leading-none text-white" style={{ background: EYMEN }}>
-                  Eymen
-                </span>
-                <span className="rounded-2xl rounded-tl-[4px] bg-[#F4F1EA] px-3 py-2 text-[13px] leading-snug text-[#16150F] shadow-xl">say hi, I read everything ✉︎</span>
-              </span>
+              Let's build
             </motion.span>
-            <p className="mt-5 max-w-xl leading-relaxed" style={{ color: "rgba(244,241,234,0.72)" }}>
-              {profile.location} · {profile.relocation}. Looking for a {profile.seeking}.
-            </p>
+            <motion.span
+              className="block italic"
+              style={{ color: "var(--sun)" }}
+              initial={reduced ? false : { opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.1, ease }}
+            >
+              something.
+            </motion.span>
+          </h2>
 
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Magnetic>
-                <a href={profile.resume} target="_blank" rel="noopener" className="pill" style={{ background: "#8599FF", color: "#16150F" }}>
+          <div className="mt-14 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+            <div>
+              <a href={`mailto:${profile.email}`} className="under break-all font-mono text-[clamp(1.05rem,2.6vw,1.9rem)]">
+                {profile.email}
+              </a>
+              <p className="mt-5 max-w-lg leading-relaxed opacity-80">
+                Looking for a {profile.seeking}. Based in {profile.location} — {profile.relocation}.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href={profile.resume} target="_blank" rel="noopener" className="pill" style={{ background: "var(--sun)", color: "var(--ink)" }}>
                   Download resume ↓
                 </a>
-              </Magnetic>
-              <Magnetic>
-                <a href={profile.linkedin} target="_blank" rel="noopener" className="pill border" style={{ borderColor: "rgba(244,241,234,0.3)" }}>
+                <a href={profile.linkedin} target="_blank" rel="noopener" className="pill border border-white/40">
                   LinkedIn ↗
                 </a>
-              </Magnetic>
-              <Magnetic>
-                <a href={profile.github} target="_blank" rel="noopener" className="pill border" style={{ borderColor: "rgba(244,241,234,0.3)" }}>
+                <a href={profile.github} target="_blank" rel="noopener" className="pill border border-white/40">
                   GitHub ↗
                 </a>
-              </Magnetic>
+              </div>
             </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
+            <div className="hidden md:block">
+              <SpinBadge href={profile.resume} text="Hire me · Summer 2027 · Resume · " dark />
+            </div>
+          </div>
 
-function InView({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <span className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-      <motion.span className="block" variants={{ hidden: { y: "108%" }, shown: { y: "0%" } }} transition={{ duration: 1.05, delay, ease }}>
-        {children}
-      </motion.span>
-    </span>
+          <footer className="mt-24 flex flex-col gap-3 border-t border-white/20 pt-6 text-sm opacity-70 sm:flex-row sm:justify-between">
+            <p>© {new Date().getFullYear()} {profile.name}</p>
+            <p>Built with React, Vite &amp; a lot of scrolling.</p>
+          </footer>
+        </div>
+      </motion.div>
+    </section>
   );
 }

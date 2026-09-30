@@ -16,7 +16,11 @@ const config: Config = {
         "ink-2": "var(--ink-2)",
         "ink-3": "var(--ink-3)",
         rule: "var(--rule)",
-        accent: "var(--accent)",
+        cobalt: "var(--cobalt)",
+        sun: "var(--sun)",
+        tomato: "var(--tomato)",
+        violet: "var(--violet)",
+        forest: "var(--forest)",
       },
       maxWidth: {
         page: "1200px",

@@ -1,38 +1,7 @@
-// Hand-built sticker art for the hero canvas. Each piece is a small story from the resume.
+// Hand-built illustrations for the experience and project cards.
 // Pure SVG/CSS so it stays crisp at any size and weighs almost nothing.
 
-import { profile } from "../../content/site";
-
 const sticker = "drop-shadow(0 1px 1px rgba(0,0,0,.12)) drop-shadow(0 14px 22px rgba(20,18,10,.22))";
-
-/** HackGT 13 — 1st place, ElevenLabs track. */
-export function Medal() {
-  return (
-    <svg width="132" height="196" viewBox="0 0 132 196" style={{ filter: sticker }} aria-hidden>
-      <defs>
-        <radialGradient id="gold" cx="38%" cy="32%" r="75%">
-          <stop offset="0" stopColor="#FFF2B8" />
-          <stop offset=".45" stopColor="#F5C542" />
-          <stop offset="1" stopColor="#B7811B" />
-        </radialGradient>
-      </defs>
-      {/* ribbon */}
-      <path d="M30 0h30l18 92H48z" fill="#0D99FF" />
-      <path d="M72 0h30L84 92H54z" fill="#A259FF" />
-      <path d="M44 0h8l17 88h-8zM86 0h8L77 88h-8z" fill="#fff" opacity=".55" />
-      {/* medal */}
-      <circle cx="66" cy="134" r="58" fill="#fff" />
-      <circle cx="66" cy="134" r="52" fill="url(#gold)" />
-      <circle cx="66" cy="134" r="41" fill="none" stroke="#9A6A12" strokeOpacity=".45" strokeWidth="2" strokeDasharray="3 4" />
-      <text x="66" y="142" textAnchor="middle" fontFamily="Fraunces, Georgia, serif" fontWeight="700" fontSize="34" fill="#5B3B05">
-        1st
-      </text>
-      <text x="66" y="162" textAnchor="middle" fontFamily="Geist Mono, monospace" fontSize="8.5" letterSpacing="1.5" fill="#5B3B05">
-        HACKGT 13
-      </text>
-    </svg>
-  );
-}
 
 const BARS = [3, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 2, 1, 3, 1, 2, 1, 1, 3, 2, 1, 2, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2, 3];
 
@@ -135,53 +104,6 @@ export function Phone() {
   );
 }
 
-/** Turkish tea — the actual fuel behind all of the above. */
-export function Tea() {
-  return (
-    <svg width="118" height="150" viewBox="0 0 118 150" style={{ filter: sticker }} aria-hidden>
-      <defs>
-        <linearGradient id="tea" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#D2521C" />
-          <stop offset="1" stopColor="#8E2A0A" />
-        </linearGradient>
-        <linearGradient id="glass" x1="0" x2="1">
-          <stop offset="0" stopColor="#fff" stopOpacity=".7" />
-          <stop offset=".3" stopColor="#fff" stopOpacity=".15" />
-          <stop offset="1" stopColor="#fff" stopOpacity=".45" />
-        </linearGradient>
-      </defs>
-      {/* steam */}
-      <g fill="none" stroke="#B9B4A8" strokeWidth="2.5" strokeLinecap="round">
-        <path d="M48 26 c-6 -8 6 -12 0 -22" style={{ animation: "steam 2.6s ease-in-out infinite" }} />
-        <path d="M64 28 c-6 -8 6 -12 0 -22" style={{ animation: "steam 2.6s .9s ease-in-out infinite" }} />
-      </g>
-      {/* saucer */}
-      <ellipse cx="59" cy="132" rx="54" ry="14" fill="#fff" />
-      <ellipse cx="59" cy="130" rx="48" ry="10" fill="#C8102E" />
-      <ellipse cx="59" cy="129" rx="30" ry="5.5" fill="#fff" opacity=".85" />
-      {/* tulip glass */}
-      <path d="M32 34 h54 c0 18 -14 30 -14 46 c0 14 12 22 12 40 c0 8 -8 10 -25 10 s-25 -2 -25 -10 c0 -18 12 -26 12 -40 c0 -16 -14 -28 -14 -46z" fill="#fff" />
-      <path d="M36 44 h46 c-2 14 -13 24 -13 38 c0 13 11 21 11 36 c0 5 -7 6 -21 6 s-21 -1 -21 -6 c0 -15 11 -23 11 -36 c0 -14 -11 -24 -13 -38z" fill="url(#tea)" />
-      <path d="M32 34 h54 c0 18 -14 30 -14 46 c0 14 12 22 12 40 c0 8 -8 10 -25 10 s-25 -2 -25 -10 c0 -18 12 -26 12 -40 c0 -16 -14 -28 -14 -46z" fill="url(#glass)" />
-      <ellipse cx="59" cy="34" rx="27" ry="3.5" fill="none" stroke="#D9D4C8" strokeWidth="2" />
-      {/* spoon */}
-      <path d="M88 118 L106 96" stroke="#B9B4A8" strokeWidth="3" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-/** The ask, in handwriting. */
-export function StickyNote() {
-  return (
-    <div className="relative w-[196px] bg-[#FFE27A] px-4 pb-5 pt-6 text-[#2b2410]" style={{ filter: sticker, clipPath: "polygon(0 0,100% 0,100% 88%,88% 100%,0 100%)" }}>
-      <span aria-hidden className="absolute bottom-0 right-0 h-[12%] w-[12%] bg-[#E8C650]" />
-      <p className="hand text-[27px] font-bold leading-[0.95]">Summer 2027 intern</p>
-      <p className="hand mt-1.5 text-[20px] leading-tight">SWE / ML · anywhere in the US ✈︎</p>
-      <p className="hand mt-2 inline-block text-[24px] font-bold text-[#C8102E] underline decoration-wavy decoration-2 underline-offset-4">hire me :)</p>
-    </div>
-  );
-}
-
 /** Ships to production. */
 export function Terminal() {
   return (
@@ -207,36 +129,119 @@ export function Terminal() {
   );
 }
 
-/** The resume, as a file on the canvas. */
-export function ResumeFile() {
+
+/** TariffCheck — an invoice with the wrong HTS code caught. */
+export function Invoice() {
+  const rows = [
+    ["Walnut cabinet, 2-door", "9403.40.9060", "$12,400.00", false],
+    ["Brass hinge set ×40", "8302.10.6060", "$412.00", false],
+    ["Oak veneer panel", "4408.90.0190", "$2,140.00", true],
+  ] as const;
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="w-[112px] rotate-0 bg-white p-1.5" style={{ filter: sticker }}>
-        <img src={profile.resumePreview} alt="" width={773} height={1000} className="block h-auto w-full" draggable={false} />
+    <div className="w-[300px] rounded-lg bg-white p-5 font-mono text-[10px] text-[#16150F]" style={{ filter: sticker }}>
+      <div className="flex items-baseline justify-between border-b border-dashed border-[#bbb] pb-2">
+        <span className="text-[13px] font-bold tracking-wide">COMMERCIAL INVOICE</span>
+        <span className="text-[#7a766c]">#INV-2026-031</span>
       </div>
-      <span className="rounded-md bg-[#16150F] px-2 py-1 font-mono text-[10px] text-white shadow ring-1 ring-white/15">resume.pdf ↗</span>
+      <div className="mt-2 space-y-2">
+        {rows.map(([item, hts, amt, bad]) => (
+          <div key={item} className={`rounded px-1.5 py-1 ${bad ? "bg-[#FFE7E0]" : ""}`}>
+            <div className="flex justify-between">
+              <span>{item}</span>
+              <span>{amt}</span>
+            </div>
+            <div className={bad ? "text-[#D63A1A]" : "text-[#7a766c]"}>
+              HTS {hts} {bad && <span className="font-bold">✕ misclassified → 4412.33.0620</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 flex items-center justify-between border-t border-dashed border-[#bbb] pt-2">
+        <span className="text-[#7a766c]">audit time</span>
+        <span className="rounded bg-[#0ACF83] px-1.5 py-0.5 font-bold text-white">28 s ✓</span>
+      </div>
     </div>
   );
 }
 
-/** Atlanta, GA. */
-export function Peach() {
+/** U-Net — optic disc with a predicted contour over ground truth. */
+export function OpticDisc() {
   return (
-    <svg width="96" height="100" viewBox="0 0 96 100" style={{ filter: sticker }} aria-hidden>
+    <svg width="230" height="230" viewBox="0 0 230 230" style={{ filter: sticker }} aria-hidden>
       <defs>
-        <radialGradient id="peach" cx="35%" cy="35%" r="70%">
-          <stop offset="0" stopColor="#FFD3A6" />
-          <stop offset=".5" stopColor="#FF9A6B" />
-          <stop offset="1" stopColor="#E0533D" />
+        <radialGradient id="od-bg" cx="50%" cy="50%" r="60%">
+          <stop offset="0" stopColor="#E8843F" />
+          <stop offset=".7" stopColor="#A8321A" />
+          <stop offset="1" stopColor="#3B0C06" />
+        </radialGradient>
+        <radialGradient id="od-disc" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#FFF7D6" />
+          <stop offset=".7" stopColor="#F7C66B" />
+          <stop offset="1" stopColor="#E08A3C" />
         </radialGradient>
       </defs>
-      <path d="M48 22 C 18 16, 4 44, 10 66 C 16 88, 38 96, 48 92 C 58 96, 80 88, 86 66 C 92 44, 78 16, 48 22z" fill="#fff" />
-      <path d="M48 27 C 22 22, 10 46, 15 65 C 20 84, 39 90, 48 87 C 57 90, 76 84, 81 65 C 86 46, 74 22, 48 27z" fill="url(#peach)" />
-      <path d="M48 30 C 44 50, 45 70, 48 86" stroke="#C74432" strokeWidth="2" fill="none" opacity=".45" />
-      <path d="M48 26 C 50 16, 58 8, 72 6 C 70 18, 60 24, 48 26z" fill="#0ACF83" stroke="#fff" strokeWidth="3" paintOrder="stroke" />
-      <text x="48" y="64" textAnchor="middle" fontFamily="Fraunces, Georgia, serif" fontWeight="700" fontSize="17" fill="#fff" opacity=".95">
+      <rect x="6" y="6" width="218" height="218" rx="18" fill="#fff" />
+      <rect x="14" y="14" width="202" height="202" rx="12" fill="url(#od-bg)" />
+      <g stroke="#6A1409" strokeLinecap="round" fill="none" opacity=".7">
+        <path d="M115 115 C 90 80, 60 60, 20 50" strokeWidth="3" />
+        <path d="M115 115 C 140 150, 170 170, 212 180" strokeWidth="3" />
+        <path d="M115 115 C 150 90, 180 60, 212 48" strokeWidth="2.4" />
+        <path d="M115 115 C 80 140, 50 170, 18 196" strokeWidth="2.4" />
+      </g>
+      <ellipse cx="115" cy="115" rx="40" ry="44" fill="url(#od-disc)" />
+      <ellipse cx="115" cy="115" rx="44" ry="48" fill="none" stroke="#fff" strokeWidth="2.5" strokeDasharray="5 4" />
+      <path d="M72 113 C 72 84, 92 67, 117 67 C 144 68, 160 90, 159 116 C 158 145, 139 163, 114 163 C 88 162, 72 142, 72 113z" fill="none" stroke="#0ACF83" strokeWidth="3" />
+      <rect x="24" y="186" width="104" height="22" rx="5" fill="#16150F" opacity=".85" />
+      <text x="34" y="201" fontFamily="Geist Mono, monospace" fontSize="10.5" fill="#fff">
+        Dice 84.61%
+      </text>
+    </svg>
+  );
+}
+
+/** Green-Flight — radar over ATL with live traffic. */
+export function Radar() {
+  const planes = [
+    [150, 70, 30],
+    [80, 120, 200],
+    [190, 150, 120],
+    [120, 190, 300],
+    [60, 60, 140],
+  ];
+  return (
+    <svg width="240" height="240" viewBox="0 0 240 240" style={{ filter: sticker }} aria-hidden>
+      <circle cx="120" cy="120" r="116" fill="#0E1F17" />
+      {[30, 60, 90].map((r) => (
+        <circle key={r} cx="120" cy="120" r={r} fill="none" stroke="#2BD98B" strokeOpacity=".35" />
+      ))}
+      <path d="M120 4 V236 M4 120 H236" stroke="#2BD98B" strokeOpacity=".2" />
+      <g style={{ transformOrigin: "120px 120px", animation: "spin 4s linear infinite" }}>
+        <path d="M120 120 L120 4 A116 116 0 0 1 202 38 Z" fill="#2BD98B" opacity=".22" />
+      </g>
+      {planes.map(([x, y, r], i) => (
+        <g key={i} transform={`translate(${x} ${y}) rotate(${r})`}>
+          <path d="M0 -6 L2 -1 L7 1 L2 2 L1 6 L0 5 L-1 6 L-2 2 L-7 1 L-2 -1 Z" fill="#E9FFF4" />
+        </g>
+      ))}
+      <text x="120" y="125" textAnchor="middle" fontFamily="Geist Mono, monospace" fontSize="11" fill="#2BD98B">
         ATL
       </text>
     </svg>
+  );
+}
+
+/** GDN Club — convention name badge. */
+export function NameBadge() {
+  return (
+    <div className="w-[240px] overflow-hidden rounded-xl bg-white text-center text-[#16150F]" style={{ filter: sticker }}>
+      <div className="bg-[#FF5B35] px-4 py-3 text-white">
+        <p className="text-[22px] font-black leading-none tracking-wide">HELLO</p>
+        <p className="mt-1 text-[10px] uppercase tracking-[0.2em]">my name is</p>
+      </div>
+      <p className="hand py-4 text-[40px] font-bold leading-none">Eymen</p>
+      <p className="border-t border-dashed border-[#ccc] py-2 font-mono text-[9.5px] tracking-wider text-[#4a473f]">
+        VP · YOUTH CONVENTION 2025 · 60+ STUDENTS
+      </p>
+    </div>
   );
 }

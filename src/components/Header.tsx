@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { profile } from "../content/site";
-import Magnetic from "./motion/Magnetic";
 
 const NAV = [
   { label: "Experience", href: "#experience" },
@@ -10,54 +9,51 @@ const NAV = [
   { label: "Contact", href: "#contact" },
 ];
 
+/** Cream over the cobalt cover, ink once you're on paper. */
 export default function Header() {
   const { scrollY, scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
-  const [scrolled, setScrolled] = useState(false);
-  useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 12));
+  const [onPaper, setOnPaper] = useState(false);
+  useMotionValueEvent(scrollY, "change", (v) => {
+    const cover = document.getElementById("top");
+    setOnPaper(v > (cover ? cover.offsetHeight - 80 : window.innerHeight));
+  });
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300"
+      className="fixed inset-x-0 top-0 z-50 transition-colors duration-500"
       style={{
-        backgroundColor: scrolled ? "color-mix(in srgb, var(--paper) 82%, transparent)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px) saturate(1.2)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(12px) saturate(1.2)" : "none",
-        borderBottom: `1px solid ${scrolled ? "var(--rule)" : "transparent"}`,
+        color: onPaper ? "var(--ink)" : "var(--paper)",
+        backgroundColor: onPaper ? "color-mix(in srgb, var(--paper) 88%, transparent)" : "transparent",
+        backdropFilter: onPaper ? "blur(10px)" : "none",
+        WebkitBackdropFilter: onPaper ? "blur(10px)" : "none",
       }}
     >
-      <div className="wrap flex h-16 items-center justify-between gap-4">
-        <a href="#top" className="display text-[1.35rem] font-medium italic leading-none" aria-label="Eymen Keyvan — back to top">
-          Eymen Keyvan<span className="text-accent">.</span>
+      <div className="wrap flex h-16 items-center justify-between">
+        <a href="#top" className="display text-[1.3rem] font-semibold italic leading-none">
+          ek<span style={{ color: onPaper ? "var(--cobalt)" : "var(--sun)" }}>.</span>
         </a>
-
-        <nav aria-label="Primary" className="flex items-center gap-1 sm:gap-2">
-          <ul className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Primary" className="flex items-center gap-1">
+          <ul className="hidden items-center md:flex">
             {NAV.map((n) => (
               <li key={n.href}>
-                <a href={n.href} className="rounded-full px-3 py-2 text-sm text-ink-2 transition-colors hover:text-ink">
+                <a href={n.href} className="rounded-full px-3 py-2 text-sm opacity-80 transition-opacity hover:opacity-100">
                   {n.label}
                 </a>
               </li>
             ))}
           </ul>
-          <Magnetic>
-            <a href={profile.resume} target="_blank" rel="noopener" className="pill pill-solid ml-2">
-              Resume
-              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden>
-                <path d="M3 9 9 3M4 3h5v5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-              </svg>
-            </a>
-          </Magnetic>
+          <a
+            href={profile.resume}
+            target="_blank"
+            rel="noopener"
+            className="pill ml-2 px-4 py-2"
+            style={{ background: onPaper ? "var(--ink)" : "var(--sun)", color: onPaper ? "var(--paper)" : "var(--ink)" }}
+          >
+            Resume ↗
+          </a>
         </nav>
       </div>
-
-      {/* scroll progress hairline */}
-      <motion.div
-        aria-hidden
-        className="absolute bottom-[-1px] left-0 h-[2px] w-full origin-left"
-        style={{ scaleX: progress, backgroundColor: "var(--accent)" }}
-      />
+      <motion.div aria-hidden className="h-[2px] origin-left" style={{ scaleX: scrollYProgress, background: onPaper ? "var(--cobalt)" : "var(--sun)" }} />
     </header>
   );
 }
