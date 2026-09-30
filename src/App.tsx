@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
 import Ticker from "./components/Ticker";
-import Cursor from "./components/motion/Cursor";
+import FigmaCursor from "./components/canvas/FigmaCursor";
 
 export default function App() {
   return (
@@ -25,7 +25,7 @@ export default function App() {
       </main>
       <Footer />
       <div aria-hidden className="grain" />
-      <Cursor />
+      <FigmaCursor />
     </>
   );
 }

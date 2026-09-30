@@ -3,6 +3,8 @@ import Magnetic from "./motion/Magnetic";
 import Reveal from "./motion/Reveal";
 import { motion, useReducedMotion } from "framer-motion";
 import { ease } from "../lib/motion";
+import { Arrow } from "./canvas/FigmaCursor";
+import { EYMEN } from "./canvas/GhostCursor";
 
 export default function Contact() {
   const reduced = useReducedMotion();
@@ -35,6 +37,23 @@ export default function Contact() {
             >
               {profile.email}
             </a>
+            {/* Eymen's cursor, parked next to his inbox */}
+            <motion.span
+              aria-hidden
+              className="ml-3 hidden translate-y-6 items-start align-top sm:inline-flex"
+              animate={reduced ? undefined : { x: [0, 6, 0], y: [24, 18, 24] }}
+              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <span className="-scale-x-100">
+                <Arrow color={EYMEN} />
+              </span>
+              <span className="ml-1 mt-4 flex flex-col items-start gap-1.5">
+                <span className="rounded-full rounded-tl-[4px] px-2.5 py-[5px] text-[12px] font-medium leading-none text-white" style={{ background: EYMEN }}>
+                  Eymen
+                </span>
+                <span className="rounded-2xl rounded-tl-[4px] bg-[#F4F1EA] px-3 py-2 text-[13px] leading-snug text-[#16150F] shadow-xl">say hi, I read everything ✉︎</span>
+              </span>
+            </motion.span>
             <p className="mt-5 max-w-xl leading-relaxed" style={{ color: "rgba(244,241,234,0.72)" }}>
               {profile.location} · {profile.relocation}. Looking for a {profile.seeking}.
             </p>
