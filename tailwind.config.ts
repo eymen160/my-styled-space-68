@@ -1,17 +1,25 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
-        serif: ["Instrument Serif", "Georgia", "serif"],
-        mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
+        sans: ["Geist", "system-ui", "sans-serif"],
+        display: ["Fraunces", "Georgia", "serif"],
+        mono: ["Geist Mono", "ui-monospace", "monospace"],
+      },
+      colors: {
+        paper: "var(--paper)",
+        "paper-2": "var(--paper-2)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        "ink-3": "var(--ink-3)",
+        rule: "var(--rule)",
+        accent: "var(--accent)",
       },
       maxWidth: {
-        container: "1140px",
+        page: "1200px",
       },
     },
   },
