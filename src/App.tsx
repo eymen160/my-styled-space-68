@@ -11,7 +11,7 @@ export default function App() {
   // Smooth, inertial scrolling so the scrubbed scenes feel continuous; paused while a panel is open.
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({ autoRaf: true, anchors: true, lerp: 0.09 });
+    const lenis = new Lenis({ autoRaf: true, anchors: true, lerp: 0.14, wheelMultiplier: 1.15 });
     const stop = () => lenis.stop();
     const start = () => lenis.start();
     window.addEventListener("lenis:stop", stop);

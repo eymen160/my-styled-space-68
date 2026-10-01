@@ -14,7 +14,7 @@ const SCRIPT: Line[] = [
   { text: "→ deploying to production .......... ✓ live", kind: "ok" },
 ];
 const TOTAL = SCRIPT.reduce((n, l) => n + l.text.length, 0);
-const TYPE_END = 0.55;
+const TYPE_END = 0.5;
 
 /**
  * Pinned scene. Scrolling types the deploy out character by character; when it lands, a check mark
@@ -34,7 +34,7 @@ export default function ShipScene() {
 
   const bar = useTransform(scrollYProgress, [0, TYPE_END], [0, 1]);
   const checkScale = useTransform(scrollYProgress, [TYPE_END, TYPE_END + 0.08], reduced ? [1, 1] : [0, 1], { clamp: true });
-  const fill = useTransform(scrollYProgress, [0.66, 0.9], reduced ? [0, 0] : [0, 150], { clamp: true });
+  const fill = useTransform(scrollYProgress, [0.6, 0.86], reduced ? [0, 0] : [0, 150], { clamp: true });
   const clip = useMotionTemplate`circle(${fill}% at 50% 50%)`;
   const termY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [40, -40]);
 
@@ -47,7 +47,7 @@ export default function ShipScene() {
   const cursorAt = shown.findIndex((l) => !l.done);
 
   return (
-    <section ref={ref} className="relative h-[270vh]" aria-label="How I ship">
+    <section ref={ref} className="relative h-[190vh]" aria-label="How I ship">
       <div className="grain sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-4" style={{ background: "var(--night)" }}>
         <p className="note mb-6 text-center text-xl text-cream/60">every push, the same ritual —</p>
 

@@ -202,7 +202,7 @@ export function Tracking() {
           <h3 className="round mt-1 text-3xl font-[900]">Delivered</h3>
           <p className="text-sm text-ink/60">FOMA order platform · 12,000+ orders a month</p>
         </div>
-        <img src="/world/package.webp" alt="" className="h-20 w-20" />
+        <img src="/objects/box.webp" alt="" className="h-20 w-20 object-contain" />
       </div>
       <div className="mt-5 h-2 overflow-hidden rounded-full bg-black/10">
         <motion.div className="h-full rounded-full bg-[#28C840]" initial={{ width: reduced ? "100%" : "0%" }} animate={{ width: "100%" }} transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }} />
@@ -234,7 +234,7 @@ export function Tracking() {
 
 export function Trophies() {
   const reduced = useReducedMotion();
-  const icons = ["medal", "trophy", "rocket", "graduation-cap"];
+  const icons = ["medal", "trophy", "plane", "cap"];
   return (
     <div className="w-[min(720px,94vw)] rounded-2xl bg-[#f7f2e8] p-6 text-ink shadow-[0_40px_100px_-20px_rgba(0,0,0,.6)] sm:p-8">
       <p className="note text-2xl text-ink/60">the trophy shelf —</p>
@@ -247,7 +247,7 @@ export function Trophies() {
             animate={{ opacity: 1, y: 0, rotate: 0 }}
             transition={{ ...spring, delay: n * 0.08 }}
           >
-            <img src={`/world/${icons[n % icons.length]}.webp`} alt="" className="h-14 w-14 shrink-0" />
+            <img src={`/objects/${icons[n % icons.length]}.webp`} alt="" className="h-14 w-14 shrink-0 object-contain" />
             <p className="round text-lg font-[800] leading-tight">{r}</p>
           </motion.div>
         ))}

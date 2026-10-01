@@ -22,7 +22,7 @@ npm run lint
 | Resume PDF + preview image | `public/resume/` |
 | Colour tokens (cream, ink, cobalt, sun, tomato) | `src/index.css` (`:root`) |
 | Photos (graded, cropped, EXIF-stripped WebP) | `public/photos/` |
-| 3D stickers (Microsoft Fluent Emoji, MIT, die-cut) | `public/world/` |
+| Real object cut-outs (CC0, see CREDITS.txt) | `public/objects/` |
 | Scenes: hero burst, bio, ship, lines, desk | `src/components/world/` |
 | Desk panels: macOS desktop, phone, receipt, tracking… | `src/components/panels/` |
 | Case-study illustrations (SVG/CSS) | `src/components/art.tsx` |

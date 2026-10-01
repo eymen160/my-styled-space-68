@@ -16,14 +16,6 @@ export const profile = {
     "CS student at Kennesaw State. I've shipped features to a live order platform handling 12,000+ orders a month, built two Next.js apps, and written PyTorch pipelines for an NIH-funded clinical study — and twice caught data bugs that passing tests and clean-looking metrics had missed.",
 };
 
-export type Metric = { value: string; label: string; source: string };
-
-export const metrics: Metric[] = [
-  { value: "12,000+", label: "orders a month on a platform I shipped to", source: "FOMA" },
-  { value: "84.97%", label: "Dice score, beating a published benchmark", source: "NIH research" },
-  { value: "1st", label: "ElevenLabs track of 57 teams", source: "HackGT 13" },
-  { value: "0.9 s", label: "median turn for live call translation", source: "Hey Buddy" },
-];
 
 export type Role = {
   org: string;
@@ -198,24 +190,7 @@ export const recognition = [
   "Presidential Scholarship — KSU",
 ];
 
-export const ticker = [
-  "PyTorch",
-  "Next.js",
-  "Laravel",
-  "Docker",
-  "Claude API",
-  "PostgreSQL",
-  "Twilio",
-  "ElevenLabs",
-  "GitHub Actions",
-  "Cloudflare",
-  "Flask",
-  "TypeScript",
-];
 
-/** Scroll-lit intro paragraph. Keep it to things the resume can back up. */
-export const statement =
-  "I care about the part after “it works on my machine.” At FOMA I shipped code to a platform moving 12,000+ orders a month. At KSU I train retinal-imaging models for an NIH-funded study — and I'm the one who went looking for the leaked test images. On weekends I build at hackathons, and sometimes win.";
 
 export type Photo = { src: string; alt: string; caption: string; w: number; h: number };
 

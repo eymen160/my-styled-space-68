@@ -1,24 +1,59 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { photos } from "../../content/site";
+import { photos, profile } from "../../content/site";
 import Modal from "../panels/Modal";
 import MacDesktop from "../panels/MacDesktop";
 import { CASES, CaseWindow } from "../panels/cases";
 import { Messages, Notebook, PhotoBooth, Pinboard, Receipt, Tracking, Trophies } from "../panels/DeskPanels";
 import { FolderIcon } from "../panels/icons";
+import { FundusO } from "./Logo";
 
 type PanelId = "desktop" | "phone" | "camera" | "cup" | "package" | "shelf" | "pinboard" | "notebook" | "microscope";
 
 /** A clickable thing on the desk. Positions are % of the 16:9 scene. */
-type Spot = { id: PanelId; label: string; x: number; y: number; w: number; img?: string; tilt?: number; labelAt?: "top" | "bottom" };
+type Spot = { id: PanelId; label: string; x: number; y: number; w: number; img?: string; node?: ReactNode; tilt?: number; labelAt?: "top" | "bottom" };
 
 const SPOTS: Spot[] = [
-  { id: "camera", label: "say cheese", x: 6, y: 66, w: 12, img: "/world/camera.webp", tilt: -8 },
-  { id: "cup", label: "what's in my cup", x: 21, y: 69, w: 9.5, img: "/world/teacup.webp", tilt: 4 },
-  { id: "microscope", label: "under the microscope", x: 24.5, y: 47, w: 9, img: "/world/microscope.webp", tilt: -4 },
-  { id: "phone", label: "say hi", x: 44.5, y: 74, w: 7, img: "/world/mobile-phone.webp", tilt: 12, labelAt: "bottom" },
-  { id: "notebook", label: "what's on the table", x: 67, y: 68, w: 10, img: "/world/notebook.webp", tilt: -10 },
-  { id: "package", label: "track my shipments", x: 80, y: 57, w: 11.5, img: "/world/package.webp", tilt: 6 },
+  { id: "camera", label: "say cheese", x: 5, y: 70, w: 13, img: "/objects/camera.webp", tilt: -6 },
+  { id: "cup", label: "what's in my cup", x: 22, y: 63, w: 7.5, img: "/objects/tea.webp", tilt: 0 },
+  {
+    id: "microscope",
+    label: "my research",
+    x: 22.5,
+    y: 40,
+    w: 9,
+    tilt: -5,
+    node: (
+      <span className="block bg-white p-[7%] pb-[22%] shadow-[0_1vw_1.4vw_-0.6vw_rgba(0,0,0,.5)]">
+        <span className="flex aspect-square items-center justify-center bg-[#1b0d08]">
+          <FundusO size="86%" />
+        </span>
+        <span className="hand absolute inset-x-0 bottom-[4%] text-center text-[1vw] leading-none text-ink">fovea · 84.97%</span>
+      </span>
+    ),
+  },
+  {
+    id: "phone",
+    label: "say hi",
+    x: 45,
+    y: 70,
+    w: 6.2,
+    tilt: -14,
+    labelAt: "bottom",
+    node: (
+      <span className="block rounded-[1.1vw] bg-[#1c1c1e] p-[5%] shadow-[0_1.2vw_1.4vw_-0.4vw_rgba(0,0,0,.6)] ring-1 ring-white/10">
+        <span className="flex aspect-[9/19] flex-col gap-[6%] rounded-[0.8vw] bg-white px-[9%] pt-[24%]">
+          <span className="mx-auto mb-[4%] h-[4%] w-[30%] rounded-full bg-black/80" />
+          <span className="w-[78%] rounded-[0.5vw] bg-[#e9e9eb] py-[9%]" />
+          <span className="w-[62%] rounded-[0.5vw] bg-[#e9e9eb] py-[9%]" />
+          <span className="ml-auto w-[70%] rounded-[0.5vw] bg-[#0a84ff] py-[9%]" />
+          <span className="w-[50%] rounded-[0.5vw] bg-[#e9e9eb] py-[9%]" />
+        </span>
+      </span>
+    ),
+  },
+  { id: "notebook", label: "what's on the table", x: 68, y: 63, w: 7.5, img: "/objects/notebook.webp", tilt: -12 },
+  { id: "package", label: "track my shipments", x: 80, y: 55, w: 13, img: "/objects/box.webp", tilt: 4 },
 ];
 
 function Label({ text, show, at = "top" }: { text: string; show: boolean; at?: "top" | "bottom" }) {
@@ -52,14 +87,14 @@ function Hotspot({ s, onOpen }: { s: Spot; onOpen: (id: PanelId) => void }) {
       onClick={() => onOpen(s.id)}
     >
       <Label text={s.label} show={hover} at={s.labelAt} />
-      <motion.img
-        src={s.img}
-        alt=""
-        className="sticker block w-full"
+      <motion.span
+        className="relative block"
         style={{ rotate: s.tilt }}
         animate={reduced ? undefined : { y: hover ? -10 : 0, scale: hover ? 1.06 : 1 }}
         transition={{ type: "spring", stiffness: 380, damping: 18 }}
-      />
+      >
+        {s.node ?? <img src={s.img} alt="" className="sticker block h-auto w-full" />}
+      </motion.span>
     </button>
   );
 }
@@ -133,13 +168,13 @@ function Wall({ onOpen }: { onOpen: (id: PanelId) => void }) {
         <div className="absolute left-1/2 top-0 h-full w-[0.5vw] -translate-x-1/2 bg-white" />
         <div className="absolute left-0 top-1/2 h-[0.5vw] w-full -translate-y-1/2 bg-white" />
       </div>
-      <img aria-hidden src="/world/potted-plant.webp" alt="" className="sticker absolute left-[13%] top-[43%] w-[9%]" />
+      <img aria-hidden src="/objects/plant.webp" alt="" className="sticker absolute left-[11%] top-[40%] w-[12%]" />
 
       {/* shelf */}
       <button
         type="button"
         aria-label="the trophy shelf"
-        className="absolute left-[30%] top-[7%] h-[17%] w-[34%]"
+        className="absolute left-[28%] top-[3%] h-[24%] w-[38%]"
         onPointerEnter={() => setShelfHover(true)}
         onPointerLeave={() => setShelfHover(false)}
         onFocus={() => setShelfHover(true)}
@@ -147,13 +182,20 @@ function Wall({ onOpen }: { onOpen: (id: PanelId) => void }) {
         onClick={() => onOpen("shelf")}
       >
         <Label text="the trophy shelf" show={shelfHover} />
-        <div className="absolute inset-x-[6%] bottom-[14%] flex items-end justify-around">
-          {["trophy", "medal", "rocket", "light-bulb", "graduation-cap"].map((k, i) => (
+        <div className="absolute inset-x-[3%] bottom-[13%] flex items-end justify-around">
+          {[
+            ["trophy", "15%"],
+            ["medal", "12%"],
+            ["headphones", "21%"],
+            ["bulb", "19%"],
+            ["cap", "25%"],
+          ].map(([k, w], i) => (
             <motion.img
               key={k}
-              src={`/world/${k}.webp`}
+              src={`/objects/${k}.webp`}
               alt=""
-              className="sticker w-[15%]"
+              className="sticker h-auto"
+              style={{ width: w }}
               animate={{ y: shelfHover ? -6 : 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 16, delay: i * 0.03 }}
             />
@@ -196,16 +238,36 @@ function Wall({ onOpen }: { onOpen: (id: PanelId) => void }) {
   );
 }
 
-const MOBILE_LIST: { id: PanelId; label: string; icon: string }[] = [
-  { id: "desktop", label: "open my desktop", icon: "/world/laptop.webp" },
-  { id: "phone", label: "say hi", icon: "/world/mobile-phone.webp" },
-  { id: "notebook", label: "what's on the table", icon: "/world/notebook.webp" },
-  { id: "package", label: "track my shipments", icon: "/world/package.webp" },
-  { id: "microscope", label: "under the microscope", icon: "/world/microscope.webp" },
-  { id: "camera", label: "say cheese", icon: "/world/camera.webp" },
-  { id: "cup", label: "what's in my cup", icon: "/world/teacup.webp" },
-  { id: "shelf", label: "the trophy shelf", icon: "/world/trophy.webp" },
-  { id: "pinboard", label: "the pinboard", icon: "/world/light-bulb.webp" },
+const MOBILE_LIST: { id: PanelId; label: string; icon?: string }[] = [
+  { id: "desktop", label: "open my desktop", icon: "/objects/laptop.webp" },
+  { id: "phone", label: "say hi" },
+  { id: "notebook", label: "what's on the table", icon: "/objects/notebook.webp" },
+  { id: "package", label: "track my shipments", icon: "/objects/box.webp" },
+  { id: "microscope", label: "my research" },
+  { id: "camera", label: "say cheese", icon: "/objects/camera.webp" },
+  { id: "cup", label: "what's in my cup", icon: "/objects/tea.webp" },
+  { id: "shelf", label: "the trophy shelf", icon: "/objects/trophy.webp" },
+  { id: "pinboard", label: "the pinboard", icon: "/objects/bulb.webp" },
+];
+
+const LABELS: Record<PanelId, string> = {
+  desktop: "Eymen's desktop",
+  phone: "Say hi — message Eymen",
+  camera: "Photo Booth",
+  cup: "What's in my cup",
+  package: "FOMA internship tracking",
+  shelf: "Trophy shelf",
+  pinboard: "Skills pinboard",
+  notebook: "Resume",
+  microscope: "NIH research",
+};
+
+const QUICK: { label: string; id?: PanelId; href?: string }[] = [
+  { label: "resume ↗", href: profile.resume },
+  { label: "experience", id: "desktop" },
+  { label: "research", id: "microscope" },
+  { label: "skills", id: "pinboard" },
+  { label: "say hi", id: "phone" },
 ];
 
 /**
@@ -231,8 +293,24 @@ export default function Desk() {
 
   return (
     <section id="desk" aria-label="Eymen's desk" className="relative" style={{ background: "linear-gradient(var(--wall), var(--wall-2))" }}>
-      <p className="note absolute left-1/2 top-4 z-10 -translate-x-1/2 text-[clamp(1rem,1.8vw,1.5rem)] text-ink/55">my desk — click around ✦</p>
-      <div className="relative mx-auto aspect-[16/9] w-full max-w-[calc(100svh*16/9)]">
+      <div className="relative z-10 flex flex-col items-center gap-2 px-4 pb-1 pt-16 text-center md:pt-14">
+        <p className="note text-[clamp(1.1rem,1.8vw,1.5rem)] text-ink/60">my desk — click around ✦</p>
+        {/* the quick version, for anyone short on time */}
+        <nav aria-label="Quick links" className="flex flex-wrap justify-center gap-x-1 gap-y-1 text-[13px]">
+          {QUICK.map((q) =>
+            q.href ? (
+              <a key={q.label} href={q.href} target="_blank" rel="noopener" className="rounded-full px-3 py-1 text-ink/70 transition hover:bg-ink hover:text-cream">
+                {q.label}
+              </a>
+            ) : (
+              <button key={q.label} onClick={() => setOpen(q.id!)} className="rounded-full px-3 py-1 text-ink/70 transition hover:bg-ink hover:text-cream">
+                {q.label}
+              </button>
+            ),
+          )}
+        </nav>
+      </div>
+      <div className="relative mx-auto aspect-[16/9] w-full max-w-[calc((100svh-6.5rem)*16/9)]">
         <Wall onOpen={setOpen} />
         {/* desk top */}
         <div aria-hidden className="absolute inset-x-0 bottom-0 h-[38%]">
@@ -256,27 +334,21 @@ export default function Desk() {
       <div className="grid grid-cols-3 gap-2 px-4 pb-8 pt-4 md:hidden">
         {MOBILE_LIST.map((m) => (
           <button key={m.id} onClick={() => setOpen(m.id)} className="flex flex-col items-center gap-1 rounded-2xl bg-white/70 p-3 text-center shadow-sm active:scale-95">
-            <img src={m.icon} alt="" className="h-10 w-10" />
+            {m.icon ? <img src={m.icon} alt="" className="h-10 w-10 object-contain" /> : m.id === "phone" ? <span className="text-3xl">💬</span> : <FundusO size="2.5rem" />}
             <span className="note text-[0.95rem] leading-tight text-ink">{m.label}</span>
           </button>
         ))}
       </div>
 
       {(Object.keys(panels) as PanelId[]).map((id) => (
-        <Modal key={id} open={open === id} onClose={close} label={id} full={id === "desktop"}>
+        <Modal key={id} open={open === id} onClose={close} label={LABELS[id]} full={id === "desktop"}>
           {panels[id]}
         </Modal>
       ))}
 
       <footer className="flex flex-col items-center gap-1 px-5 pb-6 pt-4 text-center text-[12px] text-ink/45 md:pt-2">
         <p>© {new Date().getFullYear()} Eymen Faruk Keyvan · built with React, a lot of commits, and Lenis</p>
-        <p>
-          3D objects:{" "}
-          <a className="underline underline-offset-2" href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener">
-            Microsoft Fluent Emoji
-          </a>{" "}
-          (MIT) · icons: Simple Icons (CC0)
-        </p>
+        <p>object photos: public-domain (CC0) via Openverse, cut out by hand · icons: Simple Icons (CC0)</p>
       </footer>
     </section>
   );
