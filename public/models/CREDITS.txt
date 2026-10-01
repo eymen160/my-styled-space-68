@@ -1,0 +1,9 @@
+3D models and the HDRI in this folder are from Poly Haven (https://polyhaven.com), licensed CC0.
+Each was downloaded at 1k, then optimised with gltf-transform (meshopt geometry, 512px WebP textures; table at 1024px).
+
+woodentable_01, vintage_microscope, camera_01, tea_set_01, cardboard_box_01, binder_notebook,
+standing_picture_frame_01, standing_picture_frame_02, potted_plant_02, desk_lamp_arm_01,
+round_spectacles, stationery_supplies, alarm_clock_01 — https://polyhaven.com/a/<name>
+studio.hdr — brown_photostudio_02 (1k)
+
+The MacBook and iPhone are modelled in code (src/components/desk3d/Devices.tsx).
