@@ -1,38 +1,46 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Experience from "./components/Experience";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Marquee from "./components/Marquee";
-import Photos from "./components/Photos";
-import Projects from "./components/Projects";
-import Statement from "./components/Statement";
+import { profile } from "./content/site";
+import Bio from "./components/world/Bio";
+import Desk from "./components/world/Desk";
+import HeroWorld from "./components/world/HeroWorld";
+import Lines from "./components/world/Lines";
+import ShipScene from "./components/world/ShipScene";
 
 export default function App() {
-  // Smooth, inertial scrolling so the scroll-driven scenes feel continuous. Skipped for reduced motion.
+  // Smooth, inertial scrolling so the scrubbed scenes feel continuous; paused while a panel is open.
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({ autoRaf: true, anchors: { offset: -64 }, lerp: 0.1 });
-    return () => lenis.destroy();
+    const lenis = new Lenis({ autoRaf: true, anchors: true, lerp: 0.09 });
+    const stop = () => lenis.stop();
+    const start = () => lenis.start();
+    window.addEventListener("lenis:stop", stop);
+    window.addEventListener("lenis:start", start);
+    return () => {
+      window.removeEventListener("lenis:stop", stop);
+      window.removeEventListener("lenis:start", start);
+      lenis.destroy();
+    };
   }, []);
 
   return (
     <>
-      <a href="#experience" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[80] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">
-        Skip to content
+      <a href="#desk" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-full focus:bg-sun focus:px-4 focus:py-2 focus:text-ink">
+        Skip to the desk
       </a>
-      <Header />
+      {/* tiny fixed corners; difference blending keeps them legible on midnight and on cream */}
+      <a href="#top" className="round fixed left-5 top-4 z-50 text-xl font-[900] text-white mix-blend-difference">
+        ek.
+      </a>
+      <a href={profile.resume} target="_blank" rel="noopener" className="fixed right-4 top-3.5 z-50 rounded-full border border-white px-4 py-1.5 text-sm font-medium text-white mix-blend-difference transition hover:bg-white hover:text-black">
+        Resume ↗
+      </a>
       <main>
-        <Hero />
-        <Marquee />
-        <Statement />
-        <Photos />
-        <Experience />
-        <Projects />
-        <About />
-        <Contact />
+        <HeroWorld />
+        <Bio />
+        <ShipScene />
+        <Lines />
+        <Desk />
       </main>
     </>
   );

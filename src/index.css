@@ -2,20 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* One bold palette, light only: cream paper, ink, cobalt, sun, tomato. */
+/* Eymen's world: a midnight intro, a cream pause, and a sunlit desk. */
 :root {
-  --paper: #f3eee3;
-  --paper-2: #e9e2d2;
+  --night: #0c1530;
+  --night-2: #142049;
+  --cream: #f3eee3;
+  --wall: #e7e3dc;
+  --wall-2: #d9d4cb;
   --ink: #141312;
   --ink-2: #45423b;
-  --ink-3: #77736a;
-  --rule: #d6cfbf;
-  --cobalt: #2340d9;
-  --cobalt-deep: #1a31ad;
+  --ink-3: #8a857b;
   --sun: #ffd84d;
+  --cobalt: #2340d9;
+  --sky: #0d99ff;
+  --mint: #2bd98b;
   --tomato: #ff5b35;
-  --violet: #7b5cff;
-  --forest: #11402c;
   color-scheme: light;
 }
 
@@ -24,8 +25,8 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--night);
+    color: var(--cream);
     font-family: "Geist", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -38,7 +39,7 @@
   :focus-visible {
     outline: 3px solid var(--sun);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
   img {
     user-select: none;
@@ -56,72 +57,55 @@
 }
 
 @layer components {
-  .wrap {
-    @apply mx-auto w-full max-w-page px-5 sm:px-8;
-  }
-  .display {
-    font-family: "Fraunces", Georgia, serif;
-    font-optical-sizing: auto;
-    letter-spacing: -0.025em;
-  }
-  .label {
-    font-family: "Geist Mono", ui-monospace, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .round {
+    font-family: "Nunito", "Arial Rounded MT Bold", system-ui, sans-serif;
   }
   .hand {
     font-family: "Caveat", "Bradley Hand", cursive;
   }
-  .pill {
-    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-[transform,background-color,color] duration-300;
+  .note {
+    font-family: "Patrick Hand", "Comic Neue", cursive;
   }
-  .pill:hover {
-    transform: translateY(-2px);
-  }
-  .chip {
+  .mono {
     font-family: "Geist Mono", ui-monospace, monospace;
-    font-size: 0.72rem;
-    border: 1px solid currentColor;
-    border-radius: 999px;
-    padding: 0.2rem 0.65rem;
-    white-space: nowrap;
-    opacity: 0.85;
   }
-  .under {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 100% 1.5px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    padding-bottom: 2px;
-    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  .display {
+    font-family: "Fraunces", Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
   }
-  .under:hover {
-    background-size: 0% 1.5px;
-    background-position: 100% 100%;
+  /* static film grain over the midnight scenes */
+  .grain::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.55'/></svg>");
+  }
+  .sticker {
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.18)) drop-shadow(0 18px 22px rgba(0, 0, 0, 0.32));
   }
 }
 
-/* Lenis smooth scrolling */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
-}
-.lenis [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(1.2deg);
   }
 }
 @keyframes blink {
   50% {
     opacity: 0;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 @keyframes wave {
@@ -131,5 +115,18 @@ html.lenis body {
   }
   50% {
     transform: scaleY(1);
+  }
+}
+@keyframes steam {
+  0% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-16px);
+    opacity: 0;
   }
 }
